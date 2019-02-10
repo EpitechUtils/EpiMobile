@@ -114,16 +114,15 @@ class _HomePageState extends State<HomePage> {
         return SingleChildScrollView(
             child: Column(
                 children: <Widget>[
-
                     // Application bar
                     this.displayAppBar(),
-
                     // Divider
                     SizedBox(height: this._deviceSizes.height * 0.01),
-
                     // Netsoul log chart
                     this.displayLogtimeChart(),
-
+                    // Divider
+                    SizedBox(height: this._deviceSizes.height * 0.01),
+                    this.displayAppBar()
                 ],
             )
         );
@@ -198,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.black,
                                 image: DecorationImage(
                                     colorFilter:
-                                        new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                                    new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
                                     image: AssetImage("assets/images/drawer-header.jpg"),
                                     fit: BoxFit.cover
                                 )

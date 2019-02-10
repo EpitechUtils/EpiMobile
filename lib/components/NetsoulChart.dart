@@ -13,7 +13,7 @@ class NetsoulChart extends StatelessWidget {
         return new NetsoulChart(
             _createSampleData(),
             // Disable animations for image tests.
-            //animate: false,
+            animate: false,
         );
     }
 
@@ -59,7 +59,7 @@ class NetsoulChart extends StatelessWidget {
         return [
             new charts.Series<TimeSeriesSales, DateTime>(
                 id: 'Sales',
-                colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+                colorFn: (_, __) => charts.MaterialPalette.indigo.shadeDefault,
                 domainFn: (TimeSeriesSales sales, _) => sales.time,
                 measureFn: (TimeSeriesSales sales, _) => sales.sales,
                 data: data,
