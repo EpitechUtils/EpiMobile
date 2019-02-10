@@ -15,6 +15,8 @@ environment:
 dependencies:
   http: 0.12.0+1
   flutter_webview_plugin: 0.3.0+2
+  flutter_cache_manager: 0.2.0+1
+  shared_preferences:
   flutter:
     sdk: flutter
 

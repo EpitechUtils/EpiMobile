@@ -17,9 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
     final _webviewConfig = new FlutterWebviewPlugin();
 
-    StreamSubscription<String> _onUrlChanged;
-    //StreamSubscription _onDestroy;
-    //StreamSubscription<WebViewStateChanged> _onStateChanged;
+    StreamSubscription<WebViewStateChanged> _onStateChanged;
 
     AnimationController _animationController;
     IntranetAPIUtils _api = new IntranetAPIUtils();
@@ -30,10 +28,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     @override
     void dispose() {
         //this._onDestroy.cancel();
-        this._onUrlChanged.cancel();
-        //this._onStateChanged.cancel();
+        this._onStateChanged.cancel();
 
-        // Destroy webview configuration
+        // Destroy configurations
+        this._animationController.dispose();
         this._webviewConfig.dispose();
         super.dispose();
     }
@@ -53,7 +51,6 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         // Get login url from intranet
         this._api.getAuthURL().then((auth) {
             this.setState(() {
-                print(auth);
                 if (auth == null || auth['office_auth_uri'] == null) {
                     this._authUrl = null;
                     return;
@@ -64,16 +61,23 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         });
 
         // Configure listeners
-        //this._onDestroy = this._webviewConfig.onDestroy.listen(this.onWebViewDestroyed);
-        //this._onStateChanged = this._webviewConfig.onStateChanged.listen(this.onStateChanged);
-        this._onUrlChanged = this._webviewConfig.onUrlChanged.listen(this.onUrlChange);
+        this._onStateChanged = this._webviewConfig.onStateChanged.listen(this.onStateChanged);
     }
 
-    void onUrlChange(String url) {
-        RegExp exp = RegExp(r"/https:\/\/intra.epitech.eu\/auth\/office365.*/g");
+    void onStateChanged(WebViewStateChanged state) {
+        if (state.url.startsWith("https://intra.epitech.eu/auth/office365")) {
+            print("Redirect URI => " + state.url);
+            this._webviewConfig.close();
 
-        if (exp.hasMatch(url)) {
-            print("testicules");
+            // Login with office redirect uri and stock autologin URI to cache
+            this._api.getAndSaveAutologinLink(state.url)
+                .then((res) {
+                    print("zizi => " + res.toString());
+                    this.gotoLoginHomePage();
+                });
+
+            //this.gotoLoginHomePage();
+            //this._api.getAndSaveAutologinLink();
         }
     }
 
@@ -251,8 +255,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             url: this._authUrl,
             clearCookies: true,
             clearCache: true,
-            appCacheEnabled: false,
-            scrollBar: false
+            appCacheEnabled: true,
+            //scrollBar: false
         );
 
         return Scaffold(
@@ -295,15 +299,15 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
 
     void gotoLoginWebView() {
         this._controller.animateToPage(0,
-            duration: Duration(milliseconds: 800),
+            duration: Duration(milliseconds: 550),
             curve: Curves.bounceOut
         );
     }
 
     void gotoLoginHomePage() {
         this._controller.animateToPage(1,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.bounceIn
+            duration: Duration(milliseconds:550),
+            curve: Curves.bounceOut
         );
     }
 
