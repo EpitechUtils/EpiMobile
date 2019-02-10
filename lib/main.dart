@@ -16,7 +16,7 @@ class EpitechMobile extends StatelessWidget {
         return MaterialApp(
             title: 'Epitech Mobile',
             theme: ThemeData(primarySwatch: Colors.indigo),
-            home: LoginPage(),
+            home: HomePage(title: "Dashboard"),
             routes: {
                 '/login': (context) => LoginPage(title: "Connexion")
             },

@@ -8,6 +8,7 @@ class IntranetAPIUtils {
     factory IntranetAPIUtils() => _instance;
 
     String _baseUrl = "https://intra.epitech.eu";
+    // TODO: Uncomment this line to disable
     NetworkUtils _network = new NetworkUtils();
 
     Future<dynamic> getAuthURL() {

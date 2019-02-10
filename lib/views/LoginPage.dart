@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/components/buttons/CustomIconButton.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
@@ -67,13 +66,13 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     void onStateChanged(WebViewStateChanged state) {
         if (state.url.startsWith("https://intra.epitech.eu/auth/office365")) {
             print("Redirect URI => " + state.url);
-            this._webviewConfig.close();
 
             // Login with office redirect uri and stock autologin URI to cache
             this._api.getAndSaveAutologinLink(state.url)
                 .then((res) {
                     print("zizi => " + res.toString());
                     this.gotoLoginHomePage();
+                    this._webviewConfig.close();
                 });
 
             //this.gotoLoginHomePage();
