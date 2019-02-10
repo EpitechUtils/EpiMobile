@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -9,27 +10,30 @@ class NetworkUtils {
     NetworkUtils.internal();
     factory NetworkUtils() => _instance;
 
-    final JsonDecoder _gson = new JsonDecoder();
+    http.Client _client = new http.Client();
+    JsonDecoder _gson = new JsonDecoder();
 
-    Future<dynamic> get(String url) {
-        var response = http.get(
-            Uri.encodeFull(url),
-            headers: {
+    Future<dynamic> get(String url, bool jsonFormat) {
+        Future<http.Response> response = this._client.get(
+            url,
+            headers: jsonFormat ? {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
-            }
+            } : {}
         );
 
         // Process response
         return response.then((http.Response response) {
             final String body = response.body;
-            final int statusCode = response.statusCode;
 
-            // Check state
-            if (statusCode < 200 || statusCode > 401 || body == null)
+            // TODO: Debugger
+            print("Result networkUtils => " + body);
+
+            // Check body content
+            if (body == null || body.isEmpty || response.statusCode >= 500)
                 return null;
 
-            return _gson.convert(body);
+            return jsonFormat ? _gson.convert(body) : body;
         });
     }
 

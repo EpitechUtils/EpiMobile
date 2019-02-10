@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "874486478327",
+    "firebase_url": "https://mobileintranet-150e1.firebaseio.com",
+    "project_id": "mobileintranet-150e1",
+    "storage_bucket": "mobileintranet-150e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874486478327:android:be23be648b90e96e",
+        "android_client_info": {
+          "package_name": "com.epitechtools.mobileintranet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874486478327-210d1csenc62pjd0nt1g780t9vjbq3qn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.epitechtools.mobileintranet",
+            "certificate_hash": "7f095024a915e423467d46d91e4e8672f2c1b85f"
+          }
+        },
+        {
+          "client_id": "874486478327-0hoghb1scjs5kn81nip036uavg69gj65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIOHC_fdDPNkaLB_d7TUyyYRMCjun7a2w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874486478327-0hoghb1scjs5kn81nip036uavg69gj65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
