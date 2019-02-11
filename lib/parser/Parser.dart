@@ -12,9 +12,9 @@ class Parser {
         //String url = login + "/user/lucas.gras@epitech.eu/print";
 
         return NetworkUtils.internal().get(url, true).then((data) {
-                if (data == null)
-                    return null;
-                return Profile.fromJson(data);
+            if (data == null)
+                return null;
+            return Profile.fromJson(data);
         });
     }
 }

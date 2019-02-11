@@ -19,23 +19,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    int _selectedIndex = 0;
-    List<Widget> _pages;
     Size _deviceSizes;
-    final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-    @override
-    void initState() {
-        // Init differents inside home view
-        this._pages = <Widget>[
-            DashboardPage(),
-            DashboardPage(),
-            DashboardPage(),
-            DashboardPage(),
-        ];
-
-        super.initState();
-    }
 
     Widget displayAppBar(BuildContext _scaffoldContext) {
         return SafeArea(
@@ -107,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                        Text("Test",
+                                        Text("Mon chibron",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold
@@ -124,12 +109,63 @@ class _HomePageState extends State<HomePage> {
         );
     }
 
+    Widget displayDevelopmentMode() {
+        return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+                color: Colors.orangeAccent,
+                elevation: 2.0,
+                child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                            Container(
+                                margin: const EdgeInsets.only(bottom: 5.0),
+                                child: Row(
+                                    children: <Widget>[
+                                        Container(
+                                            margin: const EdgeInsets.only(right: 5.0),
+                                            child: Icon(
+                                                Icons.warning,
+                                                size: 13.0,
+                                                color: Colors.white
+                                            )
+                                        ),
+
+                                        Text("Application encore en développement !",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white
+                                            )
+                                        ),
+                                    ],
+                                ),
+                            ),
+
+                            Text("N'hésitez pas à nous remonter chaque problème(s) que vous trouvez, "
+                                "même visuel, le but étant justement d'avoir quelque chose de parfait.",
+                                style: TextStyle(
+                                    color: Colors.white
+                                )
+                            )
+                        ],
+                    )
+                ),
+            ),
+        );
+    }
+
     Widget displayCards(BuildContext _scaffoldContext) {
         return SingleChildScrollView(
             child: Column(
                 children: <Widget>[
                     // Application bar
                     this.displayAppBar(_scaffoldContext),
+                    // Divider
+                    SizedBox(height: this._deviceSizes.height * 0.01),
+                    // App curently in dev mode
+                    this.displayDevelopmentMode(),
                     // Divider
                     SizedBox(height: this._deviceSizes.height * 0.01),
                     // Netsoul log chart
@@ -179,7 +215,6 @@ class _HomePageState extends State<HomePage> {
         this._deviceSizes = MediaQuery.of(context).size;
 
         return Scaffold(
-            key: this._scaffoldKey,
             drawer: new Drawer(
                 child: ListView(
                     padding: const EdgeInsets.all(0.0),
