@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     int _selectedIndex = 0;
     List<Widget> _pages;
     Size _deviceSizes;
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
 
     @override
     void initState() {
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         super.initState();
     }
 
-    Widget displayAppBar() {
+    Widget displayAppBar(BuildContext _scaffoldContext) {
         return SafeArea(
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 18.0),
@@ -50,9 +51,7 @@ class _HomePageState extends State<HomePage> {
                                         Icons.menu,
                                         color: Colors.white,
                                     ),
-                                    onPressed: () => Navigator.canPop(context)
-                                        ? Navigator.pop(context)
-                                        : null,
+                                    onPressed: () => Scaffold.of(_scaffoldContext).openDrawer(),
                                 ),
                                 new ProfileTile(
                                     title: "Bonjour, Cyril",
@@ -101,6 +100,21 @@ class _HomePageState extends State<HomePage> {
                             Container(
                                 height: 200.0,
                                 child: NetsoulChart.withSampleData(),
+                            ),
+
+                            Container(
+                                margin: const EdgeInsets.only(top: 20.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                        Text("Test",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                        )
+                                    ],
+                                )
                             )
 
                         ],
@@ -110,22 +124,54 @@ class _HomePageState extends State<HomePage> {
         );
     }
 
-    Widget displayCards() {
+    Widget displayCards(BuildContext _scaffoldContext) {
         return SingleChildScrollView(
             child: Column(
                 children: <Widget>[
                     // Application bar
-                    this.displayAppBar(),
+                    this.displayAppBar(_scaffoldContext),
                     // Divider
                     SizedBox(height: this._deviceSizes.height * 0.01),
                     // Netsoul log chart
                     this.displayLogtimeChart(),
                     // Divider
-                    SizedBox(height: this._deviceSizes.height * 0.01),
-                    this.displayAppBar()
+                    SizedBox(height: this._deviceSizes.height * 0.01)
                 ],
             )
         );
+    }
+
+    List<Widget> userConstantsInformations() {
+        return <Widget>[
+
+            /// Credits
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                    Text("60", style: TextStyle(fontSize: 20, color: Colors.white)),
+                    Text("Crédits", style: TextStyle(color: Colors.white)),
+                ],
+            ),
+
+            /// GPA
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                    Text("3.56", style: TextStyle(fontSize: 20, color: Colors.white)),
+                    Text("GPA", style: TextStyle(color: Colors.white)),
+                ],
+            ),
+
+            // Spices
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                    Text("20", style: TextStyle(fontSize: 20, color: Colors.white)),
+                    Text("Épices", style: TextStyle(color: Colors.white)),
+                ],
+            )
+
+        ];
     }
 
     @override
@@ -133,8 +179,10 @@ class _HomePageState extends State<HomePage> {
         this._deviceSizes = MediaQuery.of(context).size;
 
         return Scaffold(
+            key: this._scaffoldKey,
             drawer: new Drawer(
                 child: ListView(
+                    padding: const EdgeInsets.all(0.0),
                     children: <Widget>[
                         // user drawer
                         new UserAccountsDrawerHeader(
@@ -163,36 +211,7 @@ class _HomePageState extends State<HomePage> {
                                 backgroundColor: Colors.transparent,
                                 backgroundImage: new NetworkImage('https://avatars2.githubusercontent.com/u/8271271?s=400&u=aa8e1179b37cb3d76dc9d35b939862a3b40aa9e4&v=4')
                             ),
-                            otherAccountsPictures: <Widget>[
-
-                                /// Credits
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                        Text("60", style: TextStyle(fontSize: 20, color: Colors.white)),
-                                        Text("Crédits", style: TextStyle(color: Colors.white)),
-                                    ],
-                                ),
-
-                                /// GPA
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                        Text("3.56", style: TextStyle(fontSize: 20, color: Colors.white)),
-                                        Text("GPA", style: TextStyle(color: Colors.white)),
-                                    ],
-                                ),
-
-                                // Spices
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                        Text("20", style: TextStyle(fontSize: 20, color: Colors.white)),
-                                        Text("Épices", style: TextStyle(color: Colors.white)),
-                                    ],
-                                )
-
-                            ],
+                            otherAccountsPictures: this.userConstantsInformations(),
                             decoration: BoxDecoration(
                                 color: Colors.black,
                                 image: DecorationImage(
@@ -216,14 +235,18 @@ class _HomePageState extends State<HomePage> {
                     ],
                 ),
             ),
-            body: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                    // Background
-                    LoginBackground(showIcon: false),
-                    // Other cards
-                    this.displayCards()
-                ],
+            body: Builder(
+                builder: (BuildContext _scaffoldContext) {
+                    return Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                            // Background
+                            LoginBackground(showIcon: false),
+                            // Other cards
+                            this.displayCards(_scaffoldContext)
+                        ],
+                    );
+                }
             )
         );
     }
