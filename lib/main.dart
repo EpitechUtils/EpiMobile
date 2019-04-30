@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'views/LoginPage.dart';
-import 'views/HomePage.dart';
+import 'package:mobile_intranet/views/DashboardPage.dart';
+import 'package:mobile_intranet/views/LoginWebview.dart';
+import 'package:mobile_intranet/views/SplashScreen.dart';
 
 void main() => runApp(EpitechMobile());
 
 class EpitechMobile extends StatelessWidget {
-
-    // TODO: Change this to simulate login
-    bool checkIfUserIsConnected() {
-      return (false);
-    }
 
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
             title: 'Epitech Mobile',
             theme: ThemeData(primarySwatch: Colors.indigo),
-            home: HomePage(title: "Dashboard"),
+            home: SplashScreen(),
             routes: {
-                '/login': (context) => LoginPage(title: "Connexion")
+                '/home': (context) => DashboardPage()
             },
+            //debugShowMaterialGrid: true,
             //debugShowCheckedModeBanner: false
         );
     }

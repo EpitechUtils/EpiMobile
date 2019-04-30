@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
-import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 
 class LoginPage extends StatefulWidget {
   final String title;
@@ -233,30 +232,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     }
 
     Widget loginWebview() {
-        return WebviewScaffold(
-            withJavascript: true,
-            appBar: AppBar(
-                title: Text("Connexion Office365"),
-                centerTitle: true,
-                actions: <Widget>[
-
-                    Container(
-                        child: IconButton(
-                            icon: Icon(Icons.arrow_forward),
-                            color: Colors.white,
-                            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                            onPressed: this.gotoLoginHomePage
-                        )
-                    )
-
-                ],
-            ),
-            url: this._authUrl,
-            clearCookies: true,
-            clearCache: true,
-            appCacheEnabled: true,
-            //scrollBar: false
-        );
+        return null;
 
         return Scaffold(
             appBar: AppBar(
