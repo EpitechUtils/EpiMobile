@@ -1,4 +1,5 @@
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class IntranetAPIUtils {
 
@@ -41,5 +42,11 @@ class IntranetAPIUtils {
 
             return true;
         });
+    }
+
+    Future<dynamic> get(String url) async {
+        var cacheManager = await CacheManager.getInstance();
+
+        return await cacheManager.getFile(url);
     }
 }
