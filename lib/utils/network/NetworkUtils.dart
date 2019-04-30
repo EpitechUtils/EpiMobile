@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 class NetworkUtils {
 
@@ -27,6 +28,7 @@ class NetworkUtils {
             final String body = response.body;
 
             // TODO: Debugger
+            //debugPrint(body);
             print("Result networkUtils => " + body);
 
             // Check body content

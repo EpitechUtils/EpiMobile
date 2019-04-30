@@ -216,8 +216,8 @@ class _HomePageState extends State<HomePage> {
     Widget build(BuildContext context) {
         this._deviceSizes = MediaQuery.of(context).size;
         Parser parser = Parser.internal();
-        parser.parseProfile("cyril.colinet@epitech.eu").then(
-            (data) => print(data)
+        parser.parseDashboard().then(
+                (data) => debugPrint("toto")
         );
 
         return Scaffold(

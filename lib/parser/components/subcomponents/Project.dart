@@ -16,9 +16,11 @@ class Project {
     final double timeline;
     @JsonKey(name: "date_inscription")
     final DateTime inscriptionDate;
+    @JsonKey(name: "id_activite")
+    final String id;
 
     Project(this.endDate, this.inscriptionDate, this.name,
-        this.startDate, this.timeline, this.urlLink);
+        this.startDate, this.timeline, this.urlLink, this.id);
 
     factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 
