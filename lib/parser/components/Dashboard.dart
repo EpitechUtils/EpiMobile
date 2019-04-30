@@ -1,11 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'subcomponents/Project.dart';
 
 part 'Dashboard.g.dart';
 
 @JsonSerializable()
 class Dashboard {
     @JsonKey(name: "projets")
-    final List<dynamic> projects;
+    final List<Project> projects;
     @JsonKey(name: "notes")
     List<dynamic> marks;
     @JsonKey(name: "activites")
@@ -22,5 +23,5 @@ class Dashboard {
         return instance;
     }
 
-        Map<String, dynamic> toJson() => _$DashboardToJson(this);
+    Map<String, dynamic> toJson() => _$DashboardToJson(this);
 }

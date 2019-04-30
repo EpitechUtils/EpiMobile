@@ -8,6 +8,8 @@ import 'package:mobile_intranet/components/ui/widgets/profile_tile.dart';
 import 'package:mobile_intranet/components/utils/uidata.dart';
 import 'package:mobile_intranet/views/DashboardPage.dart';
 import 'package:mobile_intranet/views/LoginPage.dart';
+import '../parser/Parser.dart';
+import '../parser/components/Profile.dart';
 
 class HomePage extends StatefulWidget {
     HomePage({Key key, this.title}) : super(key: key);
@@ -213,6 +215,10 @@ class _HomePageState extends State<HomePage> {
     @override
     Widget build(BuildContext context) {
         this._deviceSizes = MediaQuery.of(context).size;
+        Parser parser = Parser.internal();
+        parser.parseProfile("cyril.colinet@epitech.eu").then(
+            (data) => print(data)
+        );
 
         return Scaffold(
             drawer: new Drawer(
