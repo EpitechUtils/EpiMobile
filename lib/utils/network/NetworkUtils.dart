@@ -11,16 +11,51 @@ class NetworkUtils {
     NetworkUtils.internal();
     factory NetworkUtils() => _instance;
 
-    http.Client _client = new http.Client();
+    HttpClient _client = HttpClient();
     JsonDecoder _gson = new JsonDecoder();
 
-    Future<dynamic> get(String url, bool jsonFormat) {
-        Future<http.Response> response = this._client.get(
+    // ignore: avoid_init_to_null
+    dynamic get(String url, {Cookie cookie: null}) async {
+        String response = await this._client.getUrl(Uri.parse(url))
+            .then((HttpClientRequest req) {
+            req.followRedirects = true;
+
+            // Set headers
+            req.headers.set("Accept", "application/json");
+            req.headers.set("Content-Type", "application/json");
+
+            // Set cookies if not null
+            if (cookie != null) {
+                req.cookies.add(cookie);
+                req.cookies.forEach((ck) { debugPrint("------------ " + ck.toString()); });
+            }
+
+            // Close request configuration
+            return req.close();
+        }).then((HttpClientResponse response) async {
+            String body = await response.transform(utf8.decoder).join();
+
+            if (body == null || body.isEmpty || response.statusCode >= 500)
+                return null;
+
+            return body;
+        });
+
+        debugPrint("NetworkUtils result : " + response.toString());
+        if (response == null)
+            return null;
+        dynamic res = this._gson.convert(response);
+        return res;
+
+
+
+
+        /*Future<http.Response> response = this._client.get(
             url,
             headers: jsonFormat ? {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
-            } : {}
+            } : {},
         );
 
         // Process response
@@ -36,7 +71,7 @@ class NetworkUtils {
                 return null;
 
             return jsonFormat ? _gson.convert(body) : body;
-        });
+        });*/
     }
 
 }

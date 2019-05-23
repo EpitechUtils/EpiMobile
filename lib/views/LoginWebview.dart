@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'display/SplashScreenDisplay.dart';
 
 class LoginWebview extends StatefulWidget {
     final String authUrl;
@@ -17,65 +18,96 @@ class LoginWebview extends StatefulWidget {
 
 class _LoginWebview extends State<LoginWebview> {
 
-    //final Completer<WebViewController> _controller = Completer<WebViewController>();
     final IntranetAPIUtils _api = new IntranetAPIUtils();
+    final _webview = new FlutterWebviewPlugin();
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-    //StreamSubscription<WebViewStateChanged> _onStateChanged;
+    StreamSubscription<WebViewStateChanged> _onStateChanged;
 
-    /// Get authentication URL
-    getAuthURL() async {
-        var auth = await this._api.getAuthURL();
-        if (auth == null || auth['office_auth_uri'] == null)
-            return null;
+    String token;
 
-        return auth;
+    /// When activity closing
+    @override
+    void dispose() {
+        super.dispose();
+
+        // Every listener should be canceled, the same should be done with this stream.
+        _onStateChanged.cancel();
+        _webview.dispose();
     }
 
-    /// Init state of the widget and configure webview
+    /// Init state and webview controller
     @override
     void initState() {
         super.initState();
-        //this._webviewConfig.close();
 
-        // Get auth URL and set callback
-        //this._onStateChanged = this._webviewConfig.onStateChanged.listen(this.onStateChanged);
-        //debugPrint(widget.authUrl);
+        _webview.close();
+        _onStateChanged = _webview.onStateChanged.listen(this.onStateChanged);
     }
 
-    /// Called when the activity or screen are closed
-    @override
-    void dispose() {
-        //this._onStateChanged.cancel();
-        //this._webviewConfig.dispose();
-        super.dispose();
-    }
+    /// When webview state is changed
+    onStateChanged(WebViewStateChanged state) async {
+        print("onStateChanged: ${state.type} ${state.url}");
 
-    /// Function called when the state of the webview is changed
-    void onStateChanged(NavigationRequest request) {
-        debugPrint(request.url);
-        if (request.url.startsWith("https://intra.epitech.eu/")) {
-            return;
-            // Get autolog URL
-            this._api.getAndSaveAutologinLink(request.url).then((res) async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                debugPrint("zizi => " + res.toString());
+        // Check if link is correct
+        if (state.type == WebViewState.shouldStart && state.url.startsWith("https://intra.epitech.eu/auth/office365")) {
+            ScaffoldState scaffoldState = this._scaffoldKey.currentState;
+            Future<Map<String, String>> cookies = _webview.getCookies();
+            _webview.stopLoading();
+            _webview.close();
+            
+            // Parse cookies
+            cookies.then((Map<String, String> ck) {
+                ck.forEach((key, value) {
+                    if (key.substring(1) == "ESTSAUTHLIGHT") {
+                        debugPrint("Saved cookie !");
+                        Cookie cookie = Cookie(key.substring(1), value.substring(0, value.length - 1));
 
-                //this._webviewConfig.close();
+                        // Check if view is mounted and displayed
+                        if (mounted) {
+                            try {
+                                // Login... and display
+                                scaffoldState.showSnackBar(SnackBar(
+                                    key: Key("login_message"),
+                                    backgroundColor: Color.fromARGB(255, 39, 174, 96),
+                                    content:Text("Connexion en cours..."),
+                                ));
+
+                                // TODO : Ca me gonfle, tranfert de cookies/sessions from webviex to http process
+                                // TODO: Remove this if you want to fix
+                                return Navigator.of(context).pushReplacementNamed('/home');
+
+                                this._api.getAndSaveAutologinLink(state.url, cookie: cookie).then((res) {
+                                    debugPrint("Autologin " + res.toString());
+                                });
+                            } catch (err) {
+                                // Display error
+                                scaffoldState.showSnackBar(SnackBar(
+                                    key: Key("login_message"),
+                                    backgroundColor: Color.fromARGB(255, 192, 57, 43),
+                                    content:Text("Une erreur est survenue !"),
+                                ));
+                            }
+                        }
+                    }
+                });
             });
-
-            //this.gotoLoginHomePage();
-            //this._api.getAndSaveAutologinLink();
         }
     }
 
     /// Build widget and display content
     @override
     Widget build(BuildContext context) {
-        return WebView(
-            key: UniqueKey(),
-            javascriptMode: JavascriptMode.unrestricted,
-            initialUrl: widget.authUrl,
-            navigationDelegate: this.onStateChanged
+        return Scaffold(
+            key: this._scaffoldKey,
+            body: WebviewScaffold(
+                url: widget.authUrl,
+                withJavascript: true,
+                withZoom: false,
+                clearCache: true,
+                clearCookies: true,
+                initialChild: SplashScreenDisplay(),
+            )
         );
     }
 

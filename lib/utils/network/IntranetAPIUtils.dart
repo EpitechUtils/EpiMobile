@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -9,38 +11,38 @@ class IntranetAPIUtils {
     factory IntranetAPIUtils() => _instance;
 
     String _baseUrl = "https://intra.epitech.eu";
-    // TODO: Uncomment this line to disable
     NetworkUtils _network = new NetworkUtils();
 
+    /// Get authentication url from login page
     Future<dynamic> getAuthURL() {
-        return this._network.get(this._baseUrl + "?format=json", true);
+        return this._network.get(this._baseUrl + "?format=json");
     }
 
-    Future<bool> loginFromRedirectUri(String redirectUrl) {
-        Future<dynamic> request = this._network.get(redirectUrl, false);
+    /// Login from redirect URI
+    // ignore: avoid_init_to_null
+    Future<bool> loginFromRedirectUri(String redirectUrl, {Cookie cookie: null}) async {
+        dynamic res = await this._network.get(redirectUrl, cookie: cookie);
 
-        // Request
-        return request.then((res) {
+        if (res == null)
+            return false;
+        return true;
+    }
+
+    /// Get and save autoLogin URI from URL
+    // ignore: avoid_init_to_null
+    Future<dynamic> getAndSaveAutologinLink(String redirectUrl, {Cookie cookie: null}) async {
+        bool success = await this.loginFromRedirectUri(redirectUrl, cookie: cookie);
+        if (!success)
+            return null;
+
+        // Check if url is available
+        return this._network.get(this._baseUrl + "/admin/autolog?format=json")
+            .then((res) {
+            debugPrint("Autolog redirect: " + res.toString());
             if (res == null)
-                return false;
+                return null;
 
-            return true;
-        });
-    }
-
-    Future<bool> getAndSaveAutologinLink(String redirectUrl) {
-        Future<bool> redirectLogin = this.loginFromRedirectUri(redirectUrl);
-
-        // Check if url is availale
-        return redirectLogin.then((bool res) async {
-            if (!res)
-                return false;
-
-            dynamic autologin = await this._network.get(this._baseUrl + "?format=json", true);
-            if (autologin == null)
-                return false;
-
-            return true;
+            return res;
         });
     }
 
