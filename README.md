@@ -1,6 +1,7 @@
-# mobile_intranet
+# :iphone: EpiMobile - Simplify your life
 
-Intranet epitech mobile
+EpiMobile is an application writted on Flutter language.
+It’s développes for Epitech students in everybody cities.
 
 ## Getting Started
 
