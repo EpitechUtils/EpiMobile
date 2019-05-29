@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/views/DashboardPage.dart';
-import 'package:mobile_intranet/views/LoginWebview.dart';
-import 'package:mobile_intranet/views/ProfilePage.dart';
-import 'package:mobile_intranet/views/SplashScreen.dart';
+import 'package:mobile_intranet/pages/DashboardPage.dart';
+import 'package:mobile_intranet/pages/ProfilePage.dart';
+import 'package:mobile_intranet/pages/SplashScreen.dart';
 
 void main() => runApp(EpitechMobile());
 
@@ -12,7 +11,10 @@ class EpitechMobile extends StatelessWidget {
     Widget build(BuildContext context) {
         return MaterialApp(
             title: 'Epitech Mobile',
-            theme: ThemeData(primarySwatch: Colors.indigo),
+            theme: ThemeData(
+                primarySwatch: Colors.indigo,
+                fontFamily: "NunitoSans"
+            ),
             home: SplashScreen(),
             routes: {
                 '/home': (context) => DashboardPage(),

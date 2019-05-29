@@ -131,7 +131,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 icon: Icon(OMIcons.dashboard),
                                 color: Color.fromARGB(255, 41, 155, 203),
                                 iconSize: 24,
-                                onPressed: () {},
+                                onPressed: null,
                             )
                         ),
 
@@ -142,7 +142,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 icon: Icon(OMIcons.calendarToday),
                                 color: Color.fromARGB(100, 41, 155, 203),
                                 iconSize: 24,
-                                onPressed: () {},
+                                onPressed: null,
                             )
                         ),
 
@@ -166,7 +166,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 icon: Icon(OMIcons.settings),
                                 color: Color.fromARGB(100, 41, 155, 203),
                                 iconSize: 24,
-                                onPressed: () {},
+                                onPressed: null,
                             )
                         ),
                     ],

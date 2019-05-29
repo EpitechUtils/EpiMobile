@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -66,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                             style: TextStyle(
                                                                 color: Color.fromARGB(255, 255, 255, 255),
                                                                 fontSize: 30,
-                                                                fontFamily: "",
+                                                                fontFamily: "NunitoSans",
                                                             ),
                                                             textAlign: TextAlign.left,
                                                         ),
@@ -109,70 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                 ),
             ),
-            bottomNavigationBar: Container(
-                height: 55,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                        BoxShadow(
-                            color: Color.fromARGB(13, 31, 40, 51),
-                            offset: Offset(0, -5),
-                            blurRadius: 20,
-                        ),
-                    ],
-                ),
-                child: Row(
-                    children: <Widget>[
-
-                        // Dashboard
-                        Container(
-                            width: MediaQuery.of(context).size.width / 4,
-                            child: IconButton(
-                                icon: Icon(OMIcons.dashboard),
-                                color: Color.fromARGB(100, 41, 155, 203),
-                                iconSize: 24,
-                                onPressed: () {
-                                    Navigator.of(context).pushReplacementNamed("/home");
-                                },
-                            )
-                        ),
-
-                        // Schedule
-                        Container(
-                            width: MediaQuery.of(context).size.width / 4,
-                            child: IconButton(
-                                icon: Icon(OMIcons.calendarToday),
-                                color: Color.fromARGB(100, 41, 155, 203),
-                                iconSize: 24,
-                                onPressed: () {},
-                            )
-                        ),
-
-                        // Profile
-                        Container(
-                            width: MediaQuery.of(context).size.width / 4,
-                            child: IconButton(
-                                icon: Icon(OMIcons.person),
-                                color: Color.fromARGB(255, 41, 155, 203),
-                                iconSize: 24,
-                                onPressed: () {},
-                            )
-                        ),
-
-                        // Settings
-                        Container(
-                            width: MediaQuery.of(context).size.width / 4,
-                            child: IconButton(
-                                icon: Icon(OMIcons.settings),
-                                color: Color.fromARGB(100, 41, 155, 203),
-                                iconSize: 24,
-                                onPressed: () {},
-                            )
-                        ),
-                    ],
-                ),
-            )
+            bottomNavigationBar: BottomNavigationComponent()
         );
-    }
 
 }
