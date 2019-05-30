@@ -6,12 +6,21 @@ class BottomNavigationComponent extends StatelessWidget {
 
     redirectToRoute(BuildContext context, String route) {
         return () {
+            debugPrint(ModalRoute.of(context).settings.name + " === " + route);
             if (ModalRoute.of(context).settings.name == route)
                 return;
 
             // Redirect
             Navigator.of(context).pushReplacementNamed(route);
         };
+    }
+
+    iconColorFromRoute(BuildContext context, String route) {
+        if (ModalRoute.of(context).settings.name == route)
+            return Color.fromARGB(255, 41, 155, 203);
+
+        // With small gray trait
+        return Color.fromARGB(100, 41, 155, 203);
     }
 
     @override
@@ -36,7 +45,7 @@ class BottomNavigationComponent extends StatelessWidget {
                         width: MediaQuery.of(context).size.width / 4,
                         child: IconButton(
                             icon: Icon(OMIcons.dashboard),
-                            color: Color.fromARGB(100, 41, 155, 203),
+                            color: this.iconColorFromRoute(context, '/home'),
                             iconSize: 24,
                             onPressed: this.redirectToRoute(context, '/home')
                         )
@@ -47,7 +56,7 @@ class BottomNavigationComponent extends StatelessWidget {
                         width: MediaQuery.of(context).size.width / 4,
                         child: IconButton(
                             icon: Icon(OMIcons.calendarToday),
-                            color: Color.fromARGB(100, 41, 155, 203),
+                            color: this.iconColorFromRoute(context, '/schedule'),
                             iconSize: 24,
                             onPressed: this.redirectToRoute(context, '/schedule'),
                         )
@@ -58,7 +67,7 @@ class BottomNavigationComponent extends StatelessWidget {
                         width: MediaQuery.of(context).size.width / 4,
                         child: IconButton(
                             icon: Icon(OMIcons.person),
-                            color: Color.fromARGB(255, 41, 155, 203),
+                            color: this.iconColorFromRoute(context, '/profile'),
                             iconSize: 24,
                             onPressed: this.redirectToRoute(context, '/profile'),
                         )
@@ -69,7 +78,7 @@ class BottomNavigationComponent extends StatelessWidget {
                         width: MediaQuery.of(context).size.width / 4,
                         child: IconButton(
                             icon: Icon(OMIcons.settings),
-                            color: Color.fromARGB(100, 41, 155, 203),
+                            color: this.iconColorFromRoute(context, '/settings'),
                             iconSize: 24,
                             onPressed: this.redirectToRoute(context, '/settings'),
                         )

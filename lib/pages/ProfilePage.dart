@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
+import 'package:mobile_intranet/components/HeaderComponent.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,8 +19,14 @@ class _ProfilePageState extends State<ProfilePage> {
     Widget build(BuildContext context) {
         return Scaffold(
             body: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 constraints: BoxConstraints.expand(),
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -28,58 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
 
-                        // Top text
-                        Container(
-                            height: MediaQuery.of(context).size.height / 6,
-                            child: Stack(
-                                alignment: Alignment.center,
-                                children: [
+                        // Header
+                        HeaderComponent(title: "Profile")
 
-                                    // Background
-                                    Container(
-                                        height: MediaQuery.of(context).size.height / 6,
-                                        child: Stack(
-                                            alignment: Alignment.centerLeft,
-                                            children: [
-                                                Positioned(
-                                                    left: -5,
-                                                    right: 0,
-                                                    child: Image.asset("assets/images/mask-7.png",
-                                                        fit: BoxFit.cover,
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                    ),
-
-                                    // Text
-                                    Positioned(
-                                        left: 20,
-                                        top: 80,
-                                        child: Container(
-                                            height: 40,
-                                            child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                children: [
-                                                    Align(
-                                                        alignment: Alignment.topLeft,
-                                                        child: Text("Profile",
-                                                            style: TextStyle(
-                                                                color: Color.fromARGB(255, 255, 255, 255),
-                                                                fontSize: 30,
-                                                                fontFamily: "NunitoSans",
-                                                            ),
-                                                            textAlign: TextAlign.left,
-                                                        ),
-                                                    ),
-                                                ],
-                                            ),
-                                        ),
-                                    ),
-
-                                ],
-                            ),
-                        ),
                         /*Spacer(),
                         Container(
                             height: 200,
@@ -112,5 +70,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             bottomNavigationBar: BottomNavigationComponent()
         );
+    }
 
 }
