@@ -6,7 +6,7 @@ import 'package:mobile_intranet/pages/profile/NetsoulProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
 
 /// ProfilePage extended by StatefulWidget
-///
+/// Generate state and display widget
 class ProfilePage extends StatefulWidget {
     final String title;
 
@@ -81,17 +81,9 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     body: TabBarView(
                         controller: this._controller,
                         children: <Widget>[
-
-                            // Profile
                             UserProfile(),
-
-                            // Netsoul logs
                             NetsoulProfile(),
-
-                            // Marks
                             Container(),
-
-                            // Absences
                             Container()
                         ],
                     ),

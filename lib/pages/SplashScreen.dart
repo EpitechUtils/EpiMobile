@@ -30,10 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
         // TODO: To remove debugger
         //prefs.remove("autolog_url");
+        //prefs.setString("autolog_url", "https://intra.epitech.eu/auth-9472567ed80878ddb46ac61a97bad16e5e5bd99d");
 
         // Check if autologin url exists in shared preferences and redirect to homepage
-        // TODO: Debug
-        //if (prefs.getString("autolog_url") != null)
+        if (prefs.getString("autolog_url") != null)
             return Navigator.of(context).pushReplacementNamed('/home');
 
         // Ask intranet to give authentication URL

@@ -15,7 +15,7 @@ class IntranetAPIUtils {
 
     /// Get authentication url from login page
     Future<dynamic> getAuthURL() {
-        return this._network.get(this._baseUrl + "?format=json");
+        return this._network.get(this._baseUrl);
     }
 
     /// Login from redirect URI
@@ -36,7 +36,7 @@ class IntranetAPIUtils {
             return null;
 
         // Check if url is available
-        return this._network.get(this._baseUrl + "/admin/autolog?format=json")
+        return this._network.get(this._baseUrl + "/admin/autolog")
             .then((res) {
             debugPrint("Autolog redirect: " + res.toString());
             if (res == null)

@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class NetworkUtils {
@@ -21,8 +19,8 @@ class NetworkUtils {
             req.followRedirects = true;
 
             // Set headers
-            req.headers.set("Accept", "application/json");
             req.headers.set("Content-Type", "application/json");
+            req.headers.set("Accept", "application/json");
 
             // Set cookies if not null
             if (cookie != null) {
@@ -41,7 +39,8 @@ class NetworkUtils {
             return body;
         });
 
-        debugPrint("NetworkUtils result : " + response.toString());
+        debugPrint("Result for: " + Uri.parse(url).toString());
+        debugPrint(response.toString());
         if (response == null)
             return null;
         dynamic res = this._gson.convert(response);

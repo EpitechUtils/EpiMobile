@@ -11,7 +11,7 @@ class Board {
     @JsonKey(name: "projets")
     List<Project> projects;
     @JsonKey(name: "notes")
-    List<Marks> marks;
+    List<Mark> marks;
     @JsonKey(name: "activites")
     List<Activity> activities;
     @JsonKey(name: "modules")

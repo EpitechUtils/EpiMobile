@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'Mark.g.dart';
 
 @JsonSerializable()
-class Marks {
+class Mark {
     @JsonKey(name: "title")
     final String name;
     @JsonKey(name: "title_link")
@@ -13,9 +13,9 @@ class Marks {
     @JsonKey(name: "noteur")
     final DateTime markAuthor;
 
-    Marks(this.name, this.urlLink, this.mark, this.markAuthor);
+    Mark(this.name, this.urlLink, this.mark, this.markAuthor);
 
-    factory Marks.fromJson(Map<String, dynamic> json) => _$MarkFromJson(json);
+    factory Mark.fromJson(Map<String, dynamic> json) => _$MarkFromJson(json);
 
     Map<String, dynamic> toJson() => _$MarkToJson(this);
 }

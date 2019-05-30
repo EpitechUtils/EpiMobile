@@ -14,7 +14,7 @@ Board _$BoardFromJson(Map<String, dynamic> json) {
           ?.toList(),
       (json['notes'] as List)
           ?.map((e) =>
-              e == null ? null : Marks.fromJson(e as Map<String, dynamic>))
+              e == null ? null : Mark.fromJson(e as Map<String, dynamic>))
           ?.toList(),
       (json['activites'] as List)
           ?.map((e) =>

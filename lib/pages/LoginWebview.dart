@@ -30,11 +30,10 @@ class _LoginWebview extends State<LoginWebview> {
     /// When activity closing
     @override
     void dispose() {
-        super.dispose();
-
         // Every listener should be canceled, the same should be done with this stream.
         _onStateChanged.cancel();
         _webview.dispose();
+        super.dispose();
     }
 
     /// Init state and webview controller
@@ -53,7 +52,6 @@ class _LoginWebview extends State<LoginWebview> {
         // Check if link is correct
         if (state.type == WebViewState.shouldStart && state.url.startsWith("https://intra.epitech.eu/auth/office365")) {
             ScaffoldState scaffoldState = this._scaffoldKey.currentState;
-            Future<Map<String, String>> cookies = _webview.getCookies();
             _webview.stopLoading();
             _webview.close();
 
@@ -69,11 +67,11 @@ class _LoginWebview extends State<LoginWebview> {
 
                     // TODO : Ca me gonfle, tranfert de cookies/sessions from webviex to http process
                     // TODO: Remove this if you want to fix
-                    return Navigator.of(context).pushReplacementNamed('/home');
+                    //return Navigator.of(context).pushReplacementNamed('/home');
 
-                    /*this._api.getAndSaveAutologinLink(state.url, cookie: cookie).then((res) {
-                                    debugPrint("Autologin " + res.toString());
-                                });*/
+                    await this._api.getAndSaveAutologinLink(state.url).then((res) {
+                        debugPrint("Autologin " + res.toString());
+                    });
                 } catch (err) {
                     // Display error
                     scaffoldState.showSnackBar(SnackBar(
@@ -107,6 +105,7 @@ class _LoginWebview extends State<LoginWebview> {
                 clearCache: true,
                 clearCookies: true,
                 initialChild: SplashScreenDisplay(),
+
             )
         );
     }
