@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+
 import 'display/SplashScreenDisplay.dart';
 
 class LoginWebview extends StatefulWidget {
@@ -55,42 +56,42 @@ class _LoginWebview extends State<LoginWebview> {
             Future<Map<String, String>> cookies = _webview.getCookies();
             _webview.stopLoading();
             _webview.close();
+
+            // Check if view is mounted and displayed
+            if (mounted) {
+                try {
+                    // Login... and display
+                    scaffoldState.showSnackBar(SnackBar(
+                        key: Key("login_message"),
+                        backgroundColor: Color.fromARGB(255, 39, 174, 96),
+                        content:Text("Connexion en cours..."),
+                    ));
+
+                    // TODO : Ca me gonfle, tranfert de cookies/sessions from webviex to http process
+                    // TODO: Remove this if you want to fix
+                    return Navigator.of(context).pushReplacementNamed('/home');
+
+                    /*this._api.getAndSaveAutologinLink(state.url, cookie: cookie).then((res) {
+                                    debugPrint("Autologin " + res.toString());
+                                });*/
+                } catch (err) {
+                    // Display error
+                    scaffoldState.showSnackBar(SnackBar(
+                        key: Key("login_message"),
+                        backgroundColor: Color.fromARGB(255, 192, 57, 43),
+                        content:Text("Une erreur est survenue !"),
+                    ));
+                }
+            }
             
             // Parse cookies
-            cookies.then((Map<String, String> ck) {
+            /*cookies.then((Map<String, String> ck) {
                 ck.forEach((key, value) {
                     if (key.substring(1) == "ESTSAUTHLIGHT") {
                         //Cookie cookie = Cookie(key.substring(1), value.substring(0, value.length - 1));
-
-                        // Check if view is mounted and displayed
-                        if (mounted) {
-                            try {
-                                // Login... and display
-                                scaffoldState.showSnackBar(SnackBar(
-                                    key: Key("login_message"),
-                                    backgroundColor: Color.fromARGB(255, 39, 174, 96),
-                                    content:Text("Connexion en cours..."),
-                                ));
-
-                                // TODO : Ca me gonfle, tranfert de cookies/sessions from webviex to http process
-                                // TODO: Remove this if you want to fix
-                                return Navigator.of(context).pushReplacementNamed('/home');
-
-                                /*this._api.getAndSaveAutologinLink(state.url, cookie: cookie).then((res) {
-                                    debugPrint("Autologin " + res.toString());
-                                });*/
-                            } catch (err) {
-                                // Display error
-                                scaffoldState.showSnackBar(SnackBar(
-                                    key: Key("login_message"),
-                                    backgroundColor: Color.fromARGB(255, 192, 57, 43),
-                                    content:Text("Une erreur est survenue !"),
-                                ));
-                            }
-                        }
                     }
                 });
-            });
+            });*/
         }
     }
 

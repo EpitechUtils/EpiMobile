@@ -30,6 +30,17 @@ class HeaderComponent extends StatelessWidget {
                                         fit: BoxFit.cover,
                                     ),
                                 ),
+
+                                Positioned(
+                                    left: 15,
+                                    top: 23,
+                                    child: Opacity(
+                                        opacity: 0.34,
+                                        child: Image.asset("assets/images/chat-4.png",
+                                            fit: BoxFit.cover
+                                        ),
+                                    ),
+                                )
                             ],
                         ),
                     ),

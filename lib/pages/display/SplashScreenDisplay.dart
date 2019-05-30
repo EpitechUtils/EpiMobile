@@ -90,16 +90,17 @@ class SplashScreenDisplay extends StatelessWidget {
                                             child: Stack(
                                                 alignment: Alignment.center,
                                                 children: [
+
+                                                    // Logo
                                                     Positioned(
                                                         bottom: 0,
                                                         child: Container(
-                                                            child: Text(
-                                                                "EpiMobile",
+                                                            child: Text("EpiMobile",
                                                                 style: TextStyle(
                                                                     color: Color.fromARGB(255, 42, 153, 204),
                                                                     fontSize: 55,
                                                                     letterSpacing: 1.12,
-                                                                    fontFamily: "takota",
+                                                                    fontFamily: "Takota",
                                                                 ),
                                                                 textAlign: TextAlign.center,
                                                             ),

@@ -17,9 +17,8 @@ dependencies:
   flutter_webview_plugin:
   flutter_cache_manager: 0.2.0+1
   shared_preferences:
-  firebase_messaging: 3.0.1
   font_awesome_flutter: 8.4.0
-  charts_flutter: 0.5.0
+
   outline_material_icons: ^0.1.0
   flutter_sparkline: ^0.1.0
   flutter:
@@ -55,10 +54,7 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: icomoon
-      fonts:
-        - asset: assets/fonts/IcoMoon.ttf
-    - family: takota
+    - family: Takota
       fonts:
         - asset: assets/fonts/Takota.ttf
     - family: NunitoSans
@@ -67,9 +63,9 @@ flutter:
           weight: 400
         - asset: assets/fonts/NunitoSans-Light.ttf
           weight: 300
-        - asset: assets/fonts/NunitoSans-SemiBold.ttf
-          weight: 600
         - asset: assets/fonts/NunitoSans-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/NunitoSans-Black.ttf
           weight: 700
 
 

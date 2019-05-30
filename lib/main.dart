@@ -10,9 +10,9 @@ class EpitechMobile extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: 'Epitech Mobile',
+            title: 'EpiMobile',
             theme: ThemeData(
-                primarySwatch: Colors.indigo,
+                primarySwatch: Colors.blue,
                 fontFamily: "NunitoSans"
             ),
             home: SplashScreen(),
@@ -21,7 +21,7 @@ class EpitechMobile extends StatelessWidget {
                 '/profile': (context) => ProfilePage()
             },
             //debugShowMaterialGrid: true,
-            //debugShowCheckedModeBanner: false
+            debugShowCheckedModeBanner: false
         );
     }
 
