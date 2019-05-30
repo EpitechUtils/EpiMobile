@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/components/GradientComponent.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
 import 'package:mobile_intranet/pages/LoginWebview.dart';
 import 'package:mobile_intranet/pages/display/SplashScreenDisplay.dart';
@@ -109,18 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                             width: 60,
                                             height: 60,
                                             decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment(0.92, 1.1),
-                                                    end: Alignment(0.27, 0.46),
-                                                    stops: [
-                                                        0,
-                                                        1,
-                                                    ],
-                                                    colors: [
-                                                        Color.fromARGB(255, 26, 204, 180),
-                                                        Color.fromARGB(255, 41, 155, 203),
-                                                    ],
-                                                ),
+                                                gradient: GradientComponent.blue(),
                                                 borderRadius: BorderRadius.all(Radius.circular(12)),
                                             ),
                                             child: Column(

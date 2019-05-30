@@ -60,8 +60,7 @@ class _LoginWebview extends State<LoginWebview> {
             cookies.then((Map<String, String> ck) {
                 ck.forEach((key, value) {
                     if (key.substring(1) == "ESTSAUTHLIGHT") {
-                        debugPrint("Saved cookie !");
-                        Cookie cookie = Cookie(key.substring(1), value.substring(0, value.length - 1));
+                        //Cookie cookie = Cookie(key.substring(1), value.substring(0, value.length - 1));
 
                         // Check if view is mounted and displayed
                         if (mounted) {
@@ -77,9 +76,9 @@ class _LoginWebview extends State<LoginWebview> {
                                 // TODO: Remove this if you want to fix
                                 return Navigator.of(context).pushReplacementNamed('/home');
 
-                                this._api.getAndSaveAutologinLink(state.url, cookie: cookie).then((res) {
+                                /*this._api.getAndSaveAutologinLink(state.url, cookie: cookie).then((res) {
                                     debugPrint("Autologin " + res.toString());
-                                });
+                                });*/
                             } catch (err) {
                                 // Display error
                                 scaffoldState.showSnackBar(SnackBar(
