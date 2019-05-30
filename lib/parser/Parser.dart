@@ -2,29 +2,31 @@ import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 import 'package:mobile_intranet/parser/components/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 
+/// Parser class
 class Parser {
-
     String autolog;
+    NetworkUtils _network = new NetworkUtils();
 
-    Parser({String autolog});
+    /// Constructor
+    Parser(String autolog) {
+        this.autolog = autolog;
+    }
 
-    Future<Profile> parseProfile(String login) {
+    /// Parse profile
+    Future<Profile> parseProfile(String login) async {
         String url = autolog + "/user/" + login + "/print";
         // Used for tests
         //String url = login + "/user/lucas.gras@epitech.eu/print";
 
-        return NetworkUtils.internal().get(url).then((data) {
-            if (data == null)
-                return null;
-            return Profile.fromJson(data);
-        });
+        dynamic profile = await this._network.get(url);
+        if (profile == null)
+            return null;
+        return Profile.fromJson(profile);
     }
 
+    /// Parse dashboard info
     Future<Dashboard> parseDashboard() {
-        String url = autolog;
-
-        print(url);
-        return NetworkUtils.internal().get(url).then((data) {
+        return NetworkUtils.internal().get(autolog).then((data) {
             if (data == null)
                 return null;
             return Dashboard(data);

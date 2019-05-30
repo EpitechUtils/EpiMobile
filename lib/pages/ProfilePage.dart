@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
+import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/profile/NetsoulProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
+import 'package:mobile_intranet/parser/Parser.dart';
+import 'package:mobile_intranet/parser/components/Profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// ProfilePage extended by StatefulWidget
 /// Generate state and display widget
@@ -21,12 +25,32 @@ class ProfilePage extends StatefulWidget {
 /// ProfilePage State (with SingleTickerProviderStateMixin)
 /// Display profile page
 class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+
     TabController _controller;
+    SharedPreferences _prefs;
+    Profile _profile;
+
+    _ProfilePageState() {
+        // Load shared preferences
+        SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
+            this._prefs = prefs;
+            Parser parser = Parser(prefs.getString("autolog_url"));
+
+            // Parse profile information
+            parser.parseProfile(prefs.get("email"))
+                .then((Profile profile) => this.setState(() {
+                this._profile = profile;
+
+            }));
+        }));
+    }
 
     /// When screen start
     @override
     void initState() {
         super.initState();
+
+        // Configure controller for tab controls
         this._controller = TabController(length: 4, vsync: this, initialIndex: 0);
     }
 
@@ -48,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 child: Scaffold(
                     appBar: AppBar(
                         backgroundColor: Color.fromARGB(255, 41, 155, 203),
-                        title: Text("Cyril Colinet", // TODO(cyrilcolinet): Change this
+                        title: Text(_profile == null ? "Loading..." : _profile.firstName + " " + _profile.lastName,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "NunitoSans"
@@ -80,12 +104,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     ),
                     body: TabBarView(
                         controller: this._controller,
-                        children: <Widget>[
-                            UserProfile(),
+                        children: _profile == null ? [0, 1, 2, 3].map((index) => LoaderComponent()).toList() : <Widget>[
+                            UserProfile(profile: this._profile, prefs: this._prefs),
                             NetsoulProfile(),
                             Container(),
                             Container()
-                        ],
+                        ]
                     ),
                     bottomNavigationBar: BottomNavigationComponent()
                 ),

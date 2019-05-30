@@ -40,7 +40,7 @@ class NetworkUtils {
         });
 
         debugPrint("Result for: " + Uri.parse(url).toString());
-        debugPrint(response.toString());
+        //debugPrint(response.toString());
         if (response == null)
             return null;
         dynamic res = this._gson.convert(response);

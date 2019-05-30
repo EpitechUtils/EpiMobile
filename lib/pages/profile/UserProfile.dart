@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/parser/components/Profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// UserProfile state ful creator
 /// Create state and interact with him
 class UserProfile extends StatefulWidget {
+    final Profile profile;
+    final SharedPreferences prefs;
 
     /// Constructor
-    UserProfile({Key key}) : super(key: key);
+    UserProfile({Key key, @required this.prefs, @required this.profile}) : super(key: key);
 
     /// Creating state
     _UserProfile createState() => _UserProfile();
@@ -15,24 +18,8 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfile extends State<UserProfile> {
 
-    SharedPreferences _prefs;
-
     @override
     Widget build(BuildContext context) {
-        // Load shared preferences
-        SharedPreferences.getInstance()
-            .then((SharedPreferences prefs) => this.setState(() => _prefs = prefs));
-
-        // Is content is loading, display progress loader
-        if (this._prefs == null) {
-            return Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Center(
-                    child: CircularProgressIndicator(),
-                ),
-            );
-        }
-
         return Column(
             children: <Widget>[
 
@@ -67,8 +54,8 @@ class _UserProfile extends State<UserProfile> {
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: NetworkImage(_prefs.getString("autolog_url") + "/file/userprofil/profilview/cyril.colinet.jpg")
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(this.widget.prefs.getString("autolog_url") + this.widget.profile.pictureUrl)
                                             )
                                         )
                                     ),
