@@ -105,10 +105,10 @@ class _UserProfile extends State<UserProfile> {
                     child: ListView(
                         padding: EdgeInsets.all(5.0),
                         children: <Widget>[
-                            createFlagList("ghost", this.widget.profile.ghostLen),
-                            createFlagList("difficulty", this.widget.profile.difficultyLen),
-                            createFlagList("remarkable", this.widget.profile.remarkableLen),
-                            createFlagList("medal", this.widget.profile.medalLen)
+                            createFlagList("Fantômes", "ghost", this.widget.profile.ghostLen, Icons.access_alarms),
+                            createFlagList("Difficultés", "difficulty", this.widget.profile.difficultyLen, Icons.warning),
+                            createFlagList("Encouragements", "remarkable", this.widget.profile.remarkableLen, Icons.thumb_up),
+                            createFlagList("Médailles", "medal", this.widget.profile.medalLen, Icons.lightbulb_outline)
                         ],
                     )
                 ),
@@ -116,17 +116,17 @@ class _UserProfile extends State<UserProfile> {
         );
     }
 
-    Widget createFlagList(String jsonField, int fieldLength) {
+    Widget createFlagList(String listName, String jsonField, int fieldLength, IconData icon) {
         return Container(
             child: Card(
                 child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                         ListTile(
-                            leading: Icon(Icons.lightbulb_outline),
+                            leading: Icon(icon),
                             title: Text.rich(
                                 TextSpan(
-                                    text: "Médailles\t-\t",
+                                    text: listName + "\t-\t",
                                     style: TextStyle(fontFamily: "NunitoSans"),
                                     children: <TextSpan>[
                                         TextSpan(
