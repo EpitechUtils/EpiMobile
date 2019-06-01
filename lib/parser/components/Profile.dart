@@ -15,6 +15,7 @@ class Profile {
     final String location;
     final int semester;
     final List<dynamic> gpa;
+    final int credits;
     final Map<String, dynamic> nsstat;
     final Map<String, dynamic> flags;
     final List<dynamic> missed;
@@ -22,10 +23,15 @@ class Profile {
     @JsonKey(name: "notes")
     final List<dynamic> marks;
 
+    int ghostLen;
+    int difficultyLen;
+    int remarkableLen;
+    int medalLen;
+
     /// Profile Ctor
     Profile(this.firstName, this.lastName, this.pictureUrl, this.promo,
         this.location, this.semester, this.gpa, this.nsstat, this.flags,
-        this.missed, this.modules, this.marks);
+        this.missed, this.modules, this.marks, this.credits, this.ghostLen);
 
     /// Profile fromJson serialization method
     factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);

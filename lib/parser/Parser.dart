@@ -21,7 +21,19 @@ class Parser {
         dynamic profile = await this._network.get(url);
         if (profile == null)
             return null;
-        return Profile.fromJson(profile);
+
+        Profile profileClass = Profile.fromJson(profile);
+        List listGhost = profileClass.flags["ghost"]["modules"];
+        List listDifficulty = profileClass.flags["difficulty"]["modules"];
+        List listRemarkable = profileClass.flags["remarkable"]["modules"];
+        List listMedal = profileClass.flags["medal"]["modules"];
+
+        profileClass.ghostLen = listGhost.length;
+        profileClass.difficultyLen = listDifficulty.length;
+        profileClass.remarkableLen = listRemarkable.length;
+        profileClass.medalLen = listMedal.length;
+
+        return profileClass;
     }
 
     /// Parse dashboard info

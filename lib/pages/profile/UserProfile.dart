@@ -22,7 +22,6 @@ class _UserProfile extends State<UserProfile> {
     Widget build(BuildContext context) {
         return Column(
             children: <Widget>[
-
                 // Header top profile
                 Container(
                     decoration: new BoxDecoration(
@@ -32,7 +31,7 @@ class _UserProfile extends State<UserProfile> {
                                 color: Color.fromARGB(50, 31, 40, 51),
                                 offset: Offset(-5, 0),
                                 blurRadius: 20,
-                            ),
+                            )
                         ],
                         image: new DecorationImage(
                             fit: BoxFit.cover,
@@ -60,11 +59,99 @@ class _UserProfile extends State<UserProfile> {
                                         )
                                     ),
                                 ),
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(left: 20.0),
+                                child: Column(
+                                    children: <Widget>[
+                                        Container(
+                                            child: Text.rich(
+                                                TextSpan(
+                                                    text: "Crédits\t",
+                                                    style: TextStyle(fontFamily: "NunitoSans"),
+                                                    children: <TextSpan>[
+                                                        TextSpan(
+                                                            text: this.widget.profile.credits.toString(),
+                                                            style: TextStyle(fontWeight: FontWeight.bold, fontFamily: "NunitoSans")
+                                                        )]
+                                                )
+                                            )
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(top: 10.0),
+                                            child: Text.rich(
+                                                TextSpan(
+                                                    text: "GPA\t",
+                                                    style: TextStyle(fontFamily: "NunitoSans"),
+                                                    children: <TextSpan>[
+                                                        TextSpan(
+                                                            text: this.widget.profile.gpa[0]["gpa"].toString(),
+                                                            style: TextStyle(fontWeight: FontWeight.bold)
+                                                        ),
+                                                        TextSpan(
+                                                            text: "\t(cycle " + this.widget.profile.gpa[0]["cycle"].toString() + ")",
+                                                            style: TextStyle(fontStyle: FontStyle.italic)
+                                                        )
+                                                    ])
+                                            ),
+                                        )
+                                    ],
+                                ),
                             )
                         ],
                     ),
-                )
+                ),
+                Flexible(
+                    child: ListView(
+                        padding: EdgeInsets.all(5.0),
+                        children: <Widget>[
+                            createFlagList("ghost", this.widget.profile.ghostLen),
+                            createFlagList("difficulty", this.widget.profile.difficultyLen),
+                            createFlagList("remarkable", this.widget.profile.remarkableLen),
+                            createFlagList("medal", this.widget.profile.medalLen)
+                        ],
+                    )
+                ),
             ],
+        );
+    }
+
+    Widget createFlagList(String jsonField, int fieldLength) {
+        return Container(
+            child: Card(
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                        ListTile(
+                            leading: Icon(Icons.lightbulb_outline),
+                            title: Text.rich(
+                                TextSpan(
+                                    text: "Médailles\t-\t",
+                                    style: TextStyle(fontFamily: "NunitoSans"),
+                                    children: <TextSpan>[
+                                        TextSpan(
+                                            text: fieldLength.toString(),
+                                            style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.bold)
+                                        )
+                                    ]
+                                )
+                            ),
+                        ),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: fieldLength,
+                            itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                    child: Text(
+                                        this.widget.profile.flags[jsonField]["modules"][index]["title"].toString(),
+                                        textAlign: TextAlign.center,
+                                    )
+                                );
+                            },
+                        )
+                    ],
+                ),
+            ),
         );
     }
 

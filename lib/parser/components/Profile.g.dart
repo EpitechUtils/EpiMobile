@@ -19,7 +19,9 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
       json['flags'] as Map<String, dynamic>,
       json['missed'] as List,
       json['modules'] as List,
-      json['notes'] as List);
+      json['notes'] as List,
+      json['credits'] as int,
+      0);
 }
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
@@ -30,8 +32,10 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'location': instance.location,
       'semester': instance.semester,
       'gpa': instance.gpa,
+      'credits': instance.credits,
       'nsstat': instance.nsstat,
       'flags': instance.flags,
+      'ghostLen': instance.ghostLen,
       'missed': instance.missed,
       'modules': instance.modules,
       'notes': instance.marks
