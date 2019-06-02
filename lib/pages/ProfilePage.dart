@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
+import 'package:mobile_intranet/pages/profile/AbsenceProfile.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
@@ -108,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                         children: _profile == null ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
                             UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
                             Container(),
-                            Container()
+                            AbsenceProfile(profile: this._profile)
                         ]
                     ),
                     bottomNavigationBar: BottomNavigationComponent()
