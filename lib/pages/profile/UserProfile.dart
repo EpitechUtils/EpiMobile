@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_sparkline/flutter_sparkline.dart';
+import 'package:mobile_intranet/components/GradientComponent.dart';
+import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
 
 /// UserProfile state ful creator
 /// Create state and interact with him
 class UserProfile extends StatefulWidget {
     final Profile profile;
     final SharedPreferences prefs;
+    final Netsoul netsoul;
 
     /// Constructor
-    UserProfile({Key key, @required this.prefs, @required this.profile}) : super(key: key);
+    UserProfile({Key key, @required this.prefs, @required this.profile, @required this.netsoul}) : super(key: key);
 
     /// Creating state
     _UserProfile createState() => _UserProfile();
@@ -105,6 +109,7 @@ class _UserProfile extends State<UserProfile> {
                     child: ListView(
                         padding: EdgeInsets.all(5.0),
                         children: <Widget>[
+                            createNetsoul(),
                             createFlagList("Fantômes", "ghost", this.widget.profile.ghostLen, Icons.access_alarms),
                             createFlagList("Difficultés", "difficulty", this.widget.profile.difficultyLen, Icons.warning),
                             createFlagList("Encouragements", "remarkable", this.widget.profile.remarkableLen, Icons.thumb_up),
@@ -116,6 +121,56 @@ class _UserProfile extends State<UserProfile> {
         );
     }
 
+    Widget createNetsoul() {
+        return Container(
+            child: Card(
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                        Row(
+                            children: <Widget>[
+                                Container(
+                                    width: MediaQuery.of(context).size.width / 2 - 20,
+                                    child: ListTile(
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                        title: Text("Last week"),
+                                        subtitle: Text(this.widget.netsoul.lastWeekLog.toString() + " h"),
+                                        leading: Icon(Icons.access_time,
+                                            size: 35,
+                                            color: Color.fromARGB(255, 41, 155, 203)
+                                        ),
+                                    ),
+                                ),
+                                Container(
+                                    width: MediaQuery.of(context).size.width / 2 - 20,
+                                    child: ListTile(
+                                        title: Text("Log average"),
+                                        subtitle: Text(this.widget.netsoul.weekLog.toString() + " h"),
+                                        leading: Icon(Icons.group,
+                                            size: 35,
+                                            color: Color.fromARGB(255, 41, 155, 203)
+                                        ),
+                                    ),
+                                ),
+                            ],
+                        ),
+                        Container(
+                            child: Sparkline(
+                                data: this.widget.netsoul.time,
+                                lineGradient: GradientComponent.green(),
+                                fillGradient: GradientComponent.green(),
+                                fillMode: FillMode.below,
+                                pointsMode: PointsMode.none,
+                                pointSize: 7,
+                                pointColor: Colors.amber,
+                            ),
+                        )
+                    ],
+                ),
+            ),
+        );
+    }
+
     Widget createFlagList(String listName, String jsonField, int fieldLength, IconData icon) {
         return Container(
             child: Card(
@@ -123,7 +178,7 @@ class _UserProfile extends State<UserProfile> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                         ListTile(
-                            leading: Icon(icon),
+                            leading: Icon(icon, color: Color.fromARGB(255, 41, 155, 203)),
                             title: Text.rich(
                                 TextSpan(
                                     text: listName + "\t-\t",

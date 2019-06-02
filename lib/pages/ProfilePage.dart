@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
         super.initState();
 
         // Configure controller for tab controls
-        this._controller = TabController(length: 4, vsync: this, initialIndex: 0);
+        this._controller = TabController(length: 3, vsync: this, initialIndex: 0);
     }
 
     /// When screen close (dispose)
@@ -94,25 +94,20 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                                     text: "Profile",
                                 ),
                                 Tab(
-                                    icon: Icon(Icons.show_chart),
-                                    text: "Login time",
-                                ),
-                                Tab(
                                     icon: Icon(Icons.edit_attributes),
                                     text: "Marks",
                                 ),
                                 Tab(
                                     icon: Icon(Icons.list),
                                     text: "Absences",
-                                ),
+                                )
                             ],
                         ),
                     ),
                     body: TabBarView(
                         controller: this._controller,
-                        children: _profile == null ? [0, 1, 2, 3].map((index) => LoaderComponent()).toList() : <Widget>[
-                            UserProfile(profile: this._profile, prefs: this._prefs),
-                            NetsoulProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
+                        children: _profile == null ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
+                            UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
                             Container(),
                             Container()
                         ]

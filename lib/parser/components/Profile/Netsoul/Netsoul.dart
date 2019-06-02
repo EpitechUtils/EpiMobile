@@ -7,6 +7,8 @@ class Netsoul {
     List idleOut;
     List total;
     List average;
+    double lastWeekLog = 0;
+    double weekLog = 0;
 
     /// Netsoul Ctor
     Netsoul(List record) {
@@ -67,7 +69,15 @@ class Netsoul {
         this.total = n;
         this.average = indexes;
 
-        for (int i = 305; i < 312; i++)
+        /// Compute last week log time and current week log time
+        for (int i = 305; i < 312; i++) {
             this.time.add(value[i][1]);
+            this.weekLog += double.parse(value[i][1].toString());
+        }
+        for (int i = 305 - 7; i < 312 - 7; i++)
+            this.lastWeekLog += double.parse(value[i][1].toString());
+        this.weekLog = double.parse(this.weekLog.toStringAsFixed(1));
+        this.lastWeekLog = double.parse(this.lastWeekLog.toStringAsFixed(1));
+
     }
 }
