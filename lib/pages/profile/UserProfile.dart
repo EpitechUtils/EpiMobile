@@ -133,7 +133,7 @@ class _UserProfile extends State<UserProfile> {
                                     width: MediaQuery.of(context).size.width / 2 - 20,
                                     child: ListTile(
                                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                                        title: Text("Last week"),
+                                        title: Text("Semaine dernière"),
                                         subtitle: Text(this.widget.netsoul.lastWeekLog.toString() + " h"),
                                         leading: Icon(Icons.access_time,
                                             size: 35,
@@ -144,7 +144,7 @@ class _UserProfile extends State<UserProfile> {
                                 Container(
                                     width: MediaQuery.of(context).size.width / 2 - 20,
                                     child: ListTile(
-                                        title: Text("Log average"),
+                                        title: Text("Cette semaine"),
                                         subtitle: Text(this.widget.netsoul.weekLog.toString() + " h"),
                                         leading: Icon(Icons.group,
                                             size: 35,

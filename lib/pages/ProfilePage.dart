@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
-import 'package:mobile_intranet/pages/profile/NetsoulProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
