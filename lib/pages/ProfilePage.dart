@@ -6,7 +6,8 @@ import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/profile/NetsoulProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
-import 'package:mobile_intranet/parser/components/Profile.dart';
+import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// ProfilePage extended by StatefulWidget
@@ -29,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     TabController _controller;
     SharedPreferences _prefs;
     Profile _profile;
+    Netsoul _netsoul;
 
     _ProfilePageState() {
         // Load shared preferences
@@ -39,8 +41,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
             // Parse profile information
             parser.parseProfile(prefs.get("email"))
                 .then((Profile profile) => this.setState(() {
-                this._profile = profile;
+                    this._profile = profile;
+            }));
 
+            parser.parseNetsoul(prefs.get("email"))
+                .then((Netsoul netsoul) => this.setState(() {
+                    this._netsoul = netsoul;
             }));
         }));
     }
@@ -106,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                         controller: this._controller,
                         children: _profile == null ? [0, 1, 2, 3].map((index) => LoaderComponent()).toList() : <Widget>[
                             UserProfile(profile: this._profile, prefs: this._prefs),
-                            NetsoulProfile(),
+                            NetsoulProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
                             Container(),
                             Container()
                         ]

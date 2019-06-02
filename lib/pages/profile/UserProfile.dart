@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/parser/components/Profile.dart';
+import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// UserProfile state ful creator
@@ -127,7 +127,7 @@ class _UserProfile extends State<UserProfile> {
                             title: Text.rich(
                                 TextSpan(
                                     text: listName + "\t-\t",
-                                    style: TextStyle(fontFamily: "NunitoSans"),
+                                    style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
                                     children: <TextSpan>[
                                         TextSpan(
                                             text: fieldLength.toString(),

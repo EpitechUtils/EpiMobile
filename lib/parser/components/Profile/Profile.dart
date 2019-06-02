@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'Profile.g.dart';
+part 'package:mobile_intranet/parser/components/Profile/Profile.g.dart';
 
 /// Profile Json serializable class
 @JsonSerializable()

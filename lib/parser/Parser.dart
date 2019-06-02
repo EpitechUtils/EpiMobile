@@ -1,6 +1,7 @@
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
-import 'package:mobile_intranet/parser/components/Profile.dart';
+import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
+import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
 
 /// Parser class
 class Parser {
@@ -43,5 +44,15 @@ class Parser {
                 return null;
             return Dashboard(data);
         });
+    }
+
+    Future<Netsoul> parseNetsoul(String login) async {
+        String url = autolog + "/user/" + login + "/netsoul";
+
+        dynamic netsoul = await this._network.get(url);
+        if (netsoul == null)
+            return null;
+
+        return Netsoul(netsoul);
     }
 }

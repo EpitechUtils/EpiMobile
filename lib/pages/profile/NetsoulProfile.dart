@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:mobile_intranet/components/GradientComponent.dart';
+import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NetsoulProfile extends StatelessWidget {
 
     List<double> data = [7, 3, 9, 1, 9, 4, 7];
+    final Profile profile;
+    final SharedPreferences prefs;
+    final Netsoul netsoul;
+
+    NetsoulProfile({Key key, @required this.prefs, @required this.profile, @required this.netsoul}) : super(key: key);
 
     @override
     Widget build(BuildContext context) {
@@ -113,7 +121,7 @@ class NetsoulProfile extends StatelessWidget {
                 Container(
                     padding: EdgeInsets.only(top: 10),
                     child: Sparkline(
-                        data: data,
+                        data: this.netsoul.time,
                         lineGradient: GradientComponent.green(),
                         fillGradient: GradientComponent.green(),
                         fillMode: FillMode.below,
