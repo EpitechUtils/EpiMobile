@@ -9,9 +9,9 @@ class Module {
     @JsonKey(name: "title_link")
     final String titleLink;
     @JsonKey(name: "timeline_start")
-    final DateTime timelineStart;
+    final String timelineStart;
     @JsonKey(name: "timeline_end")
-    final DateTime timelineEnd;
+    final String timelineEnd;
     @JsonKey(name: "timeline_barre")
     final String timelineBarre;
     @JsonKey(name: "date_inscription")

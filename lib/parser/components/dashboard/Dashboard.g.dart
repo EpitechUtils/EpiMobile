@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'DashboardBoard.dart';
+part of 'Dashboard.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Board _$BoardFromJson(Map<String, dynamic> json) {
-  return Board(
+Dashboard _$DashboardFromJson(Map<String, dynamic> json) {
+  return Dashboard(
       (json['projets'] as List)
           ?.map((e) =>
               e == null ? null : Project.fromJson(e as Map<String, dynamic>))
@@ -26,7 +26,7 @@ Board _$BoardFromJson(Map<String, dynamic> json) {
           ?.toList());
 }
 
-Map<String, dynamic> _$BoardToJson(Board instance) => <String, dynamic>{
+Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
       'projets': instance.projects,
       'notes': instance.marks,
       'activites': instance.activities,

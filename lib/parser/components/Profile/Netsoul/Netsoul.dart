@@ -78,6 +78,5 @@ class Netsoul {
             this.lastWeekLog += double.parse(value[i][1].toString());
         this.weekLog = double.parse(this.weekLog.toStringAsFixed(1));
         this.lastWeekLog = double.parse(this.lastWeekLog.toStringAsFixed(1));
-
     }
 }

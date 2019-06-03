@@ -9,9 +9,9 @@ class Mark {
     @JsonKey(name: "title_link")
     final String urlLink;
     @JsonKey(name: "note")
-    final DateTime mark;
+    final String mark;
     @JsonKey(name: "noteur")
-    final DateTime markAuthor;
+    final String markAuthor;
 
     Mark(this.name, this.urlLink, this.mark, this.markAuthor);
 

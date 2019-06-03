@@ -18,6 +18,7 @@ dependencies:
   flutter_cache_manager: 0.2.0+1
   shared_preferences:
   font_awesome_flutter: 8.4.0
+  percent_indicator: ^2.1.0
 
   outline_material_icons: ^0.1.0
   flutter_sparkline: ^0.1.0

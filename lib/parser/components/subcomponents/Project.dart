@@ -9,13 +9,13 @@ class Project {
     @JsonKey(name: "title_link")
     final String urlLink;
     @JsonKey(name: "timeline_start")
-    final DateTime startDate;
+    final String startDate;
     @JsonKey(name: "timeline_end")
-    final DateTime endDate;
+    final String endDate;
     @JsonKey(name: "timeline_barre")
-    final double timeline;
+    final String timeline;
     @JsonKey(name: "date_inscription")
-    final DateTime inscriptionDate;
+    final dynamic inscriptionDate;
     @JsonKey(name: "id_activite")
     final String id;
 

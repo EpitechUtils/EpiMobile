@@ -2,6 +2,7 @@ import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 
 /// Parser class
 class Parser {
@@ -16,8 +17,6 @@ class Parser {
     /// Parse profile
     Future<Profile> parseProfile(String login) async {
         String url = autolog + "/user/" + login + "/print";
-        // Used for tests
-        //String url = login + "/user/lucas.gras@epitech.eu/print";
 
         dynamic profile = await this._network.get(url);
         if (profile == null)
@@ -38,12 +37,12 @@ class Parser {
     }
 
     /// Parse dashboard info
-    Future<Dashboard> parseDashboard() {
-        return NetworkUtils.internal().get(autolog).then((data) {
-            if (data == null)
-                return null;
-            return Dashboard(data);
-        });
+    Future<Dashboard> parseDashboard() async {
+        dynamic dashboard = await this._network.get(autolog + "/?format=json");
+        if (dashboard == null)
+            return null;
+
+        return Dashboard.fromJson(dashboard["board"]);
     }
 
     Future<Netsoul> parseNetsoul(String login) async {
@@ -52,7 +51,16 @@ class Parser {
         dynamic netsoul = await this._network.get(url);
         if (netsoul == null)
             return null;
-
         return Netsoul(netsoul);
+    }
+
+    Future<ModuleProject> parseModuleProject(String login, String slug) async {
+        String url = autolog + slug + "project/?format=json";
+
+        dynamic moduleProject = await this._network.get(url);
+        if (moduleProject == null)
+            return null;
+        print(moduleProject);
+        return ModuleProject.fromJson(moduleProject);
     }
 }

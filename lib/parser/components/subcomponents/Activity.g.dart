@@ -13,12 +13,8 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
       json['module_link'] as String,
       json['module_code'] as String,
       json['title_link'] as String,
-      json['timeline_start'] == null
-          ? null
-          : DateTime.parse(json['timeline_start'] as String),
-      json['timeline_end'] == null
-          ? null
-          : DateTime.parse(json['timeline_end'] as String),
+      json['timeline_start'] as String,
+      json['timeline_end'] as String,
       json['timeline_barre'] as String,
       json['salle'] as String,
       json['intervenant'] as String,
@@ -32,8 +28,8 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'module_link': instance.moduleLink,
       'module_code': instance.moduleCode,
       'title_link': instance.titleLink,
-      'timeline_start': instance.timelineStart?.toIso8601String(),
-      'timeline_end': instance.timelineEnd?.toIso8601String(),
+      'timeline_start': instance.timelineStart,
+      'timeline_end': instance.timelineEnd,
       'timeline_barre': instance.timelineBarre,
       'salle': instance.room,
       'intervenant': instance.teacher,

@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                                 ),
                                 Tab(
                                     icon: Icon(Icons.edit_attributes),
-                                    text: "Marks",
+                                    text: "Notes",
                                 ),
                                 Tab(
                                     icon: Icon(Icons.list),
@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     ),
                     body: TabBarView(
                         controller: this._controller,
-                        children: _profile == null ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
+                        children: (_profile == null || _netsoul == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
                             UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
                             Container(),
                             AbsenceProfile(profile: this._profile)

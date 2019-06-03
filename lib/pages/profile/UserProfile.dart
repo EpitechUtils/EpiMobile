@@ -134,7 +134,7 @@ class _UserProfile extends State<UserProfile> {
                                     child: ListTile(
                                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                                         title: Text("Semaine dernière"),
-                                        subtitle: Text(this.widget.netsoul.lastWeekLog.toString() + " h"),
+                                        subtitle: Text((this.widget.netsoul.weekLog != null) ? this.widget.netsoul.weekLog.toString() + " h" : "NaN"),
                                         leading: Icon(Icons.access_time,
                                             size: 35,
                                             color: Color.fromARGB(255, 41, 155, 203)
@@ -145,7 +145,7 @@ class _UserProfile extends State<UserProfile> {
                                     width: MediaQuery.of(context).size.width / 2 - 20,
                                     child: ListTile(
                                         title: Text("Cette semaine"),
-                                        subtitle: Text(this.widget.netsoul.weekLog.toString() + " h"),
+                                        subtitle: Text((this.widget.netsoul.lastWeekLog != null) ? this.widget.netsoul.lastWeekLog.toString() + " h" : "NaN"),
                                         leading: Icon(Icons.group,
                                             size: 35,
                                             color: Color.fromARGB(255, 41, 155, 203)
