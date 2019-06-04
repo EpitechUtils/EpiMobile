@@ -1,6 +1,7 @@
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 
@@ -36,13 +37,22 @@ class Parser {
         return profileClass;
     }
 
-    /// Parse dashboard info
+    /// Parse dashboard projects and modules info
     Future<Dashboard> parseDashboard() async {
         dynamic dashboard = await this._network.get(autolog + "/?format=json");
         if (dashboard == null)
             return null;
 
         return Dashboard.fromJson(dashboard["board"]);
+    }
+
+    /// Parse dashboard recent notifications
+    Future<Notifications> parseDashboardNotifications() async {
+        dynamic notifications = await this._network.get(autolog + "/?format=json");
+        if (notifications == null)
+            return null;
+
+        return Notifications.fromJson(notifications);
     }
 
     Future<Netsoul> parseNetsoul(String login) async {

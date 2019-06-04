@@ -4,8 +4,10 @@ import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/RecentDashboard.dart';
 
 class DashboardPage extends StatefulWidget {
     DashboardPage({Key key, this.title}) : super(key: key);
@@ -19,6 +21,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> with SingleTickerProviderStateMixin {
     SharedPreferences _prefs;
     Dashboard _dashboard;
+    Notifications _notifications;
     TabController _controller;
 
     _DashboardPageState() {
@@ -28,6 +31,12 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
             parser.parseDashboard().then((Dashboard dashboard) {
                 this._dashboard = dashboard;
+                print(this._dashboard);
+            });
+
+            parser.parseDashboardNotifications().then((Notifications notifications) {
+                this._notifications = notifications;
+                print(this._notifications);
             });
         }));
     }
@@ -82,9 +91,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     ),
                     body: TabBarView(
                         controller: this._controller,
-                        children: _dashboard == null ? [0, 1].map((index) => LoaderComponent()).toList() : <Widget>[
+                        children: (_dashboard == null || _notifications == null) ? [0, 1].map((index) => LoaderComponent()).toList() : <Widget>[
                             ProjectsDashboard(dashboard: this._dashboard),
-                            Container()
+                            RecentDashboard(notifications: this._notifications)
                         ]
                     ),
                     bottomNavigationBar: BottomNavigationComponent()

@@ -71,6 +71,8 @@ class Netsoul {
 
         /// Compute last week log time and current week log time
         for (int i = 305; i < 312; i++) {
+            if (value[i] == null)
+                continue;
             this.time.add(value[i][1]);
             this.weekLog += double.parse(value[i][1].toString());
         }
