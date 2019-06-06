@@ -51,4 +51,36 @@ class IntranetAPIUtils {
 
         return await cacheManager.getFile(url);
     }
+
+    Future<dynamic> registerToProject(String url, String name, List<String> team) async {
+        Map jsonMap = {};
+
+        if (name != null)
+            jsonMap["title"] = name;
+        if (team != null)
+            jsonMap["members"] = team;
+
+        return this._network.post(url, jsonMap).then((res) {
+            debugPrint("Autolog redirect: " + res.toString());
+            if (res == null)
+                return null;
+
+            return res;
+        });
+    }
+
+    Future<dynamic> unregisterToProject(String url, String projectName, String codeInstance, String email) async {
+        Map jsonMap= {};
+        String code = projectName.replaceAll(' ', '-') + "-" + codeInstance + "-" + email;
+
+        jsonMap["code"] = code;
+
+        return this._network.post(url, jsonMap).then((res) {
+            debugPrint("Autolog redirect: " + res.toString());
+            if (res == null)
+                return null;
+
+            return res;
+        });
+    }
 }

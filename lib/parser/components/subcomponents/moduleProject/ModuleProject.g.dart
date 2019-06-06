@@ -20,13 +20,15 @@ ModuleProject _$ModuleProjectFromJson(Map<String, dynamic> json) {
       json['closed'] as bool,
       json['user_project_title'] as String,
       json['user_project_status'] as String,
-      json['end'] as String);
+      json['end'] as String,
+      json['codeinstance'] as String);
 }
 
 Map<String, dynamic> _$ModuleProjectToJson(ModuleProject instance) =>
     <String, dynamic>{
       'module_title': instance.moduleName,
       'project_title': instance.projectTitle,
+      'codeinstance': instance.codeInstance,
       'nb_min': instance.groupMin,
       'nb_max': instance.groupMax,
       'closed': instance.inscriptionClosed,

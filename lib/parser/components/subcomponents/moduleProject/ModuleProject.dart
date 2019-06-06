@@ -9,6 +9,8 @@ class ModuleProject {
     final String moduleName;
     @JsonKey(name: "project_title")
     final String projectTitle;
+    @JsonKey(name: "codeinstance")
+    final String codeInstance;
     @JsonKey(name: "nb_min")
     final int groupMin;
     @JsonKey(name: "nb_max")
@@ -25,7 +27,7 @@ class ModuleProject {
     final String end;
 
     ModuleProject(this.moduleName, this.projectTitle, this.groupMax, this.groupMin,
-        this.groups, this.inscriptionClosed, this.userProjectName, this.userProjectStatus, this.end);
+        this.groups, this.inscriptionClosed, this.userProjectName, this.userProjectStatus, this.end, this.codeInstance);
 
     factory ModuleProject.fromJson(Map<String, dynamic> json) => _$ModuleProjectFromJson(json);
 

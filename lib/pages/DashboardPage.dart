@@ -31,12 +31,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
             parser.parseDashboard().then((Dashboard dashboard) => this.setState(() {
                 this._dashboard = dashboard;
-                print(this._dashboard);
             }));
 
             parser.parseDashboardNotifications().then((Notifications notifications) => this.setState(() {
                 this._notifications = notifications;
-                print(this._notifications);
             }));
         }));
     }

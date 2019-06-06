@@ -64,7 +64,7 @@ class Parser {
         return Netsoul(netsoul);
     }
 
-    Future<ModuleProject> parseModuleProject(String login, String slug) async {
+    Future<ModuleProject> parseModuleProject(String slug) async {
         String url = autolog + slug + "project/?format=json";
 
         dynamic moduleProject = await this._network.get(url);
