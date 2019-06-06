@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/Project.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProjectGroup.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -224,49 +225,7 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                                     )
                                                 ],
                                             ),
-                                            IconButton(
-                                                icon: Icon(
-                                                    Icons.remove_circle,
-                                                    color: Colors.red,
-                                                ),
-                                                onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (_) => AlertDialog(
-                                                            title: Text("Supprimer le groupe ?", style: TextStyle(fontWeight: FontWeight.w600)),
-                                                            content: SingleChildScrollView(
-                                                                child: ListBody(
-                                                                    children: <Widget>[
-                                                                        Text("Cela pourait être dangereux..."),
-                                                                    ],
-                                                                ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                                FlatButton(
-                                                                    child: Text('Supprimer'),
-                                                                    onPressed: () {
-                                                                        IntranetAPIUtils.internal().unregisterToProject(
-                                                                            this._prefs.get("autolog_url") + this.widget.project.urlLink + "project/destroygroup?format=json",
-                                                                            this._moduleProject.projectTitle,
-                                                                            this._moduleProject.codeInstance,
-                                                                            this._prefs.get("email")
-                                                                        ).then((data) {
-                                                                            Navigator.of(context).pop();
-                                                                            this.refresh();
-                                                                        });
-                                                                    },
-                                                                ),
-                                                                FlatButton(
-                                                                    child: Text('Annuler'),
-                                                                    onPressed: () {
-                                                                        Navigator.of(context).pop();
-                                                                    },
-                                                                ),
-                                                            ],
-                                                        )
-                                                    );
-                                                }
-                                            )
+                                            buildGroupMasterButton(this._moduleProject.groups[index])
                                         ],
                                     ),
                                 ),
@@ -275,6 +234,54 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                     );
                 }
             ),
+        );
+    }
+
+    Widget buildGroupMasterButton(ModuleProjectGroup group) {
+        if (this._prefs.get("email") != group.master.login)
+            return Container();
+        return IconButton(
+            icon: Icon(
+                Icons.remove_circle,
+                color: Colors.red,
+            ),
+            onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                        title: Text("Supprimer le groupe ?", style: TextStyle(fontWeight: FontWeight.w600)),
+                        content: SingleChildScrollView(
+                            child: ListBody(
+                                children: <Widget>[
+                                    Text("Cela pourait être dangereux..."),
+                                ],
+                            ),
+                        ),
+                        actions: <Widget>[
+                            FlatButton(
+                                child: Text('Supprimer'),
+                                onPressed: () {
+                                    IntranetAPIUtils.internal().unregisterToProject(
+                                        this._prefs.get("autolog_url") + this.widget.project.urlLink + "project/destroygroup?format=json",
+                                        this._moduleProject.projectTitle,
+                                        this._moduleProject.codeInstance,
+                                        this._prefs.get("email")
+                                    ).then((data) {
+                                        Navigator.of(context).pop();
+                                        this.refresh();
+                                    });
+                                },
+                            ),
+                            FlatButton(
+                                child: Text('Annuler'),
+                                onPressed: () {
+                                    Navigator.of(context).pop();
+                                },
+                            ),
+                        ],
+                    )
+                );
+            }
         );
     }
 
