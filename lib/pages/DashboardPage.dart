@@ -10,9 +10,9 @@ import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/RecentDashboard.dart';
 
 class DashboardPage extends StatefulWidget {
-    DashboardPage({Key key, this.title}) : super(key: key);
-
     final String title;
+
+    DashboardPage({Key key, this.title}) : super(key: key);
 
     @override
     _DashboardPageState createState() => _DashboardPageState();
@@ -29,15 +29,15 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             this._prefs = prefs;
             Parser parser = Parser(prefs.getString("autolog_url"));
 
-            parser.parseDashboard().then((Dashboard dashboard) {
+            parser.parseDashboard().then((Dashboard dashboard) => this.setState(() {
                 this._dashboard = dashboard;
                 print(this._dashboard);
-            });
+            }));
 
-            parser.parseDashboardNotifications().then((Notifications notifications) {
+            parser.parseDashboardNotifications().then((Notifications notifications) => this.setState(() {
                 this._notifications = notifications;
                 print(this._notifications);
-            });
+            }));
         }));
     }
 
