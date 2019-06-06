@@ -19,6 +19,7 @@ class ProjectChildPage extends StatefulWidget {
 class _ProjectChildPage extends State<ProjectChildPage> {
     ModuleProject _moduleProject;
     SharedPreferences _prefs;
+    String _key;
 
     // Project registration variables
     int members;
@@ -27,6 +28,17 @@ class _ProjectChildPage extends State<ProjectChildPage> {
     @override
     void initState() {
         super.initState();
+
+        SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
+            this._prefs = prefs;
+            Parser parser = Parser(prefs.getString("autolog_url"));
+
+            this.membersMail.add(this._prefs.get("email"));
+            parser.parseModuleProject(this.widget.project.urlLink)
+                .then((ModuleProject moduleProject) => this.setState(() {
+                this._moduleProject = moduleProject;
+            }));
+        }));
     }
 
     @override
@@ -35,7 +47,9 @@ class _ProjectChildPage extends State<ProjectChildPage> {
         super.dispose();
     }
 
-    _ProjectChildPage() {
+    void refresh() {
+        // Reset _moduleProject so the view is Loading...
+        this._moduleProject = null;
         SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
             this._prefs = prefs;
             Parser parser = Parser(prefs.getString("autolog_url"));
@@ -246,11 +260,7 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                                                             this._prefs.get("email")
                                                                         ).then((data) {
                                                                             Navigator.of(context).pop();
-                                                                            Navigator.of(context).push(MaterialPageRoute(
-                                                                                builder: (BuildContext context) {
-                                                                                    return ProjectChildPage(project: this.widget.project);
-                                                                                }
-                                                                            ));
+                                                                            this.refresh();
                                                                         });
                                                                     },
                                                                 ),
@@ -302,7 +312,8 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                     onPressed: () {
                         showDialog(
                             context: context,
-                            builder: (_) => RegisterContent(prefs: this._prefs, moduleProject: this._moduleProject, project: this.widget.project)
+                            builder: (_) => RegisterContent(prefs: this._prefs, moduleProject: this._moduleProject,
+                                project: this.widget.project, notifyParent: this.refresh)
                         );
                     },
                 )

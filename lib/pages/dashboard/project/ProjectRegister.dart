@@ -10,7 +10,10 @@ class RegisterContent extends StatefulWidget {
     ModuleProject moduleProject;
     Project project;
 
-    RegisterContent({ Key key, this.prefs, this.moduleProject, this.project }) : super(key: key);
+    final Function notifyParent;
+
+    RegisterContent({ Key key, this.prefs, this.moduleProject, this.project,
+        @required this.notifyParent}) : super(key: key);
 
     @override
     _RegisterContent createState() => new _RegisterContent();
@@ -84,12 +87,7 @@ class _RegisterContent extends State<RegisterContent> {
                                                 this.membersMail.add((this.widget.prefs.get("email")));
                                                 this.groupNameController.clear();
                                                 Navigator.pop(context);
-
-                                                Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (BuildContext context) {
-                                                        return ProjectChildPage(project: this.widget.project);
-                                                    }
-                                                ));
+                                                this.widget.notifyParent();
                                             });
                                         });
                                     }
