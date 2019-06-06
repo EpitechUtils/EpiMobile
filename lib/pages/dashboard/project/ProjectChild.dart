@@ -29,16 +29,8 @@ class _ProjectChildPage extends State<ProjectChildPage> {
     void initState() {
         super.initState();
 
-        SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
-            this._prefs = prefs;
-            Parser parser = Parser(prefs.getString("autolog_url"));
-
-            this.membersMail.add(this._prefs.get("email"));
-            parser.parseModuleProject(this.widget.project.urlLink)
-                .then((ModuleProject moduleProject) => this.setState(() {
-                this._moduleProject = moduleProject;
-            }));
-        }));
+        // Call the refresh method to retrieve all information from API
+        this.refresh();
     }
 
     @override
