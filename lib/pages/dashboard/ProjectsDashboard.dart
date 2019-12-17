@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:mobile_intranet/pages/dashboard/project/ProjectChild.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class ProjectsDashboard extends StatefulWidget {
     Dashboard dashboard;
@@ -18,6 +17,11 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
 
     @override
     Widget build(BuildContext context) {
+        // Sort projects
+        this.widget.dashboard.projects.sort((a, b) {
+            return DateFormat("dd/MM/yyyy").parse(a.endDate).compareTo(DateFormat("dd/MM/yyyy").parse(b.endDate));
+        });
+
         return ListView.builder(
             itemCount: this.widget.dashboard.projects.length,
             itemBuilder: (BuildContext context, int index) {
@@ -57,16 +61,30 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                                     ],
                                 ),
                                 Container(
-                                    child: IconButton(
-                                        icon: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Color.fromARGB(255, 41, 155, 203),
-                                        ),
-                                        onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(
-                                                builder: (context) => ProjectChildPage(project: this.widget.dashboard.projects[index]))
-                                            );
-                                        }
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                            Container(
+                                                child: Text(
+                                                    DateFormat("dd/MM/yyyy").parse(this.widget.dashboard.projects[index].endDate.split(',')[0]).isBefore(DateTime.now()) ? "Rendu" :
+                                                    "J " + (DateTime.now().difference(DateFormat("dd/MM/yyyy").parse(this.widget.dashboard.projects[index].endDate.split(',')[0]))).inDays.toString(),
+                                                    style: TextStyle(fontSize: 11),
+                                                ),
+                                            ),
+                                            Container(
+                                                child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_forward_ios,
+                                                        color: Color.fromARGB(255, 41, 155, 203),
+                                                    ),
+                                                    onPressed: () {
+                                                        Navigator.push(context, MaterialPageRoute(
+                                                            builder: (context) => ProjectChildPage(project: this.widget.dashboard.projects[index]))
+                                                        );
+                                                    }
+                                                )
+                                            )
+                                        ],
                                     )
                                 )
                             ],

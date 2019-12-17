@@ -8,6 +8,8 @@ import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/RecentDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/ReminderDashboard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 
 class DashboardPage extends StatefulWidget {
     final String title;
@@ -23,6 +25,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     Dashboard _dashboard;
     Notifications _notifications;
     TabController _controller;
+    ModuleBoard _moduleBoard;
 
     _DashboardPageState() {
         SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
@@ -36,6 +39,12 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             parser.parseDashboardNotifications().then((Notifications notifications) => this.setState(() {
                 this._notifications = notifications;
             }));
+
+            var now = DateTime.now();
+            var lastDayDateTime = (now.month < 12) ? DateTime(now.year, now.month + 1, 0) : DateTime(now.year + 1, 1, 0);
+            parser.parseModuleBoard(now, lastDayDateTime).then((ModuleBoard moduleBoard) => this.setState(() {
+                this._moduleBoard = moduleBoard;
+            }));
         }));
     }
 
@@ -45,7 +54,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
         super.initState();
 
         // Configure controller for tab controls
-        this._controller = TabController(length: 2, vsync: this, initialIndex: 0);
+        this._controller = TabController(length: 3, vsync: this, initialIndex: 0);
     }
 
     /// When screen close (dispose)
@@ -71,11 +80,25 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                 fontFamily: "NunitoSans"
                             ),
                         ),
+                        actions: <Widget>[
+                            Container(
+                                alignment: Alignment.centerRight,
+                                margin: EdgeInsets.only(right: 30),
+                                child: Icon(
+                                    Icons.account_circle,
+                                    color: Colors.red,
+                                ),
+                            )
+                        ],
                         brightness: Brightness.dark,
                         //centerTitle: false,
                         bottom: TabBar(
                             controller: this._controller,
                             tabs: <Widget>[
+                                Tab(
+                                  icon: Icon(Icons.dashboard),
+                                    text: "Dashboard",
+                                ),
                                 Tab(
                                     icon: Icon(Icons.folder),
                                     text: "Projets",
@@ -89,9 +112,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     ),
                     body: TabBarView(
                         controller: this._controller,
-                        children: (_dashboard == null || _notifications == null) ? [0, 1].map((index) => LoaderComponent()).toList() : <Widget>[
+                        children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
+                            ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
                             ProjectsDashboard(dashboard: this._dashboard),
-                            RecentDashboard(notifications: this._notifications)
+                            RecentDashboard(notifications: this._notifications, prefs: _prefs)
                         ]
                     ),
                     bottomNavigationBar: BottomNavigationComponent()

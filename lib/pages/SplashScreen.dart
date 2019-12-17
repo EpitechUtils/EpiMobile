@@ -29,9 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
         // TODO: To remove debugger
-        //prefs.remove("autolog_url");
-        //prefs.setString("autolog_url", "https://intra.epitech.eu/auth-9472567ed80878ddb46ac61a97bad16e5e5bd99d");
-        //prefs.setString("email", "cyril.colinet@epitech.eu");
+        prefs.remove("autolog_url");
+        prefs.setString("autolog_url", "https://intra.epitech.eu/auth-b4076976be4815f632794fd00a5a6c69d1655939");
+        prefs.setString("email", "lucas.gras@epitech.eu");
 
         // Check if autologin url exists in shared preferences and redirect to homepage
         if (prefs.getString("autolog_url") != null)

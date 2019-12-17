@@ -2,8 +2,12 @@ import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
+import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/BoardModule.dart';
 import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
+import 'package:intl/intl.dart';
+
 
 /// Parser class
 class Parser {
@@ -70,7 +74,32 @@ class Parser {
         dynamic moduleProject = await this._network.get(url);
         if (moduleProject == null)
             return null;
-        print(moduleProject);
         return ModuleProject.fromJson(moduleProject);
+    }
+
+    Future<ModuleBoard> parseModuleBoard(DateTime begin, DateTime end) async {
+        String url = autolog + "/module/board/?format=json&start=";
+        dynamic formatter = DateFormat('yyyy-MM-dd');
+
+        url += formatter.format(begin);
+        url += "&end=" + formatter.format(end);
+        dynamic moduleBoard = await this._network.get(url);
+        if (moduleBoard == null)
+            return null;
+
+        Map<String, dynamic> json = {
+            "modules": moduleBoard
+        };
+        ModuleBoard moduleBoardClass = ModuleBoard.fromJson(json);
+
+        moduleBoardClass.projectsToDeliveryAmount = 0;
+        for (BoardModule module in moduleBoardClass.modules) {
+            if (module.registered != 1 || module.type != "proj")
+                continue;
+            moduleBoardClass.projectsToDeliveryAmount++;
+            moduleBoardClass.registeredProjects.add(module);
+        }
+
+        return moduleBoardClass;
     }
 }

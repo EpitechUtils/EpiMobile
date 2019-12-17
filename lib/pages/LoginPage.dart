@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                     this._webviewConfig.close();
                 });
 
-            //this.gotoLoginHomePage();
+            this.gotoLoginHomePage();
             //this._api.getAndSaveAutologinLink();
         }
     }
