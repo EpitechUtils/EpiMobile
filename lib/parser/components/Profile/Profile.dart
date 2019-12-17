@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'ProfileMark.dart';
 
-part 'package:mobile_intranet/parser/components/Profile/Profile.g.dart';
+part 'Profile.g.dart';
 
 /// Profile Json serializable class
 @JsonSerializable()
@@ -21,7 +22,7 @@ class Profile {
     final List<dynamic> missed;
     final List<dynamic> modules;
     @JsonKey(name: "notes")
-    final List<dynamic> marks;
+    final List<ProfileMark> marks;
 
     int ghostLen;
     int difficultyLen;

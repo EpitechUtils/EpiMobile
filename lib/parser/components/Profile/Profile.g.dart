@@ -19,9 +19,16 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
       json['flags'] as Map<String, dynamic>,
       json['missed'] as List,
       json['modules'] as List,
-      json['notes'] as List,
+      (json['notes'] as List)
+          ?.map((e) => e == null
+              ? null
+              : ProfileMark.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
       json['credits'] as int,
-      0);
+      json['ghostLen'] as int)
+    ..difficultyLen = json['difficultyLen'] as int
+    ..remarkableLen = json['remarkableLen'] as int
+    ..medalLen = json['medalLen'] as int;
 }
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
@@ -35,8 +42,11 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'credits': instance.credits,
       'nsstat': instance.nsstat,
       'flags': instance.flags,
-      'ghostLen': instance.ghostLen,
       'missed': instance.missed,
       'modules': instance.modules,
-      'notes': instance.marks
+      'notes': instance.marks,
+      'ghostLen': instance.ghostLen,
+      'difficultyLen': instance.difficultyLen,
+      'remarkableLen': instance.remarkableLen,
+      'medalLen': instance.medalLen
     };
