@@ -91,6 +91,7 @@ class Parser {
             "modules": moduleBoard
         };
         ModuleBoard moduleBoardClass = ModuleBoard.fromJson(json);
+        moduleBoardClass.registeredProjects = new List<BoardModule>();
 
         moduleBoardClass.projectsToDeliveryAmount = 0;
         for (BoardModule module in moduleBoardClass.modules) {

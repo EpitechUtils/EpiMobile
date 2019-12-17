@@ -6,7 +6,7 @@ part 'ModuleBoard.g.dart';
 @JsonSerializable()
 class ModuleBoard {
     final List<BoardModule> modules;
-    List<BoardModule> registeredProjects = new List<BoardModule>();
+    List<BoardModule> registeredProjects;
     int projectsToDeliveryAmount;
 
     ModuleBoard(this.modules);
