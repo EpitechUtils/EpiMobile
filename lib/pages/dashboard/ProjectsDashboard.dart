@@ -55,7 +55,7 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                                                 width: MediaQuery.of(context).size.width - 100,
                                                 lineHeight: 3,
                                                 percent: double.parse(this.widget.dashboard.projects[index].timeline) / 100,
-                                                progressColor: (this.widget.dashboard.projects[index].timeline == "100.0000") ? Colors.red : Colors.green,
+                                                progressColor: ((this.widget.dashboard.projects[index].timeline == "100.0000") ? Colors.red : Colors.green),
                                             )
                                         )
                                     ],
@@ -64,13 +64,6 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                                     child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                            Container(
-                                                child: Text(
-                                                    DateFormat("dd/MM/yyyy").parse(this.widget.dashboard.projects[index].endDate.split(',')[0]).isBefore(DateTime.now()) ? "Rendu" :
-                                                    "J " + (DateTime.now().difference(DateFormat("dd/MM/yyyy").parse(this.widget.dashboard.projects[index].endDate.split(',')[0]))).inDays.toString(),
-                                                    style: TextStyle(fontSize: 11),
-                                                ),
-                                            ),
                                             Container(
                                                 child: IconButton(
                                                     icon: Icon(
