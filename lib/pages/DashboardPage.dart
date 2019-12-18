@@ -9,6 +9,7 @@ import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/RecentDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/ReminderDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/ModulesDashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -112,10 +113,11 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     ),
                     body: TabBarView(
                         controller: this._controller,
-                        children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
+                        children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2, 3].map((index) => LoaderComponent()).toList() : <Widget>[
                             ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
                             ProjectsDashboard(dashboard: this._dashboard),
-                            RecentDashboard(notifications: this._notifications, prefs: _prefs)
+                            RecentDashboard(notifications: this._notifications, prefs: this._prefs),
+                            ModulesDashboard(dashboard: this._dashboard, prefs: this._prefs)
                         ]
                     ),
                     bottomNavigationBar: BottomNavigationComponent()
