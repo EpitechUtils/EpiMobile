@@ -30,9 +30,10 @@ class _ReminderDashboard extends State<ReminderDashboard> {
     Widget build(BuildContext context) {
         // Sort passed activities
 	this.widget.dashboard.activities.removeWhere((act) {
-            DateFormat format = DateFormat("dd/MM/yyyy");
+	    String end = act.timelineEnd.replaceAll('h', ':');
+            DateFormat format = DateFormat("dd/MM/yyyy, h:mm");
 
-            return DateTime.now().isAfter(format.parse(act.timelineEnd.split(',')[0]));
+            return DateTime.now().isAfter(format.parse(end));
 	});
 
 	// Sort deliveries in chronological order
