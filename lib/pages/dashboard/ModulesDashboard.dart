@@ -16,6 +16,13 @@ class _ModulesDashboard extends State<ModulesDashboard> {
 
     @override
     Widget build(BuildContext context) {
-        return Container();
+        return ListView.builder(
+            itemCount: this.widget.dashboard.modules.length,
+            itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    child: Text(this.widget.dashboard.modules[index].name),
+                );
+            },
+        );
     }
 }

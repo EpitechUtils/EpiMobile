@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
         super.initState();
 
         // Configure controller for tab controls
-        this._controller = TabController(length: 3, vsync: this, initialIndex: 0);
+        this._controller = TabController(length: 4, vsync: this, initialIndex: 0);
     }
 
     /// When screen close (dispose)
@@ -105,6 +105,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                     text: "Projets",
                                 ),
                                 Tab(
+                                    icon: Icon(Icons.beach_access),
+                                    text: "Modules",
+                                ),
+                                Tab(
                                     icon: Icon(Icons.notifications),
                                     text: "Récent",
                                 )
@@ -116,8 +120,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                         children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2, 3].map((index) => LoaderComponent()).toList() : <Widget>[
                             ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
                             ProjectsDashboard(dashboard: this._dashboard),
+                            ModulesDashboard(dashboard: this._dashboard, prefs: this._prefs),
                             RecentDashboard(notifications: this._notifications, prefs: this._prefs),
-                            ModulesDashboard(dashboard: this._dashboard, prefs: this._prefs)
                         ]
                     ),
                     bottomNavigationBar: BottomNavigationComponent()
