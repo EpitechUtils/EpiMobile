@@ -1,8 +1,5 @@
 # :iphone: EpiMobile - Simplify your life
 
-EpiMobile is an application writted on Flutter language.
-It’s développes for Epitech students in everybody cities.
-
 ## Getting Started
 
 This project is a starting point for a Flutter application.
