@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
+import 'package:mobile_intranet/pages/profile/MarksProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
 import 'package:mobile_intranet/pages/profile/AbsenceProfile.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
@@ -99,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                                 ),
                                 Tab(
                                     icon: Icon(Icons.list),
-                                    text: "Absences",
+                                    text: "Absences (" + ((this._profile == null) ? "..." : this._profile.missed.length.toString()) + ")",
                                 )
                             ],
                         ),
@@ -108,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                         controller: this._controller,
                         children: (_profile == null || _netsoul == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
                             UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
-                            Container(),
+                            MarksProfile(profile: this._profile),
                             AbsenceProfile(profile: this._profile)
                         ]
                     ),

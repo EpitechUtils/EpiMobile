@@ -6,14 +6,16 @@ part 'ProfileMark.g.dart';
 class ProfileMark {
     @JsonKey(name: "title")
     final String name;
-    @JsonKey(name: "title_link")
-    final String urlLink;
-    @JsonKey(name: "note")
-    final String mark;
-    @JsonKey(name: "noteur")
-    final String markAuthor;
+    @JsonKey(name: "date")
+    final String date;
+    @JsonKey(name: "final_note")
+    final double mark;
+    @JsonKey(name: "scolaryear")
+    final int scolarYear;
+    @JsonKey(name: "codemodule")
+    final String codeModule;
 
-    ProfileMark(this.name, this.urlLink, this.mark, this.markAuthor);
+    ProfileMark(this.name, this.date, this.mark, this.scolarYear, this.codeModule);
 
     factory ProfileMark.fromJson(Map<String, dynamic> json) => _$ProfileMarkFromJson(json);
 

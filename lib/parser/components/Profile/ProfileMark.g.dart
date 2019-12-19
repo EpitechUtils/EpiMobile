@@ -7,14 +7,19 @@ part of 'ProfileMark.dart';
 // **************************************************************************
 
 ProfileMark _$ProfileMarkFromJson(Map<String, dynamic> json) {
-  return ProfileMark(json['title'] as String, json['title_link'] as String,
-      json['note'] as String, json['noteur'] as String);
+  return ProfileMark(
+      json['title'] as String,
+      json['date'] as String,
+      (json['final_note'] as num)?.toDouble(),
+      json['scolaryear'] as int,
+      json['codemodule'] as String);
 }
 
 Map<String, dynamic> _$ProfileMarkToJson(ProfileMark instance) =>
     <String, dynamic>{
       'title': instance.name,
-      'title_link': instance.urlLink,
-      'note': instance.mark,
-      'noteur': instance.markAuthor
+      'date': instance.date,
+      'final_note': instance.mark,
+      'scolaryear': instance.scolarYear,
+      'codemodule': instance.codeModule
     };
