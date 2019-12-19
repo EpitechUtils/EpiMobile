@@ -101,54 +101,66 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                         Container(
                             padding: EdgeInsets.all(10),
                             height: 200,
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: this.widget.dashboard.activities.length,
-                                separatorBuilder: (BuildContext context, int index) => Divider(),
-                                itemBuilder: (BuildContext context, int index) {
-                                    return Container(
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                                Container(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: Text(
-                                                        this.widget.dashboard.activities[index].module + " " + this.widget.dashboard.activities[index].name,
-                                                        style: TextStyle(
-                                                            fontWeight: FontWeight.w600
-                                                        ),
-                                                    ),
-                                                ),
-                                                Container(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: Text(
-                                                                    "Le " + this.widget.dashboard.activities[index].timelineStart
-                                                                ),
-                                                            ),
-                                                            Container(
-                                                                child: Text(
-                                                                    (this.widget.dashboard.activities[index].room == null) ? "Salle non spécifiée"
-                                                                        : this.widget.dashboard.activities[index].room,
-                                                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                                                ),
-                                                            )
-                                                        ],
-                                                    ),
-                                                )
-                                            ]
-                                        )
-                                    );
-                                },
-                            ),
+                            child: buildNextSessionsContent()
                         )
                     ],
                 ),
             ),
         );
+  }
+
+  Widget buildNextSessionsContent()
+  {
+      if (this.widget.dashboard.activities.length == 0) {
+          return Container(
+              alignment: Alignment.center,
+              child: Icon(Icons.beach_access, color: Colors.blueAccent, size: 75),
+          );
+      }
+
+      return ListView.separated(
+          shrinkWrap: true,
+          itemCount: this.widget.dashboard.activities.length,
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+          itemBuilder: (BuildContext context, int index) {
+              return Container(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                          Container(
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                  this.widget.dashboard.activities[index].module + " " + this.widget.dashboard.activities[index].name,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600
+                                  ),
+                              ),
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(5),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                      Container(
+                                          child: Text(
+                                              "Le " + this.widget.dashboard.activities[index].timelineStart
+                                          ),
+                                      ),
+                                      Container(
+                                          child: Text(
+                                              (this.widget.dashboard.activities[index].room == null) ? "Salle non spécifiée"
+                                                  : this.widget.dashboard.activities[index].room,
+                                              style: TextStyle(fontStyle: FontStyle.italic),
+                                          ),
+                                      )
+                                  ],
+                              ),
+                          )
+                      ]
+                  )
+              );
+          },
+      );
   }
 
   Widget buildNextDelivery() {
@@ -187,50 +199,62 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                             Container(
                                 padding: EdgeInsets.all(5),
                                 height: MediaQuery.of(context).size.height / 5 + 10,
-                                child: ListView.separated(
-                                    itemBuilder: (BuildContext context, int index) {
-                                        return Container(
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: <Widget>[
-                                                                Container(
-                                                                    child: Row(
-                                                                        children: <Widget>[
-                                                                            Container(
-                                                                                child: Text(
-                                                                                    this.widget.moduleBoard.registeredProjects[index].moduleName + " : ",
-                                                                                    style: TextStyle(fontWeight: FontWeight.w600),
-                                                                                ),
-                                                                            ),
-                                                                            Container(
-                                                                                child: Text(
-                                                                                    DateFormat("dd/MM/yyyy").format(DateTime.parse(this.widget.moduleBoard.registeredProjects[index].endActivity)).toString()
-                                                                                ),
-                                                                            )
-                                                                        ],
-                                                                    ),
-                                                                ),
-                                                                Text(
-                                                                    this.widget.moduleBoard.registeredProjects[index].name,
-                                                                ),
-                                                            ],
-                                                        ),
-                                                    )
-                                                ],
-                                            )
-                                        );
-                                    },
-                                    separatorBuilder: (BuildContext context, int index) => Divider(),
-                                    itemCount: this.widget.moduleBoard.projectsToDeliveryAmount
-                                )
+                                child: buildNextDeliveryContent()
                             )
                         ],
                     ),
                 ),
             )
         );
+  }
+
+  Widget buildNextDeliveryContent()
+  {
+      if (this.widget.moduleBoard.registeredProjects.length == 0) {
+          return Container(
+              alignment: Alignment.center,
+              child: Icon(Icons.beach_access, color: Colors.blueAccent, size: 75),
+          );
+      }
+
+      return ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+              return Container(
+                  child: Row(
+                      children: <Widget>[
+                          Container(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                      Container(
+                                          child: Row(
+                                              children: <Widget>[
+                                                  Container(
+                                                      child: Text(
+                                                          this.widget.moduleBoard.registeredProjects[index].moduleName + " : ",
+                                                          style: TextStyle(fontWeight: FontWeight.w600),
+                                                      ),
+                                                  ),
+                                                  Container(
+                                                      child: Text(
+                                                          DateFormat("dd/MM/yyyy").format(DateTime.parse(this.widget.moduleBoard.registeredProjects[index].endActivity)).toString()
+                                                      ),
+                                                  )
+                                              ],
+                                          ),
+                                      ),
+                                      Text(
+                                          this.widget.moduleBoard.registeredProjects[index].name,
+                                      ),
+                                  ],
+                              ),
+                          )
+                      ],
+                  )
+              );
+          },
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+          itemCount: this.widget.moduleBoard.projectsToDeliveryAmount
+      );
   }
 }
