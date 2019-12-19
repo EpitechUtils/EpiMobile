@@ -105,7 +105,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                     text: "Projets",
                                 ),
                                 Tab(
-                                    icon: Icon(Icons.beach_access),
+                                    icon: Icon(Icons.view_module),
                                     text: "Modules",
                                 ),
                                 Tab(
