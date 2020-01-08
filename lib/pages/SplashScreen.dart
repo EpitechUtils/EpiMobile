@@ -64,6 +64,17 @@ class _SplashScreenState extends State<SplashScreen> {
     /// Build widget and display content
     @override
     Widget build(BuildContext context) {
-        return SplashScreenDisplay();
+        return Container(
+            decoration: BoxDecoration(
+                color: Color(0xFF131313)
+            ),
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+                Image.asset("assets/images/icons/logo_dark.png"),
+            ],
+        )
+        );
     }
 }
