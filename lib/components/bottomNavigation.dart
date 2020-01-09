@@ -39,12 +39,12 @@ class BottomNavigation extends StatelessWidget {
                             ),
 
                             IconButton(
-                                icon: Icon(Icons.search),
+                                icon: Icon(Icons.calendar_today),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/search' ? Colors.blueAccent : Colors.white,
+                                color: ModalRoute.of(context).settings.name == '/planning' ? Colors.blueAccent : Colors.white,
                                 onPressed: () {
-                                    Navigator.of(context).pushReplacementNamed("/search");
+                                    Navigator.of(context).pushReplacementNamed("/planning");
                                 }
                             ),
 
@@ -52,20 +52,31 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.people),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/account' ? Colors.blueAccent : Colors.white,
+                                color: ModalRoute.of(context).settings.name == '/profile' ? Colors.blueAccent : Colors.white,
                                 onPressed: () {
-                                    if (ModalRoute.of(context).settings.name != '/account')
-                                        Navigator.of(context).pushReplacementNamed('/account');
+                                    if (ModalRoute.of(context).settings.name != '/profile')
+                                        Navigator.of(context).pushReplacementNamed('/profile');
                                 },
                             ),
 
                             IconButton(
-                                icon: Icon(Icons.favorite),
+                                icon: Icon(Icons.notifications_active),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/fav' ? Colors.blueAccent : Colors.white,
+                                color: ModalRoute.of(context).settings.name == '/notifs' ? Colors.blueAccent : Colors.white,
                                 onPressed: () {
-                                    Navigator.of(context).pushReplacementNamed("/fav");
+                                    if (ModalRoute.of(context).settings.name != '/notifs')
+                                        Navigator.of(context).pushReplacementNamed('/notifs');
+                                },
+                            ),
+
+                            IconButton(
+                                icon: Icon(Icons.settings),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                color: ModalRoute.of(context).settings.name == '/settings' ? Colors.blueAccent : Colors.white,
+                                onPressed: () {
+                                    Navigator.of(context).pushReplacementNamed("/settings");
                                 }
                             ),
                         ],
