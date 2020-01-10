@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
-import 'package:mobile_intranet/pages/LoginWebview.dart';
-import 'package:mobile_intranet/pages/display/SplashScreenDisplay.dart';
+import 'package:mobile_intranet/pages/login/webview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// SplashScreen extended from StatefulWidget
@@ -19,30 +18,25 @@ class _SplashScreenState extends State<SplashScreen> {
     final IntranetAPIUtils _api = new IntranetAPIUtils();
 
     /// Run async task to change view after given time
-    startTime() async {
+    Future<Timer> startTime() async {
         var duration = new Duration(seconds: 4);
         return new Timer(duration, checkUserLogged);
     }
 
     /// Check if the user is connected, and redirect to correct home
-    checkUserLogged() async {
+    void checkUserLogged() async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        // TODO: To remove debugger
-        prefs.remove("autolog_url");
-        prefs.setString("autolog_url", "https://intra.epitech.eu/auth-b4076976be4815f632794fd00a5a6c69d1655939");
-        prefs.setString("email", "lucas.gras@epitech.eu");
-
         // Check if autologin url exists in shared preferences and redirect to homepage
-        if (prefs.getString("autolog_url") != null)
-            return Navigator.of(context).pushReplacementNamed('/home');
+        if (prefs.getString("autolog_url") != null) {
+            Navigator.of(context).pushReplacementNamed('/home');
+            return;
+        }
 
         // Ask intranet to give authentication URL
         var authURI = await this._api.getAuthURL().then((auth) {
-            if (auth == null || auth['office_auth_uri'] == null) {
-                // TODO: Display no connection banner
+            if (auth == null || auth['office_auth_uri'] == null)
                 return null;
-            }
 
             // Return login URI
             return auth['office_auth_uri'];
@@ -69,12 +63,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 color: Color(0xFF131313)
             ),
             child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-                Image.asset("assets/images/icons/logo_dark.png"),
-            ],
-        )
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                    Image.asset("assets/images/icons/logo_dark.png"),
+                ],
+            )
         );
     }
+
 }

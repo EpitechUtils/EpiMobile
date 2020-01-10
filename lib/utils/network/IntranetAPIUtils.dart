@@ -15,7 +15,7 @@ class IntranetAPIUtils {
 
     /// Get authentication url from login page
     Future<dynamic> getAuthURL() {
-        return this._network.get(this._baseUrl);
+        return this._network.get(this._baseUrl + "/admin/autolog?format=json");
     }
 
     /// Login from redirect URI

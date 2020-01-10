@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/components/customLoader.dart';
 import 'package:mobile_intranet/components/dashboard/categoryButtonsList.dart';
 import 'package:mobile_intranet/components/layouts/default.dart';
+import 'package:mobile_intranet/pages/dashboard/reminders.dart';
+import 'package:mobile_intranet/parser/Parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Dashboard Stateful [Widget]
 /// Implements the feed of viral images
@@ -14,26 +18,26 @@ class _DashboardState extends State<Dashboard> {
 
     int _currentPage = 0;
     List<Widget> _components = [];
+    Parser _parser;
 
     /// Init the new state
     @override
     void initState() {
         super.initState();
 
-        // Create componebts
-        this._components.add(new Text("mdr", style: TextStyle(color: Colors.white)));
-        this._components.add(new Container());
-        this._components.add(new Container());
-        this._components.add(new Container());
+        // Get autologin url and parse dashboard content
+        SharedPreferences.getInstance().then((SharedPreferences prefs) {
+            // Set parser in state and reload page
+            this.setState(() {
+                this._parser = Parser(prefs.getString("autolog_url"));
 
-        //
-    }
-
-    /// Build widget
-    /// Adding controller to manager scrolling
-    @override
-    Widget build(BuildContext context) {
-        return DefaultLayout(body: this.displayContent());
+                // Create componebts
+                this._components.add(new ReminderDashboard(parser: this._parser));
+                this._components.add(new Container());
+                this._components.add(new Container());
+                this._components.add(new Container());
+            });
+        });
     }
 
     /// Change current page and rebuild current widget
@@ -43,6 +47,13 @@ class _DashboardState extends State<Dashboard> {
         });
     }
 
+    /// Build widget
+    /// Adding controller to manager scrolling
+    @override
+    Widget build(BuildContext context) {
+        return DefaultLayout(body: this.displayContent());
+    }
+
     /// Default content management
     Widget displayContent() {
         // Content loaded and images available
@@ -50,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
             child: Column(
                 children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.only(left: 20.0, top: 20, bottom: 2),
+                        padding: EdgeInsets.only(left: 20.0, top: 40, bottom: 10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -64,7 +75,49 @@ class _DashboardState extends State<Dashboard> {
                                 ),
 
                                 // Tricolor fire
+                                Container()
                             ],
+                        ),
+                    ),
+
+                    Container(
+                        width: MediaQuery.of(context).size.width - 40,
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(3.0, 6.0),
+                                            blurRadius: 10.0
+                                        )
+                                    ]
+                                ),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+
+                                            Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text("Résumé",
+                                                    style: TextStyle(
+                                                        color: Color(0xFF131313),
+                                                        fontSize: 20,
+                                                        fontFamily: "CalibreSemibold",
+                                                        letterSpacing: 1.0,
+                                                    )
+                                                ),
+                                            )
+
+                                        ],
+                                    ),
+                                )
+                            ),
                         ),
                     ),
 
@@ -76,8 +129,10 @@ class _DashboardState extends State<Dashboard> {
 
                     // Display content
                     Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                        child: this._components[this._currentPage],
+                        padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                        child: (this._parser == null) ?
+                            CustomLoader() :
+                            this._components[this._currentPage],
                     )
                 ],
             ),

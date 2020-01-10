@@ -20,7 +20,7 @@ class _CategoryButtonsList extends State<CategoryButtonsList> {
         return Container(
             height: 40,
             child: Padding(
-                padding: const EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 0),
                 child: ListView(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
