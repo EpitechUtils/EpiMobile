@@ -38,7 +38,6 @@ class IntranetAPIUtils {
         // Check if url is available
         return this._network.get(this._baseUrl + "/admin/autolog")
             .then((res) {
-            debugPrint("Autolog redirect: " + res.toString());
             if (res == null)
                 return null;
 
@@ -61,7 +60,6 @@ class IntranetAPIUtils {
             jsonMap["members"] = team;
 
         return this._network.post(url, jsonMap).then((res) {
-            debugPrint("Autolog redirect: " + res.toString());
             if (res == null)
                 return null;
 
@@ -76,7 +74,6 @@ class IntranetAPIUtils {
         jsonMap["code"] = code;
 
         return this._network.post(url, jsonMap).then((res) {
-            debugPrint("Autolog redirect: " + res.toString());
             if (res == null)
                 return null;
 

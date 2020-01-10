@@ -33,8 +33,8 @@ class EpitechMobile extends StatelessWidget {
         routes: {
             '/error_login': (_) => ErrorLogin(),
             '/synchronization': (_) => Synchronization(),
-            '/home': (context) => Dashboard(),
-            //'/home': (context) => DashboardPage(),
+            //'/home': (context) => Dashboard(),
+            '/home': (context) => DashboardPage(),
             '/profile': (context) => ProfilePage()
         },
         //debugShowMaterialGrid: true,
