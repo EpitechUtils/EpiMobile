@@ -177,7 +177,7 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                                     Padding(
                                                         padding: EdgeInsets.all(8.0),
                                                         child: Text(
-                                                            this._moduleProject.groups[index].groupName,
+                                                            (this._moduleProject.groups[index].groupName.length < 40) ? this._moduleProject.groups[index].groupName : this._moduleProject.groups[index].groupName.substring(0, 40) + "...",
                                                             style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
                                                         )
                                                     ),
