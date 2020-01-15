@@ -12,7 +12,19 @@ class RecentDashboard extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
 
-        print(this.notifications.notifications.length);
+        int index = 0;
+        for (var item in this.notifications.notifications) {
+            String title;
+            String subtitle;
+
+            title = (item.title.contains('<')) ? item.title.substring(0, item.title.indexOf('<')) : item.title;
+            subtitle = (item.title.contains('<')) ? item.title.substring(item.title.indexOf('>') + 1, item.title.lastIndexOf('<')) : "";
+            if (subtitle.isNotEmpty && subtitle.contains('<')) {
+                subtitle = subtitle.substring(0, subtitle.indexOf('<'));
+            }
+            this.notifications.notifications[index].title = title + "|" + subtitle;
+            index++;
+        }
 
         return ListView.builder(
             itemCount: this.notifications.notifications.length,
@@ -52,15 +64,14 @@ class RecentDashboard extends StatelessWidget {
                                             Container(
                                                 width: MediaQuery.of(context).size.width - 100,
                                                 child: Text(
-                                                    this.notifications.notifications[index].title.substring(0, this.notifications.notifications[index].title.indexOf('<')),
+                                                    this.notifications.notifications[index].title.split('|')[0],
                                                     style: TextStyle(fontSize: 10),
                                                 ),
                                             ),
                                             Container(
                                                 width: MediaQuery.of(context).size.width - 100,
                                                 child: Text(
-                                                    this.notifications.notifications[index].title.substring(this.notifications.notifications[index].title.indexOf('>') + 1,
-                                                        this.notifications.notifications[index].title.indexOf("</")),
+                                                    this.notifications.notifications[index].title.split('|')[1],
                                                     style: TextStyle(fontSize: 10),
                                                 ),
                                             ),

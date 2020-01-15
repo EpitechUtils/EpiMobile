@@ -37,7 +37,7 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                                         Container(
                                             margin: EdgeInsets.only(left: 10),
                                             child: Text(
-                                                this.widget.dashboard.projects[index].name,
+                                                (this.widget.dashboard.projects[index].name.length < 40) ? this.widget.dashboard.projects[index].name : this.widget.dashboard.projects[index].name.substring(0, 35) + " ...",
                                                 style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600)
                                             ),
                                         ),
