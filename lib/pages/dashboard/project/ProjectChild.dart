@@ -197,6 +197,7 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                                                     )
                                                                 )
                                                             ),
+                                                            //TODO make this scrollable (overflow if group members amount is to big)
                                                             Container(
                                                                 margin: EdgeInsets.symmetric(vertical: 10.0),
                                                                 height: 40.0,
@@ -218,7 +219,7 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                                                             )
                                                                         );
                                                                     },
-                                                                    itemCount: this._moduleProject.groups[index].members.length, // this is a hardcoded value
+                                                                    itemCount: this._moduleProject.groups[index].members.length,
                                                                 ),
                                                             )
                                                         ],
