@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 
 class AbsenceProfile extends StatelessWidget {
     final Profile profile;

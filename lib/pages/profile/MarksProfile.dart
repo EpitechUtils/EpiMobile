@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
-import 'package:mobile_intranet/parser/components/Profile/ProfileMark.dart';
+import 'package:mobile_intranet/parser/components/profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/profile/ProfileMark.dart';
 
 class MarksProfile extends StatelessWidget {
     final Profile profile;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:mobile_intranet/components/GradientComponent.dart';
-import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
+import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 
 /// UserProfile state ful creator
 /// Create state and interact with him

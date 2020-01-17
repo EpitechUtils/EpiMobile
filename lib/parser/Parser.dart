@@ -1,11 +1,12 @@
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
-import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/BoardModule.dart';
-import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
+import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
+import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:intl/intl.dart';
 
 
@@ -102,5 +103,16 @@ class Parser {
         }
 
         return moduleBoardClass;
+    }
+
+    Future<ScheduleDay> parseScheduleDay(DateTime day) async {
+        String url = autolog + "/planning/load?format=json&start=";
+        dynamic formatter = DateFormat('yyyy-MM-dd');
+
+        url += formatter.format(day);
+        url += ("&end=" + formatter.format(day));
+
+        dynamic json = await this._network.get(url);
+        return ScheduleDay.fromJson({"sessions": json});
     }
 }

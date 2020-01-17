@@ -7,8 +7,8 @@ import 'package:mobile_intranet/pages/profile/MarksProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
 import 'package:mobile_intranet/pages/profile/AbsenceProfile.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
-import 'package:mobile_intranet/parser/components/Profile/Profile.dart';
-import 'package:mobile_intranet/parser/components/Profile/Netsoul/Netsoul.dart';
+import 'package:mobile_intranet/parser/components/profile/Profile.dart';
+import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {

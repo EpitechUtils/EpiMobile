@@ -3,6 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/CalendarComponent.dart';
+import 'package:mobile_intranet/parser/Parser.dart';
+import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/components/LoaderComponent.dart';
 
 class SchedulePage extends StatefulWidget {
     final String title;
@@ -15,8 +19,23 @@ class SchedulePage extends StatefulWidget {
     _SchedulePageState createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends State<SchedulePage>
-    with SingleTickerProviderStateMixin {
+class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin {
+    ScheduleDay scheduleDay;
+    DateTime startDate = DateTime.now().subtract(Duration(days: 2));
+    DateTime endDate = DateTime.now().add(Duration(days: 30));
+    DateTime selectedDate = DateTime.now();
+
+    _SchedulePageState() {
+        SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
+            Parser parser = Parser(prefs.get("autolog_url"));
+
+            parser.parseScheduleDay(selectedDate).then((ScheduleDay res) => this.setState(() {
+                this.scheduleDay = res;
+                print(this.scheduleDay.sessions[0].toJson());
+	    }));
+	}));
+    }
+
 
     @override
     void initState() {
@@ -27,10 +46,6 @@ class _SchedulePageState extends State<SchedulePage>
     void dispose() {
 	super.dispose();
     }
-
-    DateTime startDate = DateTime.now().subtract(Duration(days: 2));
-    DateTime endDate = DateTime.now().add(Duration(days: 30));
-    DateTime selectedDate = DateTime.now();
 
     onSelect(data) {
 	print("Selected Date -> $data");
@@ -102,6 +117,8 @@ class _SchedulePageState extends State<SchedulePage>
     /// Display content
     @override
     Widget build(BuildContext context) {
+        if (this.scheduleDay == null)
+            return LoaderComponent();
 	return Scaffold(
 	    appBar: AppBar(
 		backgroundColor: Color.fromARGB(255, 41, 155, 203),
@@ -114,18 +131,36 @@ class _SchedulePageState extends State<SchedulePage>
 		brightness: Brightness.dark,
 	    ),
 	    body: Container(
-		height: 100,
-		child: CalendarStrip(
-		    startDate: startDate,
-		    endDate: endDate,
-		    onDateSelected: onSelect,
-		    dateTileBuilder: dateTileBuilder,
-		    iconColor: Colors.lightBlueAccent,
-		    monthNameWidget: _monthNameWidget,
-		    markedDates: [],
-		    containerDecoration: BoxDecoration(
-			color: Colors.black12),
-		)),
+		child: Column(
+		    children: <Widget>[
+		        Container(
+			    height: 100,
+			    child: CalendarStrip(
+				startDate: startDate,
+				endDate: endDate,
+				onDateSelected: onSelect,
+				dateTileBuilder: dateTileBuilder,
+				iconColor: Colors.lightBlueAccent,
+				monthNameWidget: _monthNameWidget,
+				markedDates: [],
+				containerDecoration: BoxDecoration(
+				    color: Colors.black12),
+			    ),
+			),
+			Container(
+			    child: ListView.builder(
+				shrinkWrap: true,
+				itemCount: this.scheduleDay.sessions.length,
+				itemBuilder: (BuildContext context, int index) {
+				    return Text(
+					this.scheduleDay.sessions[index].title
+				    );
+				},
+			    ),
+			)
+		    ],
+		),
+	    ),
 	    bottomNavigationBar: BottomNavigationComponent()
 	);
     }
