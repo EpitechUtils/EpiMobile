@@ -152,6 +152,13 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                                   : this.widget.dashboard.activities[index].room,
                                               style: TextStyle(fontStyle: FontStyle.italic),
                                           ),
+                                      ),
+                                      Container(
+                                          child: Icon(
+                                              (this.widget.dashboard.activities[index].inscriptionDate is bool) ? Icons.check_circle : Icons.cancel,
+                                              size: 15,
+                                              color: (this.widget.dashboard.activities[index].inscriptionDate is bool) ? Colors.lightGreenAccent : Colors.redAccent,
+                                          ),
                                       )
                                   ],
                               ),
