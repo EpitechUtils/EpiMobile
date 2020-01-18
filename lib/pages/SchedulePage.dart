@@ -21,12 +21,14 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin {
     ScheduleDay scheduleDay;
+    SharedPreferences prefs;
     DateTime startDate = DateTime.now().subtract(Duration(days: 2));
     DateTime endDate = DateTime.now().add(Duration(days: 30));
     DateTime selectedDate = DateTime.now();
 
     _SchedulePageState() {
         SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
+            this.prefs = prefs;
             Parser parser = Parser(prefs.get("autolog_url"));
 
             parser.parseScheduleDay(selectedDate).then((ScheduleDay res) => this.setState(() {
@@ -48,7 +50,14 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     }
 
     onSelect(data) {
-	print("Selected Date -> $data");
+        this.setState(() {
+            this.scheduleDay = null;
+	});
+
+	Parser parser = Parser(prefs.get("autolog_url"));
+	parser.parseScheduleDay(data).then((ScheduleDay res) => this.setState(() {
+	    this.scheduleDay = res;
+	}));
     }
 
     Widget _monthNameWidget(monthName) {
@@ -114,11 +123,44 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 	);
     }
 
+    Widget sessions() {
+        if (this.scheduleDay == null)
+            return LoaderComponent();
+	return ListView.builder(
+	    shrinkWrap: true,
+	    itemCount: this.scheduleDay.sessions.length,
+	    scrollDirection: Axis.vertical,
+	    itemBuilder: (BuildContext context, int index) {
+	        return Container();
+	        /*
+	        return Container(
+		    child: Card(
+			child: Column(
+			    mainAxisAlignment: MainAxisAlignment.center,
+			    children: <Widget>[
+			        Container(
+				    child: Text(this.scheduleDay.sessions[index].start.split(' ')[1]),
+				),
+			        Container(
+				    alignment: Alignment.center,
+				    child: Text(
+					((this.scheduleDay.sessions[index].moduleTitle == null) ? "?" : this.scheduleDay.sessions[index].moduleTitle)
+				    + ((this.scheduleDay.sessions[index].title == null) ? "" : " " + this.scheduleDay.sessions[index].title)),
+				),
+				Container(
+				    child: Text(this.scheduleDay.sessions[index].end.split(' ')[1]),
+				)
+			    ],
+			),
+		    ),
+		);*/
+	    },
+	);
+    }
+
     /// Display content
     @override
     Widget build(BuildContext context) {
-        if (this.scheduleDay == null)
-            return LoaderComponent();
 	return Scaffold(
 	    appBar: AppBar(
 		backgroundColor: Color.fromARGB(255, 41, 155, 203),
@@ -147,16 +189,91 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 				    color: Colors.black12),
 			    ),
 			),
-			Container(
-			    child: ListView.builder(
-				shrinkWrap: true,
-				itemCount: this.scheduleDay.sessions.length,
-				itemBuilder: (BuildContext context, int index) {
-				    return Text(
-					this.scheduleDay.sessions[index].title
-				    );
-				},
-			    ),
+			Expanded(
+			    child: SingleChildScrollView(
+				scrollDirection: Axis.vertical,
+				child: Row(
+				    mainAxisAlignment: MainAxisAlignment.start,
+				    children: <Widget>[
+					Container(
+					    width: 50,
+					    child: Column(
+						children: <Widget>[
+						    Text("09:00"),
+						    Divider(height: 50),
+						    Text("10:00"),
+						    Divider(height: 50),
+						    Text("11:00"),
+						    Divider(height: 50),
+						    Text("12:00"),
+						    Divider(height: 50),
+						    Text("13:00"),
+						    Divider(height: 50),
+						    Text("14:00"),
+						    Divider(height: 50),
+						    Text("15:00"),
+						    Divider(height: 50),
+						    Text("16:00"),
+						    Divider(height: 50),
+						    Text("17:00"),
+						    Divider(height: 50),
+						    Text("18:00"),
+						    Divider(height: 50),
+						    Text("19:00"),
+						    Divider(height: 50),
+						    Text("20:00"),
+						    Divider(height: 50),
+						    Text("21:00"),
+						],
+					    ),
+					),
+					Container(
+					    width: (MediaQuery.of(context).size.width * 0.75),
+					    alignment: Alignment.center,
+					    child: Column(
+						mainAxisAlignment: MainAxisAlignment.start,
+						children: <Widget>[
+						    Container(
+							height: 100,
+							child: Card(
+							    color: Colors.black12,
+							    child: Text("Kick off"),
+							),
+						    ),
+						    Container(
+							height: 100,
+							child: Card(
+							    color: Colors.redAccent,
+							    child: Text("Kick off"),
+							),
+						    ),
+						    Container(
+							height: 50,
+							child: Card(
+							    color: Colors.black12,
+							    child: Text("Kick off"),
+							),
+						    ),
+						    Container(
+							height: 200,
+							child: Card(
+							    color: Colors.lightGreenAccent,
+							    child: Text("Kick off"),
+							),
+						    ),
+						    Container(
+							height: 100,
+							child: Card(
+							    color: Colors.brown,
+							    child: Text("Kick off"),
+							),
+						    ),
+						],
+					    ),
+					),
+				    ],
+				)
+			    )
 			)
 		    ],
 		),
