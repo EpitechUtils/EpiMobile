@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/customLoader.dart';
 import 'package:mobile_intranet/components/dashboard/categoryButtonsList.dart';
-import 'package:mobile_intranet/components/layouts/default.dart';
+import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/pages/dashboard/reminders.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,17 +61,12 @@ class _DashboardState extends State<Dashboard> {
             child: Column(
                 children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.only(left: 20.0, top: 40, bottom: 10),
+                        padding: EdgeInsets.only(left: 20.0, top: 20, bottom: 10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                                 Text("Tableau de Bord",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 35.0,
-                                        fontFamily: "CalibreSemibold",
-                                        letterSpacing: 1.0,
-                                    )
+                                    style: Theme.of(context).textTheme.title
                                 ),
 
                                 // Tricolor fire
@@ -83,53 +78,85 @@ class _DashboardState extends State<Dashboard> {
                     Container(
                         width: MediaQuery.of(context).size.width - 40,
                         padding: const EdgeInsets.only(bottom: 20),
-                        child: ClipRRect(
+                        child: Material(
                             borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            offset: Offset(3.0, 6.0),
-                                            blurRadius: 10.0
-                                        )
-                                    ]
-                                ),
-                                child: Padding(
-                                    padding: const EdgeInsets.all(15),
+                            elevation: 5,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).cardColor,
+                                        boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black12,
+                                                offset: Offset(3.0, 6.0),
+                                                blurRadius: 10.0
+                                            )
+                                        ]
+                                    ),
                                     child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: <Widget>[
 
-                                            Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text("Résumé",
-                                                    style: TextStyle(
-                                                        color: Color(0xFF131313),
-                                                        fontSize: 20,
-                                                        fontFamily: "CalibreSemibold",
-                                                        letterSpacing: 1.0,
+                                            Padding(
+                                                padding: const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
+                                                child: Row(
+                                                    children: <Widget>[
+
+                                                        SizedBox(
+                                                            width: 50,
+                                                            child: Icon(Icons.refresh,
+                                                                size: 30,
+                                                                color: Theme.of(context).primaryIconTheme.color,
+                                                            ),
+                                                        ),
+
+                                                        Flexible(
+                                                            child: Text("Connectez-vous à votre compte Google Calendar afin de"
+                                                                "pouvoir synchroniser vos activités à votre calendrier.",
+                                                                overflow: TextOverflow.clip,
+                                                                style: TextStyle(
+                                                                    color: Color(0xFF131313),
+                                                                    fontSize: 15,
+                                                                    fontFamily: "Raleway",
+                                                                    letterSpacing: 1.0,
+                                                                )
+                                                            ),
+                                                        )
+
+                                                    ],
+                                                ),
+                                            ),
+
+                                            InkWell(
+                                                onTap: () {},
+                                                child: Container(
+                                                    color: Theme.of(context).buttonColor,
+                                                    height: 35,
+                                                    width: MediaQuery.of(context).size.width,
+                                                    child: Align(
+                                                        alignment: Alignment.center,
+                                                        child: Text("Connexion à Google",
+                                                            style: Theme.of(context).textTheme.button,
+                                                        ),
                                                     )
                                                 ),
                                             )
-
                                         ],
-                                    ),
-                                )
+                                    )
+                                ),
                             ),
                         ),
                     ),
 
                     // Content here
-                    CategoryButtonsList(
+                    /*CategoryButtonsList(
                         page: this._currentPage,
                         changePageCallback: this.changeCurrentPage
-                    ),
+                    ),*/
 
                     // Display content
                     Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         child: (this._parser == null) ?
                             CustomLoader() :
                             this._components[this._currentPage],

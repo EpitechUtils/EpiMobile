@@ -77,6 +77,35 @@ class _ReminderDashboard extends State<ReminderDashboard> {
             });
     }
 
+    String getMonthLetterByInt(int month) {
+        switch (month) {
+            case 1:
+                return "JAN";
+            case 2:
+                return "FEV";
+            case 3:
+                return "MAR";
+            case 4:
+                return "AVR";
+            case 5:
+                return "MAI";
+            case 6:
+                return "JUN";
+            case 7:
+                return "JUI";
+            case 8:
+                return "AOU";
+            case 9:
+                return "SEP";
+            case 10:
+                return "OCT";
+            case 11:
+                return "NOV";
+            case 12:
+                return "DEC";
+        }
+    }
+
     @override
     Widget build(BuildContext context) {
         if (this._dashboard == null) {
@@ -91,12 +120,7 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                         Text("Activités à venir",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontFamily: "CalibreSemibold",
-                                letterSpacing: 1.0,
-                            )
+                            style: Theme.of(context).textTheme.subtitle
                         ),
 
                         // Activites length
@@ -116,105 +140,128 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                     padding: const EdgeInsets.only(top: 10),
                     child: ListView.separated(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: this._dashboard.activities.length,
-                        separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.white),
+                        separatorBuilder: (BuildContext context, int index) => SizedBox(height: 12),
                         itemBuilder: (BuildContext context, int index) {
                             return Container(
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                        Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                                Text(
-                                                    this._dashboard.activities[index].module + " " + this._dashboard.activities[index].name,
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        color: Colors.white
-                                                    ),
-                                                ),
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: Material(
+                                    borderRadius: BorderRadius.circular(10),
+                                    elevation: 5,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context).cardColor,
+                                                boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black12,
+                                                        offset: Offset(3.0, 6.0),
+                                                        blurRadius: 10.0
+                                                    )
+                                                ]
+                                            ),
+                                            child: Row(
+                                                children: <Widget>[
 
-                                                Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: <Widget>[
-                                                        Container(
-                                                            child: Text("Le " + this._dashboard.activities[index].timelineStart,
-                                                                style: TextStyle(
-                                                                    color: Colors.white
-                                                                )
+                                                    Align(
+                                                        alignment: Alignment.center,
+                                                        child: Container(
+                                                            width: 60,
+                                                            padding: const EdgeInsets.all(5),
+                                                            color: Color(0xFF2c3e50),
+                                                            child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: <Widget>[
+
+                                                                    // Display day number
+                                                                    Text(DateFormat("dd/MM/yyyy, HH:mm").parse(this._dashboard.activities[index].timelineStart).day.toString(),
+                                                                        style: TextStyle(
+                                                                            color: Colors.white,
+                                                                            fontSize: 40,
+                                                                            fontFamily: "Raleway",
+                                                                            letterSpacing: 2,
+                                                                            height: 0.8
+                                                                        )
+                                                                    ),
+
+                                                                    // Display day number
+                                                                    Text(this.getMonthLetterByInt(DateFormat("dd/MM/yyyy, HH:mm").parse(this._dashboard.activities[index].timelineStart).month),
+                                                                        style: TextStyle(
+                                                                            color: Colors.white,
+                                                                            fontSize: 20,
+                                                                            fontFamily: "Raleway",
+                                                                            letterSpacing: 2,
+                                                                            height: 0.8
+                                                                        )
+                                                                    )
+                                                                ],
                                                             ),
                                                         ),
-                                                        Container(
-                                                            child: Text(
-                                                                (this._dashboard.activities[index].room == null) ? "Salle non spécifiée"
-                                                                    : this._dashboard.activities[index].room,
-                                                                style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
+                                                    ),
+
+                                                    Container(
+                                                        width: 5,
+                                                        height: 58,
+                                                        color: Colors.orange,
+                                                    ),
+
+                                                    Flexible(
+                                                        child: Container(
+                                                            padding: const EdgeInsets.only(left: 10),
+                                                            child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: <Widget>[
+
+                                                                    Text(
+                                                                        this._dashboard.activities[index].name,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: TextStyle(
+                                                                            fontWeight: FontWeight.w600,
+                                                                            color: Theme.of(context).primaryColor
+                                                                        ),
+                                                                    ),
+
+                                                                    Text(
+                                                                        (this._dashboard.activities[index].room == null) ? "Salle non spécifiée"
+                                                                            : this._dashboard.activities[index].room,
+                                                                        style: TextStyle(
+                                                                            fontStyle: FontStyle.italic,
+                                                                            color: Theme.of(context).primaryColor
+                                                                        ),
+                                                                    ),
+                                                                ]
                                                             ),
-                                                        )
-                                                    ],
-                                                ),
-                                            ]
-                                        ),
-
-                                        IconButton(
-                                            onPressed: () {
-                                                final Event event = Event(
-                                                    title: this._dashboard.activities[index].name,
-                                                    description: "Activité dirigée par " + this._dashboard.activities[index].teacher,
-                                                    location: "Salle " + this._dashboard.activities[index].room,
-                                                    startDate: DateFormat("dd/MM/yyyy, HH:mm").parse(this._dashboard.activities[index].timelineStart),
-                                                    endDate: DateFormat("dd/MM/yyyy, HH:mm").parse(this._dashboard.activities[index].timelineEnd),
-                                                    allDay: false
-                                                );
-
-                                                Add2Calendar.addEvent2Cal(event);
-                                            },
-                                            icon: Icon(Icons.alarm_add,
-                                                color: Colors.blueAccent,
-                                            ),
-
-                                        )
-                                    ],
-                                )
-                            );
-
-
-
-
-
-                            return Container(
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                        Text(
-                                            this._dashboard.activities[index].module + " " + this._dashboard.activities[index].name,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white
-                                            ),
-                                        ),
-
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                                Container(
-                                                    child: Text("Le " + this._dashboard.activities[index].timelineStart,
-                                                        style: TextStyle(
-                                                            color: Colors.white
-                                                        )
+                                                        ),
                                                     ),
-                                                ),
-                                                Container(
-                                                    child: Text(
-                                                        (this._dashboard.activities[index].room == null) ? "Salle non spécifiée"
-                                                            : this._dashboard.activities[index].room,
-                                                        style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                                                    ),
-                                                )
-                                            ],
+
+                                                    /*adding(
+                                                        padding: const EdgeInsets.only(left: 10),
+                                                        child: InkWell(
+                                                            onTap: () {
+                                                                final Event event = Event(
+                                                                    title: this._dashboard.activities[index].name,
+                                                                    description: "Activité dirigée par " + this._dashboard.activities[index].teacher,
+                                                                    location: "Salle " + this._dashboard.activities[index].room,
+                                                                    startDate: DateFormat("dd/MM/yyyy, HH:mm").parse(this._dashboard.activities[index].timelineStart),
+                                                                    endDate: DateFormat("dd/MM/yyyy, HH:mm").parse(this._dashboard.activities[index].timelineEnd),
+                                                                    allDay: false
+                                                                );
+
+                                                                Add2Calendar.addEvent2Cal(event);
+                                                            },
+                                                            child: Icon(Icons.alarm_add,
+                                                                color: Colors.blueAccent,
+                                                            ),
+                                                        ),
+                                                    )*/
+                                                ],
+                                            )
                                         ),
-                                    ]
-                                )
+                                    ),
+                                ),
                             );
                         },
                     ),
@@ -228,12 +275,7 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                         Text("Projets à rendre",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontFamily: "CalibreSemibold",
-                                letterSpacing: 1.0,
-                            )
+                            style: Theme.of(context).textTheme.subtitle
                         ),
 
                         // Amount
@@ -335,40 +377,61 @@ class _ReminderDashboard extends State<ReminderDashboard> {
             separatorBuilder: (BuildContext context, int index) => Divider(),
             itemBuilder: (BuildContext context, int index) {
                 return Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                    this._dashboard.activities[index].module + " " + this._dashboard.activities[index].name,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600
-                                    ),
+                    width: MediaQuery.of(context).size.width - 40,
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Material(
+                        borderRadius: BorderRadius.circular(10),
+                        elevation: 5,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).cardColor,
+                                    boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(3.0, 6.0),
+                                            blurRadius: 10.0
+                                        )
+                                    ]
                                 ),
-                            ),
-                            Container(
-                                padding: EdgeInsets.all(5),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                         Container(
+                                            padding: EdgeInsets.all(5),
                                             child: Text(
-                                                "Le " + this._dashboard.activities[index].timelineStart
+                                                this._dashboard.activities[index].module + " " + this._dashboard.activities[index].name,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600
+                                                ),
                                             ),
                                         ),
                                         Container(
-                                            child: Text(
-                                                (this._dashboard.activities[index].room == null) ? "Salle non spécifiée"
-                                                    : this._dashboard.activities[index].room,
-                                                style: TextStyle(fontStyle: FontStyle.italic),
+                                            padding: EdgeInsets.all(5),
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: Text(
+                                                            "Le " + this._dashboard.activities[index].timelineStart
+                                                        ),
+                                                    ),
+                                                    Container(
+                                                        child: Text(
+                                                            (this._dashboard.activities[index].room == null) ? "Salle non spécifiée"
+                                                                : this._dashboard.activities[index].room,
+                                                            style: TextStyle(fontStyle: FontStyle.italic),
+                                                        ),
+                                                    )
+                                                ],
                                             ),
                                         )
-                                    ],
-                                ),
-                            )
-                        ]
-                    )
+                                    ]
+                                )
+                            ),
+                        ),
+                    ),
                 );
             },
         );

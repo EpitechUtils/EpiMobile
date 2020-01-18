@@ -9,21 +9,21 @@ class BottomNavigation extends StatelessWidget {
     /// CustomBottomNavigationBar constructor
     BottomNavigation({@required this.child, this.floatingMethod});
 
-    double applyBottomPadding(BuildContext context) {
-        final bool iphonex = MediaQuery.of(context).size.height >= 812.0;
-        return iphonex ? 25.0 : 0.0;
+    Color getThemeColorByRoute(BuildContext context, String route) {
+        if (ModalRoute.of(context).settings.name == route)
+            return Theme.of(context).focusColor;
+
+        // Not selected
+        return Theme.of(context).disabledColor;
     }
 
     Widget displayBottomNavigationBar(BuildContext context) {
-        // Current route is upload, bye
-        if (ModalRoute.of(context).settings.name == '/uploadImage')
-            return null;
-
         return BottomAppBar(
+            elevation: 10,
             child: Container(
-                color: Color(0xFF131313),
+                color: Theme.of(context).bottomAppBarColor,
                 child: Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 6),
+                    padding: EdgeInsets.only(left: 20, right: 20),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -31,7 +31,7 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.dashboard),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/home' ? Colors.blueAccent : Colors.white,
+                                color: this.getThemeColorByRoute(context, '/home'),
                                 onPressed: () {
                                     if (ModalRoute.of(context).settings.name != '/home')
                                         Navigator.of(context).pushReplacementNamed('/home');
@@ -42,7 +42,7 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.calendar_today),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/planning' ? Colors.blueAccent : Colors.white,
+                                color: this.getThemeColorByRoute(context, '/planning'),
                                 onPressed: () {
                                     Navigator.of(context).pushReplacementNamed("/planning");
                                 }
@@ -52,7 +52,7 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.people),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/profile' ? Colors.blueAccent : Colors.white,
+                                color: this.getThemeColorByRoute(context, '/profile'),
                                 onPressed: () {
                                     if (ModalRoute.of(context).settings.name != '/profile')
                                         Navigator.of(context).pushReplacementNamed('/profile');
@@ -63,10 +63,10 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.notifications_active),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/notifs' ? Colors.blueAccent : Colors.white,
+                                color: this.getThemeColorByRoute(context, '/notifications'),
                                 onPressed: () {
-                                    if (ModalRoute.of(context).settings.name != '/notifs')
-                                        Navigator.of(context).pushReplacementNamed('/notifs');
+                                    if (ModalRoute.of(context).settings.name != '/notifications')
+                                        Navigator.of(context).pushReplacementNamed('/notifications');
                                 },
                             ),
 
@@ -74,7 +74,7 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.settings),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: ModalRoute.of(context).settings.name == '/settings' ? Colors.blueAccent : Colors.white,
+                                color: this.getThemeColorByRoute(context, '/settings'),
                                 onPressed: () {
                                     Navigator.of(context).pushReplacementNamed("/settings");
                                 }
@@ -90,7 +90,7 @@ class BottomNavigation extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Container(
-            color: Color(0xFF000000),
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: SafeArea(
                 bottom: false,
                 child: Scaffold(

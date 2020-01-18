@@ -23,7 +23,7 @@ class Synchronization extends StatelessWidget {
             body: Container(
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8),
                 decoration: BoxDecoration(
-                    color: Colors.white
+                    color: Theme.of(context).scaffoldBackgroundColor
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
