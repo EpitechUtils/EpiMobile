@@ -3,6 +3,7 @@ import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:mobile_intranet/pages/dashboard/project/ProjectChild.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/Project.dart';
 
 class ProjectsDashboard extends StatefulWidget {
     Dashboard dashboard;
@@ -14,6 +15,14 @@ class ProjectsDashboard extends StatefulWidget {
 }
 
 class _ProjectsDashboard extends State<ProjectsDashboard> {
+
+    String checkProjectRegisterState(Project project)
+    {
+        if (project.inscriptionDate.toString() == "false" && project.timeline == "0.0000")
+            return "  Inscriptions non commencées";
+        return (project.inscriptionDate.toString() == "false")
+            ? "  Inscriptions terminées" : "  Inscriptions avant le " + project.inscriptionDate.toString().split(',')[0];
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -44,8 +53,7 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                                         Container(
                                             margin: EdgeInsets.only(left: 3, top: 2),
                                             child: Text(
-                                                (this.widget.dashboard.projects[index].inscriptionDate.toString() == "false") ?
-                                                   "  Inscriptions terminées" : "  Inscriptions avant le " + this.widget.dashboard.projects[index].inscriptionDate.toString().split(',')[0],
+                                                checkProjectRegisterState(this.widget.dashboard.projects[index]),
                                                 style: TextStyle(fontFamily: "NunitoSans")
                                             )
                                         ),

@@ -25,9 +25,13 @@ class ModuleProject {
     final List<ModuleProjectGroup> groups;
     @JsonKey(name: "end")
     final String end;
+    final String description;
+
+    List<String> filesUrls;
 
     ModuleProject(this.moduleName, this.projectTitle, this.groupMax, this.groupMin,
-        this.groups, this.inscriptionClosed, this.userProjectName, this.userProjectStatus, this.end, this.codeInstance);
+        this.groups, this.inscriptionClosed, this.userProjectName, this.userProjectStatus,
+        this.end, this.codeInstance, this.description);
 
     factory ModuleProject.fromJson(Map<String, dynamic> json) => _$ModuleProjectFromJson(json);
 

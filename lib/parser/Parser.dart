@@ -8,6 +8,9 @@ import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:intl/intl.dart';
+import 'package:html/parser.dart' show parse;
+import 'package:html/dom.dart';
+
 
 
 /// Parser class
@@ -75,7 +78,21 @@ class Parser {
         dynamic moduleProject = await this._network.get(url);
         if (moduleProject == null)
             return null;
-        return ModuleProject.fromJson(moduleProject);
+
+        ModuleProject moduleProjectClass = ModuleProject.fromJson(moduleProject);
+        String urlFile = autolog + slug + "project/file";
+        dynamic fileHtml = await this._network.get(urlFile);
+
+        if (fileHtml != null && !fileHtml.toString().contains('not allowed')) {
+            moduleProjectClass.filesUrls = new List<String>();
+            for (var elem in fileHtml) {
+                moduleProjectClass.filesUrls.add(elem["fullpath"]);
+            }
+        } else {
+            moduleProjectClass.filesUrls = null;
+        }
+
+        return moduleProjectClass;
     }
 
     Future<ModuleBoard> parseModuleBoard(DateTime begin, DateTime end) async {

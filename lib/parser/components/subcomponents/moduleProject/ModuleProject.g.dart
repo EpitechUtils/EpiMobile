@@ -21,7 +21,10 @@ ModuleProject _$ModuleProjectFromJson(Map<String, dynamic> json) {
       json['user_project_title'] as String,
       json['user_project_status'] as String,
       json['end'] as String,
-      json['codeinstance'] as String);
+      json['codeinstance'] as String,
+      json['description'] as String)
+    ..filesUrls =
+        (json['filesUrls'] as List)?.map((e) => e as String)?.toList();
 }
 
 Map<String, dynamic> _$ModuleProjectToJson(ModuleProject instance) =>
@@ -35,5 +38,7 @@ Map<String, dynamic> _$ModuleProjectToJson(ModuleProject instance) =>
       'user_project_status': instance.userProjectStatus,
       'user_project_title': instance.userProjectName,
       'registered': instance.groups,
-      'end': instance.end
+      'end': instance.end,
+      'description': instance.description,
+      'filesUrls': instance.filesUrls
     };

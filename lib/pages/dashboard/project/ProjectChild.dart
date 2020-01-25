@@ -90,6 +90,46 @@ class _ProjectChildPage extends State<ProjectChildPage> {
         }
     }
 
+    Widget buildProjectFiles() {
+        if (this._moduleProject.filesUrls == null) {
+            return Container(
+                child: Text("Fichiers non disponibles"),
+            );
+        }
+        return Container(
+            margin: EdgeInsets.only(top: 10),
+            alignment: Alignment.centerLeft,
+            height: 75,
+            child: ListView.builder(
+                itemCount: this._moduleProject.filesUrls.length,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                        children: <Widget>[
+                            IconButton(
+                                icon: Icon(
+                                    Icons.picture_as_pdf,
+                                    size: 35,
+                                ),
+                                onPressed: () {
+
+                                },
+                                highlightColor: Colors.lightBlueAccent,
+                                color: Colors.lightBlueAccent,
+                            ),
+                            Text(
+                                this._moduleProject.filesUrls[index].substring(this._moduleProject.filesUrls[index].lastIndexOf('/') + 1),
+                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10),
+                            )
+                        ],
+                    );
+                    //return Text(this._moduleProject.filesUrls[index]);
+                },
+            ),
+        );
+    }
+
     Widget buildProjectBar() {
         return Container(
             decoration: BoxDecoration(
@@ -107,53 +147,58 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                     image: AssetImage("assets/images/background.png")
                 )
             ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
                 children: <Widget>[
-                    Container(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                            children: <Widget>[
-                                Icon(Icons.people, color: Color.fromARGB(255, 41, 155, 203)),
-                                Text(
-                                    (this._moduleProject.groupMax == 1) ? "Projet solo" : this._moduleProject.groupMin.toString() + " à " + this._moduleProject.groupMax.toString(),
-                                    style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                            Container(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                    children: <Widget>[
+                                        Icon(Icons.people, color: Color.fromARGB(255, 41, 155, 203)),
+                                        Text(
+                                            (this._moduleProject.groupMax == 1) ? "Projet solo" : this._moduleProject.groupMin.toString() + " à " + this._moduleProject.groupMax.toString(),
+                                            style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
+                                        )
+                                    ],
                                 )
-                            ],
-                        )
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(10),
-                        child: CircularPercentIndicator(
-                            radius: 60,
-                            lineWidth: 2,
-                            percent: double.parse(this.widget.project.timeline) / 100,
-                            progressColor: (this.widget.project.timeline == "100.0000") ? Colors.red : Colors.green,
-                            center: Text(double.parse(this.widget.project.timeline).toStringAsFixed(1) + "%", style: TextStyle(fontWeight: FontWeight.w600),),
-                        )
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text.rich(
-                            TextSpan(
-                                text: (DateTime.parse(this._moduleProject.end.split(',')[0]).isBefore(DateTime.now())) ? "Projet terminé" : "J ",
-                                style: TextStyle(fontFamily: "NunitoSans"),
-                                children: <TextSpan>[
+                            ),
+                            Container(
+                                padding: EdgeInsets.all(10),
+                                child: CircularPercentIndicator(
+                                    radius: 60,
+                                    lineWidth: 2,
+                                    percent: double.parse(this.widget.project.timeline) / 100,
+                                    progressColor: (this.widget.project.timeline == "100.0000") ? Colors.red : Colors.green,
+                                    center: Text(double.parse(this.widget.project.timeline).toStringAsFixed(1) + "%", style: TextStyle(fontWeight: FontWeight.w600),),
+                                )
+                            ),
+                            Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text.rich(
                                     TextSpan(
-                                        text: (DateTime.parse(this._moduleProject.end.split(',')[0]).isBefore(DateTime.now())) ? "" :
-                                        (DateTime.now().difference(DateTime.parse(this._moduleProject.end.split(',')[0]))).inDays.toString(),
-                                        style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600)
+                                        text: (DateTime.parse(this._moduleProject.end.split(',')[0]).isBefore(DateTime.now())) ? "Projet terminé" : "J ",
+                                        style: TextStyle(fontFamily: "NunitoSans"),
+                                        children: <TextSpan>[
+                                            TextSpan(
+                                                text: (DateTime.parse(this._moduleProject.end.split(',')[0]).isBefore(DateTime.now())) ? "" :
+                                                (DateTime.now().difference(DateTime.parse(this._moduleProject.end.split(',')[0]))).inDays.toString(),
+                                                style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600)
+                                            )
+                                        ]
                                     )
-                                ]
+                                ),
+                            ),
+                            Container(
+                                padding: EdgeInsets.all(10),
+                                child: buildRegisterStatus()
                             )
-                        ),
+                        ],
                     ),
-                    Container(
-                        padding: EdgeInsets.all(10),
-                        child: buildRegisterStatus()
-                    )
+                    buildProjectFiles()
                 ],
-            ),
+            )
         );
     }
 
