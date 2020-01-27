@@ -11,8 +11,8 @@ void main() => runApp(EpitechMobile());
 class EpitechMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
-    FlutterDownloader.initialize();
+    //WidgetsFlutterBinding.ensureInitialized();
+    //FlutterDownloader.initialize();
 
     return MaterialApp(
         title: 'EpiMobile',

@@ -83,8 +83,9 @@ class Parser {
         ModuleProject moduleProjectClass = ModuleProject.fromJson(moduleProject);
         String urlFile = autolog + slug + "project/file";
         dynamic fileHtml = await this._network.get(urlFile);
+        print(fileHtml.toString());
 
-        if (fileHtml != null && !fileHtml.toString().contains('not allowed')) {
+        if (fileHtml != null && !fileHtml.toString().contains('not allowed') && fileHtml.toString().length > 2) {
             moduleProjectClass.filesUrls = new List<String>();
             for (var elem in fileHtml) {
                 moduleProjectClass.filesUrls.add(elem["fullpath"]);
