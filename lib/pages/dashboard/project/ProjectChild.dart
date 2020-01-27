@@ -7,6 +7,8 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/pages/dashboard/project/ProjectRegister.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class ProjectChildPage extends StatefulWidget {
     final Project project;
@@ -110,7 +112,14 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                     size: 35,
                                 ),
                                 onPressed: () {
-
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => new WebviewScaffold(
+                                            url: "https://docs.google.com/viewer?url=https://intra.epitech.eu" + this._moduleProject.filesUrls[index],
+                                            appBar: new AppBar(
+                                                title: Text("Sujet")
+                                            ),
+                                        )
+                                    ));
                                 },
                                 highlightColor: Colors.lightBlueAccent,
                                 color: Colors.lightBlueAccent,
