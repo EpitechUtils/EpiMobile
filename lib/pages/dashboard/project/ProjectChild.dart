@@ -66,10 +66,7 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                     ),
                 ),
                 body: Center(
-                    child: Text(
-                        "Loading...",
-                        style: TextStyle(fontFamily: "NunitoSans")
-                    ),
+                    child: CircularProgressIndicator()
                 )
             );
         } else {

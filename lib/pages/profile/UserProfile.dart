@@ -17,7 +17,6 @@ class UserProfile extends StatefulWidget {
 
     /// Creating state
     _UserProfile createState() => _UserProfile();
-
 }
 
 class _UserProfile extends State<UserProfile> {

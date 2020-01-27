@@ -4,6 +4,7 @@ import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/BoardModule.dart';
+import 'package:mobile_intranet/parser/components/dashboard/module/ModuleInformation.dart';
 import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
@@ -131,5 +132,12 @@ class Parser {
 
         dynamic json = await this._network.get(url);
         return ScheduleDay.fromJson({"sessions": json});
+    }
+
+    Future<ModuleInformation> parseModuleInformation(String slug) async {
+        String url = autolog + slug + "?format=json";
+        dynamic json = await this._network.get(url);
+
+        return ModuleInformation.fromJson(json);
     }
 }

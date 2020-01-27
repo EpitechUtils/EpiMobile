@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:mobile_intranet/pages/dashboard/module/ModuleDetails.dart';
 
 class ModulesDashboard extends StatefulWidget {
     Dashboard dashboard;
@@ -66,6 +67,9 @@ class _ModulesDashboard extends State<ModulesDashboard> {
                                                         color: Color.fromARGB(255, 41, 155, 203),
                                                     ),
                                                     onPressed: () {
+                                                        Navigator.push(context, MaterialPageRoute(
+                                                            builder: (context) => ModuleDetails()
+                                                        ));
                                                     }
                                                 )
                                             )
