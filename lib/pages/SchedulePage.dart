@@ -6,7 +6,7 @@ import 'package:mobile_intranet/components/CalendarComponent.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_intranet/components/LoaderComponent.dart';
+import 'package:mobile_intranet/pages/schedule/ScheduleSessions.dart';
 
 class SchedulePage extends StatefulWidget {
     final String title;
@@ -38,7 +38,6 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 	}));
     }
 
-
     @override
     void initState() {
 	super.initState();
@@ -49,7 +48,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 	super.dispose();
     }
 
-    onSelect(data) {
+    void onSelect(data) {
         this.setState(() {
             this.scheduleDay = null;
 	});
@@ -90,14 +89,11 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 	]);
     }
 
-    Widget dateTileBuilder(date, selectedDate, rowIndex, dayName, isDateMarked,
-	isDateOutOfRange) {
+    Widget dateTileBuilder(date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
 	bool isSelectedDate = date.compareTo(selectedDate) == 0;
 	Color fontColor = isDateOutOfRange ? Colors.black26 : Colors.black87;
-	TextStyle normalStyle = TextStyle(
-	    fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
-	TextStyle selectedStyle = TextStyle(
-	    fontSize: 17, fontWeight: FontWeight.w800, color: Colors.black87);
+	TextStyle normalStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
+	TextStyle selectedStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Colors.black87);
 	TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
 	List<Widget> _children = [
 	    Text(dayName, style: dayNameStyle),
@@ -120,41 +116,6 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 	    child: Column(
 		children: _children,
 	    ),
-	);
-    }
-
-    Widget sessions() {
-        if (this.scheduleDay == null)
-            return LoaderComponent();
-	return ListView.builder(
-	    shrinkWrap: true,
-	    itemCount: this.scheduleDay.sessions.length,
-	    scrollDirection: Axis.vertical,
-	    itemBuilder: (BuildContext context, int index) {
-	        return Container();
-	        /*
-	        return Container(
-		    child: Card(
-			child: Column(
-			    mainAxisAlignment: MainAxisAlignment.center,
-			    children: <Widget>[
-			        Container(
-				    child: Text(this.scheduleDay.sessions[index].start.split(' ')[1]),
-				),
-			        Container(
-				    alignment: Alignment.center,
-				    child: Text(
-					((this.scheduleDay.sessions[index].moduleTitle == null) ? "?" : this.scheduleDay.sessions[index].moduleTitle)
-				    + ((this.scheduleDay.sessions[index].title == null) ? "" : " " + this.scheduleDay.sessions[index].title)),
-				),
-				Container(
-				    child: Text(this.scheduleDay.sessions[index].end.split(' ')[1]),
-				)
-			    ],
-			),
-		    ),
-		);*/
-	    },
 	);
     }
 
@@ -186,100 +147,17 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 				monthNameWidget: _monthNameWidget,
 				markedDates: [],
 				containerDecoration: BoxDecoration(
-				    color: Colors.black12),
+				    color: Colors.black12
+				),
 			    ),
 			),
-			Expanded(
-			    child: SingleChildScrollView(
-				scrollDirection: Axis.vertical,
-				child: Row(
-				    mainAxisAlignment: MainAxisAlignment.start,
-				    children: <Widget>[
-					Container(
-					    width: 50,
-					    child: Column(
-						children: <Widget>[
-						    Text("09:00"),
-						    Divider(height: 50),
-						    Text("10:00"),
-						    Divider(height: 50),
-						    Text("11:00"),
-						    Divider(height: 50),
-						    Text("12:00"),
-						    Divider(height: 50),
-						    Text("13:00"),
-						    Divider(height: 50),
-						    Text("14:00"),
-						    Divider(height: 50),
-						    Text("15:00"),
-						    Divider(height: 50),
-						    Text("16:00"),
-						    Divider(height: 50),
-						    Text("17:00"),
-						    Divider(height: 50),
-						    Text("18:00"),
-						    Divider(height: 50),
-						    Text("19:00"),
-						    Divider(height: 50),
-						    Text("20:00"),
-						    Divider(height: 50),
-						    Text("21:00"),
-						],
-					    ),
-					),
-					Container(
-					    width: (MediaQuery.of(context).size.width * 0.75),
-					    alignment: Alignment.center,
-					    child: Column(
-						mainAxisAlignment: MainAxisAlignment.start,
-						children: <Widget>[
-						    Container(
-							height: 100,
-							child: Card(
-							    color: Colors.black12,
-							    child: Text("Kick off"),
-							),
-						    ),
-						    Container(
-							height: 100,
-							child: Card(
-							    color: Colors.redAccent,
-							    child: Text("Kick off"),
-							),
-						    ),
-						    Container(
-							height: 50,
-							child: Card(
-							    color: Colors.black12,
-							    child: Text("Kick off"),
-							),
-						    ),
-						    Container(
-							height: 200,
-							child: Card(
-							    color: Colors.lightGreenAccent,
-							    child: Text("Kick off"),
-							),
-						    ),
-						    Container(
-							height: 100,
-							child: Card(
-							    color: Colors.brown,
-							    child: Text("Kick off"),
-							),
-						    ),
-						],
-					    ),
-					),
-				    ],
-				)
-			    )
-			)
+                      ScheduleSessions(day: this.scheduleDay)
 		    ],
 		),
 	    ),
 	    bottomNavigationBar: BottomNavigationComponent()
 	);
     }
+
 
 }
