@@ -20,7 +20,7 @@ class ScheduleSession {
     final String title;
     @JsonKey(name: "titlemodule")
     final String moduleTitle;
-    @JsonKey(name: "actititle")
+    @JsonKey(name: "acti_title")
     final String activityTitle;
     final String start;
     final String end;

@@ -1,36 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_views/day_view.dart';
-import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 
 @immutable
 class Event {
-    Event({@required this.startMinuteOfDay, @required this.duration, @required this.title});
+    Event({@required this.startMinuteOfDay, @required this.duration, @required this.title,
+	@required this.registered, @required this.link});
 
     final int startMinuteOfDay;
     final int duration;
     final String title;
+    final String registered;
+    final String link;
 }
 
 class ScheduleSessions extends StatefulWidget {
-    ScheduleDay day;
+    List<Event> events;
 
-    ScheduleSessions({Key key, @required ScheduleDay day}) : super(key: key);
+    ScheduleSessions({Key key, @required this.events}) : super(key: key);
 
     @override
     State<StatefulWidget> createState() => _ScheduleSessionsState();
 }
 
 class _ScheduleSessionsState extends State<ScheduleSessions> {
-
-    List<Event> eventsOfDay;
-
-    _ScheduleSessionsState() {
-        eventsOfDay = new List<Event>();
-
-        for (var elem in this.widget.day.sessions) {
-            // Fill events
-	}
-    }
 
     Positioned _generatedTimeIndicatorBuilder(BuildContext context, ItemPosition itemPosition, ItemSize itemSize, int minuteOfDay) {
 	return Positioned(
@@ -82,7 +74,7 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 	    child:  Container(
 		margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
 		padding:  EdgeInsets.all(3.0),
-		color: Colors.green[200],
+		color: (event.registered == "false") ? Colors.grey : Colors.lightBlueAccent,
 		child:  Text("${event.title}"),
 	    ),
 	);
@@ -95,11 +87,7 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
     }
 
     List<StartDurationItem> _getEventsOfDay(DateTime day) {
-	List<Event> events;
-	events = eventsOfDay;
-
-	return events
-	    .map(
+	return this.widget.events.map(
 		(event) => new StartDurationItem(
 		startMinuteOfDay: event.startMinuteOfDay,
 		duration: event.duration,
@@ -110,32 +98,18 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 		    event,
 		),
 	    ),
-	)
-	    .toList();
-    }
-
-    Widget _headerItemBuilder(BuildContext context, DateTime day) {
-	return new Container(
-	    color: Colors.grey[300],
-	    padding: new EdgeInsets.symmetric(vertical: 4.0),
-	    child: new Column(
-		children: <Widget>[
-		    new Text(
-			"${day.weekday}",
-			style: new TextStyle(fontWeight: FontWeight.bold),
-		    ),
-		    new Text("${day.day}"),
-		],
-	    ),
-	);
+	).toList();
     }
 
     @override
     Widget build(BuildContext context) {
+        print(this.widget.events);
 	return Expanded(
 	    child: DayViewEssentials(
 		properties: DayViewProperties(
 		    days: <DateTime>[DateTime.now()],
+		    minimumMinuteOfDay: 8 * 60,
+		    maximumMinuteOfDay: 23 * 60
 		),
 		child: Column(
 		    children: <Widget>[

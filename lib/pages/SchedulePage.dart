@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/CalendarComponent.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
@@ -33,7 +34,6 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 
             parser.parseScheduleDay(selectedDate).then((ScheduleDay res) => this.setState(() {
                 this.scheduleDay = res;
-                print(this.scheduleDay.sessions[0].toJson());
 	    }));
 	}));
     }
@@ -119,6 +119,31 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 	);
     }
 
+    Widget displaySessions()
+    {
+        if (this.scheduleDay == null) {
+            return Center(
+		child: CircularProgressIndicator(),
+	    );
+	} else {
+	    List<Event> eventsOfDay = new List<Event>();
+
+	    for (var elem in this.scheduleDay.sessions) {
+		DateTime start = DateFormat("yyyy-MM-dd HH:mm:ss").parse(elem.start);
+		DateTime duration = DateFormat("HH:mm:ss").parse(elem.hoursAmount);
+
+		eventsOfDay.add(new Event(
+		    startMinuteOfDay: start.hour * 60,
+		    duration: duration.hour * 60,
+		    title: elem.moduleTitle + " - " + elem.activityTitle,
+		    registered: (elem.eventRegistered is bool) ? "false" : elem.eventRegistered,
+		    link: ((elem.scolarYear == null) ? DateTime.now().year.toString() : elem.scolarYear) + "/" + elem.codeModule + "/" + elem.codeInstance + "/" + elem.codeActivity
+		));
+	    }
+            return ScheduleSessions(events: eventsOfDay);
+	}
+    }
+
     /// Display content
     @override
     Widget build(BuildContext context) {
@@ -151,7 +176,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 				),
 			    ),
 			),
-                      ScheduleSessions(day: this.scheduleDay)
+                      	displaySessions()
 		    ],
 		),
 	    ),
