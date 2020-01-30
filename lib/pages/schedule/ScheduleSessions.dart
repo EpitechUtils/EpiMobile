@@ -79,6 +79,21 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 	);
     }
 
+    Color getSessionColor(ScheduleSession session)
+    {
+        switch (session.typeCode) {
+	    case "rdv":
+	        return Color.fromRGBO(226, 170, 85, 1);
+	    case "tp":
+	        return Color.fromRGBO(164, 140, 187, 1);
+	    case "exam":
+	        return Color.fromRGBO(221, 148, 115, 1);
+	    case "class":
+	        return Color.fromRGBO(102, 140, 179, 1);
+	}
+	return Color.fromRGBO(102, 140, 179, 1);
+    }
+
     Positioned _eventBuilder(BuildContext context, ItemPosition itemPosition, ItemSize itemSize, ScheduleSession event) {
 	return  Positioned(
 	    top: itemPosition.top,
@@ -89,8 +104,19 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 		child: Container(
 		    margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
 		    padding:  EdgeInsets.all(3.0),
-		    color: (event.eventRegistered is bool) ? Colors.grey[300] : Colors.lightBlueAccent[100],
-		    child:  Text(event.moduleTitle + " - " + event.activityTitle),
+		    color: getSessionColor(event),
+		    child: Column(
+			mainAxisAlignment: MainAxisAlignment.spaceBetween,
+			children: <Widget>[
+			    Container(
+				child: Text(event.moduleTitle + " - " + event.activityTitle),
+			    ),
+			    Container(
+				alignment: Alignment.centerRight,
+				child: Icon(Icons.check),
+			    )
+			],
+		    )
 		),
 		onTap: () {
 		    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ScheduleSessionInformation(scheduleSession: event)));

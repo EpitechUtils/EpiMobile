@@ -32,7 +32,10 @@ ScheduleSession _$ScheduleSessionFromJson(Map<String, dynamic> json) {
           ?.map((e) => e == null
               ? null
               : ScheduleProfessor.fromJson(e as Map<String, dynamic>))
-          ?.toList());
+          ?.toList(),
+      json['is_rdv'] as String,
+      json['type_code'] as String,
+      json['type_title'] as String);
 }
 
 Map<String, dynamic> _$ScheduleSessionToJson(ScheduleSession instance) =>
@@ -55,5 +58,8 @@ Map<String, dynamic> _$ScheduleSessionToJson(ScheduleSession instance) =>
       'allow_register': instance.allowRegister,
       'event_registered': instance.eventRegistered,
       'prof_inst': instance.professors,
-      'room': instance.room
+      'room': instance.room,
+      'is_rdv': instance.hasRdv,
+      'type_title': instance.typeTitle,
+      'type_code': instance.typeCode
     };

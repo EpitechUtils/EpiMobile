@@ -9,10 +9,6 @@ import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:intl/intl.dart';
-import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart';
-
-
 
 /// Parser class
 class Parser {

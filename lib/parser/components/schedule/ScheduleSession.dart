@@ -39,11 +39,17 @@ class ScheduleSession {
     @JsonKey(name: "prof_inst")
     final List<ScheduleProfessor> professors;
     final ScheduleRoom room;
+    @JsonKey(name: "is_rdv")
+    final String hasRdv;
+    @JsonKey(name: "type_title")
+    final String typeTitle;
+    @JsonKey(name: "type_code")
+    final String typeCode;
 
     ScheduleSession(this.title, this.codeModule, this.scolarYear, this.codeInstance, this.start,
 	this.room, this.end, this.semester, this.activityTitle, this.allowRegister, this.codeActivity,
 	this.codeEvent, this.eventRegistered, this.hoursAmount, this.moduleAvailable, this.moduleRegistered,
-	this.moduleTitle, this.numberStudentsRegistered, this.professors);
+        this.moduleTitle, this.numberStudentsRegistered, this.professors, this.hasRdv, this.typeCode, this.typeTitle);
 
     factory ScheduleSession.fromJson(Map<String, dynamic> json) => _$ScheduleSessionFromJson(json);
 
