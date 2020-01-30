@@ -3,6 +3,8 @@ import 'package:calendar_views/day_view.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_intranet/pages/schedule/ScheduleSessionInformation.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigKeys;
 
 class ScheduleSessions extends StatefulWidget {
     List<ScheduleSession> events;
@@ -14,6 +16,28 @@ class ScheduleSessions extends StatefulWidget {
 }
 
 class _ScheduleSessionsState extends State<ScheduleSessions> {
+    SharedPreferences preferences;
+
+    @override
+    void initState()
+    {
+        super.initState();
+        SharedPreferences.getInstance().then((SharedPreferences prefs) {
+           this.setState(() {
+               this.preferences = prefs;
+	       this.widget.events.removeWhere((event) {
+	           print("Analyze " + event.activityTitle);
+		   if (event.codeInstance.contains("FR") && !this.preferences.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR))
+		       return true;
+		   if (!event.moduleRegistered && this.preferences.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES))
+		       return true;
+		   if (!(event.eventRegistered is bool) && this.preferences.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS))
+		       return true;
+		   return false;
+	       });
+           });
+	});
+    }
 
     Positioned _generatedTimeIndicatorBuilder(BuildContext context, ItemPosition itemPosition, ItemSize itemSize, int minuteOfDay) {
 	return Positioned(
@@ -66,7 +90,7 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 		child: Container(
 		    margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
 		    padding:  EdgeInsets.all(3.0),
-		    color: (event.eventRegistered is bool) ? Colors.grey : Colors.lightBlueAccent,
+		    color: (event.eventRegistered is bool) ? Colors.grey[300] : Colors.lightBlueAccent[100],
 		    child:  Text(event.moduleTitle + " - " + event.activityTitle),
 		),
 		onTap: () {
@@ -99,6 +123,11 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 
     @override
     Widget build(BuildContext context) {
+        if (this.preferences == null) {
+            return Center(
+		child: CircularProgressIndicator(),
+	    );
+	}
 	return Expanded(
 	    child: DayViewEssentials(
 		properties: DayViewProperties(

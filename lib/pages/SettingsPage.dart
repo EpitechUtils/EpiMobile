@@ -2,14 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
-import 'package:mobile_intranet/components/LoaderComponent.dart';
-import 'package:mobile_intranet/pages/profile/MarksProfile.dart';
-import 'package:mobile_intranet/pages/profile/UserProfile.dart';
-import 'package:mobile_intranet/pages/profile/AbsenceProfile.dart';
-import 'package:mobile_intranet/parser/Parser.dart';
-import 'package:mobile_intranet/parser/components/profile/Profile.dart';
-import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/pages/settings/ScheduleSettings.dart';
 
 class SettingsPage extends StatefulWidget {
     final String title;
@@ -22,7 +15,7 @@ class SettingsPage extends StatefulWidget {
     _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderStateMixin {
+class _SettingsPageState extends State<SettingsPage> {
 
     @override
     void initState() {
@@ -32,6 +25,22 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     @override
     void dispose() {
 	super.dispose();
+    }
+
+    Widget createSettingsList(BuildContext context)
+    {
+        List<String> settings = ["Planning"];
+
+        return ListView.builder(
+	    itemCount: settings.length,
+	    itemBuilder: (BuildContext context, int index) {
+	        return ListTile(
+		    title: Text(settings[index]),
+		    leading: Icon(Icons.schedule),
+		    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleSettings())),
+		);
+	    }
+	);
     }
 
     /// Display content
@@ -53,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
 			),
 			brightness: Brightness.dark,
 		    ),
-		    body: Text("Hello"),
+		    body: createSettingsList(context),
 		    bottomNavigationBar: BottomNavigationComponent()
 		),
 	    ),

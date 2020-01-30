@@ -4,6 +4,7 @@ import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
 import 'package:mobile_intranet/pages/LoginWebview.dart';
 import 'package:mobile_intranet/pages/display/SplashScreenDisplay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 
 /// SplashScreen extended from StatefulWidget
 /// State
@@ -22,6 +23,17 @@ class _SplashScreenState extends State<SplashScreen> {
     startTime() async {
         var duration = new Duration(seconds: 4);
         return new Timer(duration, checkUserLogged);
+    }
+
+    void configCacheEntry() async
+    {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        if (prefs.getBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_FR) == null) {
+            prefs.setBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_FR, false);
+            prefs.setBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES, false);
+            prefs.setBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS, false);
+        }
     }
 
     /// Check if the user is connected, and redirect to correct home
@@ -59,6 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
     void initState() {
         super.initState();
         this.startTime();
+        this.configCacheEntry();
     }
 
     /// Build widget and display content

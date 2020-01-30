@@ -24,7 +24,6 @@ dependencies:
   html: ^0.14.0+3
   calendar_views: ^0.5.2
   intl: ^0.15.8
-  flutter_downloader: ^1.4.0 # TODO Config IOS / Android (https://pub.dev/packages/flutter_downloader#-readme-tab-)
   flutter:
     sdk: flutter
 

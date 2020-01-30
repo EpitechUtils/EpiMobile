@@ -7,7 +7,6 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/pages/dashboard/project/ProjectRegister.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class ProjectChildPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class ProjectChildPage extends StatefulWidget {
 class _ProjectChildPage extends State<ProjectChildPage> {
     ModuleProject _moduleProject;
     SharedPreferences _prefs;
-    String _key;
 
     // Project registration variables
     int members;
