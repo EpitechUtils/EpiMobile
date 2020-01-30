@@ -81,16 +81,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                 fontFamily: "NunitoSans"
                             ),
                         ),
-                        actions: <Widget>[
-                            Container(
-                                alignment: Alignment.centerRight,
-                                margin: EdgeInsets.only(right: 30),
-                                child: Icon(
-                                    Icons.account_circle,
-                                    color: Colors.red,
-                                ),
-                            )
-                        ],
                         brightness: Brightness.dark,
                         //centerTitle: false,
                         bottom: TabBar(

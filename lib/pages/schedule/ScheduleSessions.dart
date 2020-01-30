@@ -26,7 +26,6 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
            this.setState(() {
                this.preferences = prefs;
 	       this.widget.events.removeWhere((event) {
-	           print("Analyze " + event.activityTitle);
 		   if (event.codeInstance.contains("FR") && !this.preferences.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR))
 		       return true;
 		   if (!event.moduleRegistered && this.preferences.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES))
