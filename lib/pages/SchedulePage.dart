@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/CalendarComponent.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
@@ -126,21 +125,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 		child: CircularProgressIndicator(),
 	    );
 	} else {
-	    List<Event> eventsOfDay = new List<Event>();
-
-	    for (var elem in this.scheduleDay.sessions) {
-		DateTime start = DateFormat("yyyy-MM-dd HH:mm:ss").parse(elem.start);
-		DateTime duration = DateFormat("HH:mm:ss").parse(elem.hoursAmount);
-
-		eventsOfDay.add(new Event(
-		    startMinuteOfDay: start.hour * 60,
-		    duration: duration.hour * 60,
-		    title: elem.moduleTitle + " - " + elem.activityTitle,
-		    registered: (elem.eventRegistered is bool) ? "false" : elem.eventRegistered,
-		    link: ((elem.scolarYear == null) ? DateTime.now().year.toString() : elem.scolarYear) + "/" + elem.codeModule + "/" + elem.codeInstance + "/" + elem.codeActivity
-		));
-	    }
-            return ScheduleSessions(events: eventsOfDay);
+            return ScheduleSessions(events: this.scheduleDay.sessions);
 	}
     }
 

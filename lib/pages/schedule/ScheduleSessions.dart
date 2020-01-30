@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_views/day_view.dart';
-
-@immutable
-class Event {
-    Event({@required this.startMinuteOfDay, @required this.duration, @required this.title,
-	@required this.registered, @required this.link});
-
-    final int startMinuteOfDay;
-    final int duration;
-    final String title;
-    final String registered;
-    final String link;
-}
+import 'package:intl/intl.dart';
+import 'package:mobile_intranet/pages/schedule/ScheduleSessionInformation.dart';
+import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 
 class ScheduleSessions extends StatefulWidget {
-    List<Event> events;
+    List<ScheduleSession> events;
 
     ScheduleSessions({Key key, @required this.events}) : super(key: key);
 
@@ -65,18 +56,23 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 	);
     }
 
-    Positioned _eventBuilder(BuildContext context, ItemPosition itemPosition, ItemSize itemSize, Event event) {
+    Positioned _eventBuilder(BuildContext context, ItemPosition itemPosition, ItemSize itemSize, ScheduleSession event) {
 	return  Positioned(
 	    top: itemPosition.top,
 	    left: itemPosition.left,
 	    width: itemSize.width,
 	    height: itemSize.height,
-	    child:  Container(
-		margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
-		padding:  EdgeInsets.all(3.0),
-		color: (event.registered == "false") ? Colors.grey : Colors.lightBlueAccent,
-		child:  Text("${event.title}"),
-	    ),
+	    child:  InkWell(
+		child: Container(
+		    margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
+		    padding:  EdgeInsets.all(3.0),
+		    color: (event.eventRegistered is bool) ? Colors.grey : Colors.lightBlueAccent,
+		    child:  Text(event.moduleTitle + " - " + event.activityTitle),
+		),
+		onTap: () {
+		    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ScheduleSessionInformation(scheduleSession: event)));
+		},
+	    )
 	);
     }
 
@@ -89,8 +85,8 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
     List<StartDurationItem> _getEventsOfDay(DateTime day) {
 	return this.widget.events.map(
 		(event) => new StartDurationItem(
-		startMinuteOfDay: event.startMinuteOfDay,
-		duration: event.duration,
+		startMinuteOfDay: DateFormat("yyyy-MM-dd HH:mm:ss").parse(event.start).hour * 60,
+		duration: DateFormat("HH:mm:ss").parse(event.hoursAmount).hour * 60,
 		builder: (context, itemPosition, itemSize) => _eventBuilder(
 		    context,
 		    itemPosition,
@@ -103,7 +99,6 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 
     @override
     Widget build(BuildContext context) {
-        print(this.widget.events);
 	return Expanded(
 	    child: DayViewEssentials(
 		properties: DayViewProperties(
