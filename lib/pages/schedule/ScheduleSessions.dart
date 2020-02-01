@@ -101,22 +101,54 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 	    width: itemSize.width,
 	    height: itemSize.height,
 	    child:  InkWell(
-		child: Container(
-		    margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
-		    padding:  EdgeInsets.all(3.0),
-		    color: getSessionColor(event),
-		    child: Column(
-			mainAxisAlignment: MainAxisAlignment.spaceBetween,
-			children: <Widget>[
-			    Container(
-				child: Text(event.moduleTitle + " - " + event.activityTitle),
-			    ),
-			    Container(
-				alignment: Alignment.centerRight,
-				child: Icon(Icons.check),
+		child: Stack(
+		    children: <Widget>[
+			Container(
+			    margin:  EdgeInsets.only(left: 1.0, right: 1.0, bottom: 1.0),
+			    padding:  EdgeInsets.all(3.0),
+			    color: getSessionColor(event),
+			    width: itemSize.width,
+			    height: itemSize.height,
+			    child: Column(
+				mainAxisAlignment: MainAxisAlignment.spaceBetween,
+				children: <Widget>[
+				    Container(
+					child: Text(
+					    event.moduleTitle + " - " + event.activityTitle,
+					    style: TextStyle(color: Colors.white)
+					),
+				    )
+				],
 			    )
-			],
-		    )
+			),
+			Container(
+			    alignment: Alignment.bottomRight,
+			    margin: EdgeInsets.only(right: 2),
+			    child: Row(
+				mainAxisAlignment: MainAxisAlignment.end,
+				children: <Widget>[
+				    Container(
+					child: Text(
+					    event.room.code.substring(event.room.code.lastIndexOf('/') + 1, event.room.code.length) + " - ",
+					    style: TextStyle(color: Colors.white),
+					)
+				    ),
+				    Container(
+					child: Text(
+					    event.numberStudentsRegistered.toString() + "/" + event.room.seats.toString() + "  ",
+					    style: TextStyle(color: Colors.white),
+					),
+				    ),
+				    Container(
+					child: Icon(
+					    (event.eventRegistered is bool) ? Icons.person : Icons.check,
+					    color: (event.eventRegistered is bool) ? Colors.white : Colors.lightGreenAccent,
+					),
+				    )
+				],
+			    )
+			)
+		    ],
 		),
 		onTap: () {
 		    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ScheduleSessionInformation(scheduleSession: event)));
@@ -132,6 +164,9 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
     }
 
     List<StartDurationItem> _getEventsOfDay(DateTime day) {
+        if (this.widget.events == null) {
+            return new List<StartDurationItem>();
+	}
 	return this.widget.events.map(
 		(event) => new StartDurationItem(
 		startMinuteOfDay: DateFormat("yyyy-MM-dd HH:mm:ss").parse(event.start).hour * 60,
