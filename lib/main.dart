@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_intranet/pages/DashboardPage.dart';
 import 'package:mobile_intranet/pages/ProfilePage.dart';
 import 'package:mobile_intranet/pages/SplashScreen.dart';
@@ -9,6 +10,10 @@ import 'package:pushy_flutter/pushy_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/pages/splashscreen.dart';
+import 'package:mobile_intranet/pages/dashboard.dart';
+import 'package:mobile_intranet/pages/login/error.dart';
+import 'package:mobile_intranet/pages/login/synchronization.dart';
 
 void main() {
   runApp(EpitechMobile());
@@ -116,16 +121,52 @@ class EpitechMobile extends StatelessWidget {
     });
 
     return MaterialApp(
-        title: 'EpiMobile',
-        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "NunitoSans"),
+        title: 'Intranet Mobile',
+        theme: ThemeData(
+            scaffoldBackgroundColor: Color(0xFFecf0f1),
+            bottomAppBarColor: Colors.white,
+            cardColor: Colors.white,
+            primaryColor: Color(0xFF131313),
+            focusColor: Colors.blueAccent,
+            disabledColor: Color(0xFF131313),
+            buttonColor: Color(0xFF27ae60),
+            primaryIconTheme: IconThemeData(
+                color: Color(0xFF131313)
+            ),
+            textTheme: TextTheme(
+                title: TextStyle(
+                    fontFamily: "CalibreSemibold",
+                    fontSize: 35,
+                    letterSpacing: 1,
+                    color: Color(0xFF131313)
+                ),
+                subtitle: TextStyle(
+                    color: Color(0xFF131313),
+                    fontSize: 20,
+                    fontFamily: "CalibreSemibold",
+                    letterSpacing: 1.0,
+                ),
+                button: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontFamily: "CalibreSemibold",
+                    letterSpacing: 1
+                )
+            )
+        ),
+        themeMode: ThemeMode.dark,
         home: SplashScreen(),
         routes: {
-          '/home': (context) => DashboardPage(),
-          '/profile': (context) => ProfilePage(),
+            '/error_login': (_) => ErrorLogin(),
+            '/synchronization': (_) => Synchronization(),
+            '/home': (context) => Dashboard(),
+            //'/home': (context) => DashboardPage(),
+            '/profile': (context) => ProfilePage(),
           '/schedule': (context) => SchedulePage(),
           '/settings': (context) => SettingsPage()
         },
         //debugShowMaterialGrid: true,
-        debugShowCheckedModeBanner: false);
+        debugShowCheckedModeBanner: false
+    );
   }
 }

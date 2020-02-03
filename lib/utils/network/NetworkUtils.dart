@@ -26,7 +26,6 @@ class NetworkUtils {
             // Set cookies if not null
             if (cookie != null) {
                 req.cookies.add(cookie);
-                req.cookies.forEach((ck) { debugPrint("------------ " + ck.toString()); });
             }
 
             // Close request configuration
@@ -40,7 +39,6 @@ class NetworkUtils {
             return body;
         });
 
-        debugPrint("Result for: " + Uri.parse(url).toString());
         //debugPrint(response.toString());
         if (response == null)
             return null;
