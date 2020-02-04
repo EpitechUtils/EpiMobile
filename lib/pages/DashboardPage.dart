@@ -8,7 +8,7 @@ import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/RecentDashboard.dart';
-import 'package:mobile_intranet/pages/dashboard/ReminderDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/remindersDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/ModulesDashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 

@@ -30,18 +30,13 @@ class IntranetAPIUtils {
 
     /// Get and save autoLogin URI from URL
     // ignore: avoid_init_to_null
-    Future<dynamic> getAndSaveAutologinLink(String redirectUrl, {Cookie cookie: null}) async {
-        bool success = await this.loginFromRedirectUri(redirectUrl, cookie: cookie);
-        if (!success)
-            return null;
-
+    Future<dynamic> getLoggedUserEmail(String autolog) async {
         // Check if url is available
-        return this._network.get(this._baseUrl + "/admin/autolog")
-            .then((res) {
-            if (res == null)
+        return this._network.get(autolog + "/user").then((res) {
+            if (res == null || res['login'] == null)
                 return null;
 
-            return res;
+            return res["login"];
         });
     }
 

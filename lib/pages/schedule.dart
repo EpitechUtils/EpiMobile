@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/CalendarComponent.dart';
+import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin {
+
     ScheduleDay scheduleDay;
     SharedPreferences prefs;
     DateTime startDate = DateTime.now().subtract(Duration(days: 2));
@@ -39,35 +41,35 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 
     @override
     void initState() {
-	super.initState();
+	    super.initState();
     }
 
     @override
     void dispose() {
-	super.dispose();
+	    super.dispose();
     }
 
     void onSelect(data) {
         this.setState(() {
             this.scheduleDay = null;
-	});
+        });
 
-	Parser parser = Parser(prefs.get("autolog_url"));
-	parser.parseScheduleDay(data).then((ScheduleDay res) => this.setState(() {
-	    this.scheduleDay = res;
-	}));
+        Parser parser = Parser(prefs.get("autolog_url"));
+        parser.parseScheduleDay(data).then((ScheduleDay res) => this.setState(() {
+            this.scheduleDay = res;
+        }));
     }
 
     Widget _monthNameWidget(monthName) {
-	return Container(
-	    child: Text(monthName,
-		style: TextStyle(fontSize: 17,
-		    fontWeight: FontWeight.w600,
-		    color: Colors.black87,
-		    fontStyle: FontStyle.italic)
-	    ),
-	    padding: EdgeInsets.only(top: 8, bottom: 4),
-	);
+        return Container(
+            child: Text(monthName,
+            style: TextStyle(fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+                fontStyle: FontStyle.italic)
+            ),
+            padding: EdgeInsets.only(top: 8, bottom: 4),
+        );
     }
 
     Widget getMarkedIndicatorWidget() {
@@ -132,41 +134,31 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     /// Display content
     @override
     Widget build(BuildContext context) {
-	return Scaffold(
-	    appBar: AppBar(
-		backgroundColor: Color.fromARGB(255, 41, 155, 203),
-		title: Text("Planning",
-		    style: TextStyle(
-			fontWeight: FontWeight.bold,
-			fontFamily: "NunitoSans"
-		    ),
-		),
-		brightness: Brightness.dark,
-	    ),
-	    body: Container(
-		child: Column(
-		    children: <Widget>[
-		        Container(
-			    height: 100,
-			    child: CalendarStrip(
-				startDate: startDate,
-				endDate: endDate,
-				onDateSelected: onSelect,
-				dateTileBuilder: dateTileBuilder,
-				iconColor: Colors.lightBlueAccent,
-				monthNameWidget: _monthNameWidget,
-				markedDates: [],
-				containerDecoration: BoxDecoration(
-				    color: Colors.black12
-				),
-			    ),
-			),
-                      	displaySessions()
-		    ],
-		),
-	    ),
-	    bottomNavigationBar: BottomNavigationComponent()
-	);
+        return DefaultLayout(
+            title: "Planning",
+            child: Container(
+                child: Column(
+                    children: <Widget>[
+                        Container(
+                            height: 100,
+                            child: CalendarStrip(
+                                startDate: startDate,
+                                endDate: endDate,
+                                onDateSelected: onSelect,
+                                dateTileBuilder: dateTileBuilder,
+                                iconColor: Colors.lightBlueAccent,
+                                monthNameWidget: _monthNameWidget,
+                                markedDates: [],
+                                containerDecoration: BoxDecoration(
+                                    color: Colors.black12
+                                ),
+                            ),
+                        ),
+                        displaySessions()
+                    ],
+                ),
+            ),
+        );
     }
 
 

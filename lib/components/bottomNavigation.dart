@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
 
+/// BottomNavigation bar class
 class BottomNavigation extends StatelessWidget {
 
-    // Class variables
-    final Widget child;
-    final Function floatingMethod;
-
-    /// CustomBottomNavigationBar constructor
-    BottomNavigation({@required this.child, this.floatingMethod});
-
+    /// Get color by current route name
     Color getThemeColorByRoute(BuildContext context, String route) {
         if (ModalRoute.of(context).settings.name == route)
-            return Theme.of(context).focusColor;
+            return Colors.white;
 
         // Not selected
-        return Theme.of(context).disabledColor;
+        return Colors.grey;
     }
 
-    Widget displayBottomNavigationBar(BuildContext context) {
+    /// Build content and display bottom navigation bar
+    @override
+    Widget build(BuildContext context) {
         return BottomAppBar(
             elevation: 10,
             child: Container(
-                color: Theme.of(context).bottomAppBarColor,
+                color: Theme.of(context).bottomAppBarTheme.color,
                 child: Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 10, right: 10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -42,20 +39,20 @@ class BottomNavigation extends StatelessWidget {
                                 icon: Icon(Icons.calendar_today),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: this.getThemeColorByRoute(context, '/planning'),
+                                color: this.getThemeColorByRoute(context, '/schedule'),
                                 onPressed: () {
-                                    Navigator.of(context).pushReplacementNamed("/planning");
+                                    Navigator.of(context).pushReplacementNamed("/schedule");
                                 }
                             ),
 
                             IconButton(
-                                icon: Icon(Icons.people),
+                                icon: Icon(Icons.assignment),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                color: this.getThemeColorByRoute(context, '/profile'),
+                                color: this.getThemeColorByRoute(context, '/tests_results'),
                                 onPressed: () {
-                                    if (ModalRoute.of(context).settings.name != '/profile')
-                                        Navigator.of(context).pushReplacementNamed('/profile');
+                                    if (ModalRoute.of(context).settings.name != '/tests_results')
+                                        Navigator.of(context).pushReplacementNamed('/tests_results');
                                 },
                             ),
 
@@ -82,21 +79,6 @@ class BottomNavigation extends StatelessWidget {
                         ],
                     ),
                 )
-            ),
-        );
-    }
-
-    /// Build content and display bottom navigation bar
-    @override
-    Widget build(BuildContext context) {
-        return Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: SafeArea(
-                bottom: false,
-                child: Scaffold(
-                    bottomNavigationBar: this.displayBottomNavigationBar(context),
-                    body: this.child,
-                ),
             ),
         );
     }

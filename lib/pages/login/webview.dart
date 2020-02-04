@@ -88,12 +88,19 @@ class _LoginWebview extends State<LoginWebview> {
     Widget build(BuildContext context) {
         return Scaffold(
             body: WebviewScaffold(
+                appBar: AppBar(
+                    title: Text("Connexion à l'intranet",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold
+                        ),
+                    ),
+                    centerTitle: true,
+                ),
                 url: widget.authUrl,
                 withJavascript: true,
                 withZoom: false,
                 clearCache: false,
                 clearCookies: true,
-                //initialChild: Synchronization(),
             )
         );
     }

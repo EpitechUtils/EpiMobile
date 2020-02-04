@@ -3,21 +3,29 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Synchronization extends StatelessWidget {
 
-    /// Run async task to change view after given time
-    startTime(BuildContext context) async {
-        var duration = new Duration(seconds: 4);
-
-        return new Timer(duration, () {
-            Navigator.of(context).pushReplacementNamed('/home');
-        });
-    }
-
+    /// Render widget
     @override
     Widget build(BuildContext context) {
-        this.startTime(context);
+        SharedPreferences.getInstance().then((prefs) {
+            // Get login by autolog
+            IntranetAPIUtils.internal().getLoggedUserEmail(prefs.getString("autolog_url")).then((login) {
+                print(login);
+
+                // Save login email if no error
+                if (login == null) {
+                    Navigator.of(context).pushReplacementNamed('/error_login');
+                    return;
+                }
+
+                prefs.setString("email", login);
+                Navigator.of(context).pushReplacementNamed('/home');
+            });
+        });
 
         return Scaffold(
             body: Container(

@@ -1,167 +1,125 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/components/customLoader.dart';
-import 'package:mobile_intranet/components/dashboard/categoryButtonsList.dart';
+import 'package:mobile_intranet/components/bottomNavigation.dart';
 import 'package:mobile_intranet/layouts/default.dart';
-import 'package:mobile_intranet/pages/dashboard/reminders.dart';
-import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/parser/Parser.dart';
+import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
+import 'package:mobile_intranet/components/LoaderComponent.dart';
+import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/remindersDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/ModulesDashboard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 
 /// Dashboard Stateful [Widget]
 /// Implements the feed of viral images
-class Dashboard extends StatefulWidget {
+class DashboardPage extends StatefulWidget {
+    final String title;
+
+    DashboardPage({Key key, this.title}) : super(key: key);
+
     @override
-    _DashboardState createState() => new _DashboardState();
+    _DashboardPageState createState() => _DashboardPageState();
 }
 
-/// Dashboard State of the [Dashboard] Stateful Widget
-class _DashboardState extends State<Dashboard> {
+class _DashboardPageState extends State<DashboardPage> with SingleTickerProviderStateMixin {
 
-    int _currentPage = 0;
-    List<Widget> _components = [];
-    Parser _parser;
+    SharedPreferences _prefs;
+    Dashboard _dashboard;
+    Notifications _notifications;
+    TabController _controller;
+    ModuleBoard _moduleBoard;
 
-    /// Init the new state
+    /// When screen start
     @override
     void initState() {
         super.initState();
 
-        // Get autologin url and parse dashboard content
-        SharedPreferences.getInstance().then((SharedPreferences prefs) {
-            // Set parser in state and reload page
-            this.setState(() {
-                this._parser = Parser(prefs.getString("autolog_url"));
+        // Configure controller for tab controls
+        this._controller = TabController(length: 3, vsync: this, initialIndex: 0);
 
-                // Create componebts
-                this._components.add(new ReminderDashboard(parser: this._parser));
-                this._components.add(new Container());
-                this._components.add(new Container());
-                this._components.add(new Container());
-            });
-        });
+        // Configure and do requests from API
+        this.getInformationsFromAPI();
     }
 
-    /// Change current page and rebuild current widget
-    void changeCurrentPage(int page) {
-        this.setState(() {
-            this._currentPage = page;
-        });
+    /// When screen close (dispose)
+    @override
+    void dispose() {
+        this._controller.dispose();
+        super.dispose();
     }
 
-    /// Build widget
-    /// Adding controller to manager scrolling
+    /// Call intranet API and start parsing
+    void getInformationsFromAPI() {
+        SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
+            this._prefs = prefs;
+            Parser parser = Parser(prefs.getString("autolog_url"));
+
+            parser.parseDashboard().then((Dashboard dashboard) => this.setState(() {
+                this._dashboard = dashboard;
+            }));
+
+            parser.parseDashboardNotifications().then((Notifications notifications) => this.setState(() {
+                this._notifications = notifications;
+            }));
+
+            var now = DateTime.now();
+            var lastDayDateTime = (now.month < 12) ? DateTime(now.year, now.month + 1, 0) : DateTime(now.year + 1, 1, 0);
+            parser.parseModuleBoard(now, lastDayDateTime).then((ModuleBoard moduleBoard) => this.setState(() {
+                this._moduleBoard = moduleBoard;
+            }));
+        }));
+    }
+
+    /// Build widget and render application
     @override
     Widget build(BuildContext context) {
-        return DefaultLayout(body: this.displayContent());
-    }
-
-    /// Default content management
-    Widget displayContent() {
-        // Content loaded and images available
-        return SingleChildScrollView(
-            child: Column(
-                children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(left: 20.0, top: 20, bottom: 10),
+        return DefaultLayout(
+            title: "Tableau de Bord",
+            bottomAppBar: TabBar(
+                controller: this._controller,
+                tabs: <Widget>[
+                    Tab(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                                Text("Tableau de Bord",
-                                    style: Theme.of(context).textTheme.title
-                                ),
-
-                                // Tricolor fire
-                                Container()
+                                Icon(Icons.notifications),
+                                SizedBox(width: 5),
+                                Text("Alertes")
                             ],
                         ),
                     ),
-
-                    Container(
-                        width: MediaQuery.of(context).size.width - 40,
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Material(
-                            borderRadius: BorderRadius.circular(10),
-                            elevation: 5,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                offset: Offset(3.0, 6.0),
-                                                blurRadius: 10.0
-                                            )
-                                        ]
-                                    ),
-                                    child: Column(
-                                        children: <Widget>[
-
-                                            Padding(
-                                                padding: const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
-                                                child: Row(
-                                                    children: <Widget>[
-
-                                                        SizedBox(
-                                                            width: 50,
-                                                            child: Icon(Icons.refresh,
-                                                                size: 30,
-                                                                color: Theme.of(context).primaryIconTheme.color,
-                                                            ),
-                                                        ),
-
-                                                        Flexible(
-                                                            child: Text("Connectez-vous à votre compte Google Calendar afin de"
-                                                                "pouvoir synchroniser vos activités à votre calendrier.",
-                                                                overflow: TextOverflow.clip,
-                                                                style: TextStyle(
-                                                                    color: Color(0xFF131313),
-                                                                    fontSize: 15,
-                                                                    fontFamily: "Raleway",
-                                                                    letterSpacing: 1.0,
-                                                                )
-                                                            ),
-                                                        )
-
-                                                    ],
-                                                ),
-                                            ),
-
-                                            InkWell(
-                                                onTap: () {},
-                                                child: Container(
-                                                    color: Theme.of(context).buttonColor,
-                                                    height: 35,
-                                                    width: MediaQuery.of(context).size.width,
-                                                    child: Align(
-                                                        alignment: Alignment.center,
-                                                        child: Text("Connexion à Google",
-                                                            style: Theme.of(context).textTheme.button,
-                                                        ),
-                                                    )
-                                                ),
-                                            )
-                                        ],
-                                    )
-                                ),
-                            ),
+                    Tab(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Icon(Icons.folder),
+                                SizedBox(width: 5),
+                                Text("Projets")
+                            ],
                         ),
                     ),
-
-                    // Content here
-                    /*CategoryButtonsList(
-                        page: this._currentPage,
-                        changePageCallback: this.changeCurrentPage
-                    ),*/
-
-                    // Display content
-                    Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: (this._parser == null) ?
-                            CustomLoader() :
-                            this._components[this._currentPage],
-                    )
+                    Tab(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Icon(Icons.view_module),
+                                SizedBox(width: 5),
+                                Text("Modules")
+                            ],
+                        ),
+                    ),
                 ],
+            ),
+            child: TabBarView(
+                controller: this._controller,
+                children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
+                    ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
+                    ProjectsDashboard(dashboard: this._dashboard),
+                    ModulesDashboard(dashboard: this._dashboard, prefs: this._prefs),
+                    //RecentDashboard(notifications: this._notifications, prefs: this._prefs),
+                ]
             ),
         );
     }
