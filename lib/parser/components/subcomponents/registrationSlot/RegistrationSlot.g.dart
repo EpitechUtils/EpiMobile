@@ -22,7 +22,7 @@ RegistrationSlot _$RegistrationSlotFromJson(Map<String, dynamic> json) {
               : RegistrationSlotMember.fromJson(e as Map<String, dynamic>))
           ?.toList(),
       json['bloc_status'] as String,
-      json['id_team'] as String,
+      json['id'] as int,
       json['members_pictures'] as String);
 }
 
@@ -32,7 +32,7 @@ Map<String, dynamic> _$RegistrationSlotToJson(RegistrationSlot instance) =>
       'duration': instance.duration,
       'status': instance.status,
       'bloc_status': instance.blockStatus,
-      'id_team': instance.idSlot,
+      'id': instance.idSlot,
       'title': instance.title,
       'members_pictures': instance.membersPictures,
       'master': instance.master,

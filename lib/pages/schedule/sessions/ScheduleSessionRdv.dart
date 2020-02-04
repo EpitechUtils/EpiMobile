@@ -42,7 +42,7 @@ class _ScheduleSessionRdv extends State<ScheduleSessionRdv> {
 		child: FlatButton(
 		    onPressed: () {
 		        this.setState(() => this.state = false);
-		        IntranetAPIUtils().registerToRdvSlot(this.slug + "/register", this.slots.group.id, int.parse(slot.idSlot)).then((dynamic res) {
+		        IntranetAPIUtils().registerToRdvSlot(this.slug + "/register", this.slots.group.id, slot.idSlot).then((dynamic res) {
 		            print(res.toString());
 			    this.setState(() => this.state = true);
 			});

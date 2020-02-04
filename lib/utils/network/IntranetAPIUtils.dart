@@ -89,7 +89,7 @@ class IntranetAPIUtils {
 
         jsonMap["id_creneau"] = idSlot.toString();
         jsonMap["id_team"] = idTeam.toString();
-        return this._network.post(url, jsonMap).then((res) {
+        return this._network.post(this._baseUrl + "/" + url, jsonMap).then((res) {
             debugPrint("Autolog redirect: " + res.toString());
             if (res == null)
                 return null;

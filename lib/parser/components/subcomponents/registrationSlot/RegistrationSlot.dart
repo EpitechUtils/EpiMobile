@@ -11,8 +11,8 @@ class RegistrationSlot
     String status;
     @JsonKey(name: "bloc_status")
     String blockStatus;
-    @JsonKey(name: "id_team")
-    String idSlot;
+    @JsonKey(name: "id")
+    int idSlot;
     String title;
     @JsonKey(name: "members_pictures")
     String membersPictures;
