@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_intranet/parser/components/subcomponents/RegistrationSlotsBlocks.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlotsBlocks.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlotGroup.dart';
 
 part 'RegistrationSlots.g.dart';
 
@@ -7,8 +8,9 @@ part 'RegistrationSlots.g.dart';
 class RegistrationSlots
 {
     List<RegistrationSlotsBlocks> slots;
+    RegistrationSlotGroup group;
 
-    RegistrationSlots(this.slots);
+    RegistrationSlots(this.slots, this.group);
 
     factory RegistrationSlots.fromJson(Map<String, dynamic> json) => _$RegistrationSlotsFromJson(json);
 

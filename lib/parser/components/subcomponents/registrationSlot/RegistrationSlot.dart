@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_intranet/parser/components/subcomponents/RegistrationSlotMember.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlotMember.dart';
 
 part 'RegistrationSlot.g.dart';
 
@@ -12,7 +12,7 @@ class RegistrationSlot
     @JsonKey(name: "bloc_status")
     String blockStatus;
     @JsonKey(name: "id_team")
-    String idTeam;
+    String idSlot;
     String title;
     @JsonKey(name: "members_pictures")
     String membersPictures;
@@ -20,7 +20,7 @@ class RegistrationSlot
     List<RegistrationSlotMember> members;
 
     RegistrationSlot(this.title, this.duration, this.date, this.status, this.master, this.members,
-	this.blockStatus, this.idTeam, this.membersPictures);
+	this.blockStatus, this.idSlot, this.membersPictures);
 
     factory RegistrationSlot.fromJson(Map<String, dynamic> json) => _$RegistrationSlotFromJson(json);
 

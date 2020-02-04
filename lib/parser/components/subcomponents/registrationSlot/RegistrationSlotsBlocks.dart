@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_intranet/parser/components/subcomponents/RegistrationSlot.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlot.dart';
 
 part 'RegistrationSlotsBlocks.g.dart';
 

@@ -70,11 +70,25 @@ class IntranetAPIUtils {
     }
 
     Future<dynamic> unregisterToProject(String url, String projectName, String codeInstance, String email) async {
-        Map jsonMap= {};
+        Map jsonMap = {};
         String code = projectName.replaceAll(' ', '-') + "-" + codeInstance + "-" + email;
 
         jsonMap["code"] = code;
 
+        return this._network.post(url, jsonMap).then((res) {
+            debugPrint("Autolog redirect: " + res.toString());
+            if (res == null)
+                return null;
+
+            return res;
+        });
+    }
+
+    Future<dynamic> registerToRdvSlot(String url, int idTeam, int idSlot) async {
+        Map jsonMap = {};
+
+        jsonMap["id_creneau"] = idSlot.toString();
+        jsonMap["id_team"] = idTeam.toString();
         return this._network.post(url, jsonMap).then((res) {
             debugPrint("Autolog redirect: " + res.toString());
             if (res == null)

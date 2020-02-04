@@ -32,7 +32,7 @@ Map<String, dynamic> _$RegistrationSlotToJson(RegistrationSlot instance) =>
       'duration': instance.duration,
       'status': instance.status,
       'bloc_status': instance.blockStatus,
-      'id_team': instance.idTeam,
+      'id_team': instance.idSlot,
       'title': instance.title,
       'members_pictures': instance.membersPictures,
       'master': instance.master,
