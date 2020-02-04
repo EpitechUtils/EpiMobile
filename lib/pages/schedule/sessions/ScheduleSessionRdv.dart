@@ -24,7 +24,6 @@ class _ScheduleSessionRdv extends State<ScheduleSessionRdv> {
 	String slug = "/module/" + ((this.widget.scheduleSession.scolarYear == null) ? DateTime.now().year.toString() : this.widget.scheduleSession.scolarYear) + "/" + this.widget.scheduleSession.codeModule
 	    + "/" + this.widget.scheduleSession.codeInstance + "/" + this.widget.scheduleSession.codeActivity + "/rdv";
 	Parser(this.widget.preferences.getString("autolog_url")).parseSessionRegistrationSlots(slug).then((RegistrationSlots slots) {
-	    print(slots.slots);
 	    this.setState(() => this.slots = slots);
 	});
     }
@@ -37,10 +36,10 @@ class _ScheduleSessionRdv extends State<ScheduleSessionRdv> {
 	}
 	return SafeArea(
 	    child: ListView.builder(
-		itemCount: this.slots.slots.length,
+		itemCount: this.slots.slots[0].blocks.length,
 		itemBuilder: (BuildContext context, int index) {
 		    return Container(
-			child: Text(this.slots.slots[index].status),
+			child: Text((this.slots.slots[0].blocks[index].title == null) ? "Empty" : this.slots.slots[0].blocks[index].title),
 		    );
 		},
 	    )

@@ -9,7 +9,7 @@ class RegistrationSlot
     String date;
     int duration;
     String status;
-    @JsonKey(name: "block_status")
+    @JsonKey(name: "bloc_status")
     String blockStatus;
     @JsonKey(name: "id_team")
     String idTeam;

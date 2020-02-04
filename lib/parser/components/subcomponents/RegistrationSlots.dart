@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_intranet/parser/components/subcomponents/RegistrationSlot.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/RegistrationSlotsBlocks.dart';
 
 part 'RegistrationSlots.g.dart';
 
 @JsonSerializable()
 class RegistrationSlots
 {
-    List<RegistrationSlot> slots;
+    List<RegistrationSlotsBlocks> slots;
 
     RegistrationSlots(this.slots);
 

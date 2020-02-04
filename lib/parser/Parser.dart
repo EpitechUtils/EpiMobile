@@ -141,7 +141,6 @@ class Parser {
 
     Future<RegistrationSlots> parseSessionRegistrationSlots(String slug) async {
         String url = autolog + slug + "?format=json";
-        print(url);
         dynamic json = await this._network.get(url);
 
         return RegistrationSlots.fromJson(json);
