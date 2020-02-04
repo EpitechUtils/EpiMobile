@@ -7,6 +7,7 @@ import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/BoardMod
 import 'package:mobile_intranet/parser/components/dashboard/module/ModuleInformation.dart';
 import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlots.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:intl/intl.dart';
 
@@ -137,4 +138,12 @@ class Parser {
 
         return ModuleInformation.fromJson(json);
     }
+
+    Future<RegistrationSlots> parseSessionRegistrationSlots(String slug) async {
+        String url = autolog + slug + "?format=json";
+        dynamic json = await this._network.get(url);
+
+        return RegistrationSlots.fromJson(json);
+    }
+
 }

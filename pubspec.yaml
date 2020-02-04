@@ -25,7 +25,6 @@ dependencies:
   html: ^0.14.0+3
   calendar_views: ^0.5.2
   intl: ^0.15.8
-  flutter_downloader: # TODO Config IOS / Android (https://pub.dev/packages/flutter_downloader#-readme-tab-)
   pushy_flutter: 1.0.3 # TODO tests and config for IOS
   background_fetch:
 

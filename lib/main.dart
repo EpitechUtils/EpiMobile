@@ -5,7 +5,6 @@ import 'package:mobile_intranet/pages/ProfilePage.dart';
 import 'package:mobile_intranet/pages/SplashScreen.dart';
 import 'package:mobile_intranet/pages/SchedulePage.dart';
 import 'package:mobile_intranet/pages/SettingsPage.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:pushy_flutter/pushy_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
