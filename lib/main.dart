@@ -122,7 +122,7 @@ class EpitechMobile extends StatelessWidget {
         });
 
         return MaterialApp(
-            title: 'Intranet Mobile',
+            title: 'EpiCompanion',
             theme: ThemeData(
                 scaffoldBackgroundColor: Color(0xFFecf0f1),
                 cardColor: Colors.white,
