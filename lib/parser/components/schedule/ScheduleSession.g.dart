@@ -10,7 +10,7 @@ ScheduleSession _$ScheduleSessionFromJson(Map<String, dynamic> json) {
   return ScheduleSession(
       json['title'] as String,
       json['codemodule'] as String,
-      json['scolar_year'] as String,
+      json['scolaryear'] as String,
       json['codeinstance'] as String,
       json['start'] as String,
       json['room'] == null
@@ -40,7 +40,7 @@ ScheduleSession _$ScheduleSessionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ScheduleSessionToJson(ScheduleSession instance) =>
     <String, dynamic>{
-      'scolar_year': instance.scolarYear,
+      'scolaryear': instance.scolarYear,
       'codemodule': instance.codeModule,
       'codeinstance': instance.codeInstance,
       'codeacti': instance.codeActivity,

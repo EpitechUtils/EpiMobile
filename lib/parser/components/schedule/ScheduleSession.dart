@@ -6,7 +6,7 @@ part 'ScheduleSession.g.dart';
 
 @JsonSerializable()
 class ScheduleSession {
-    @JsonKey(name: "scolar_year")
+    @JsonKey(name: "scolaryear")
     final String scolarYear;
     @JsonKey(name: "codemodule")
     final String codeModule; // G-EPI-004
