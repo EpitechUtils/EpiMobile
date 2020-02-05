@@ -32,7 +32,7 @@ class _UserProfile extends State<UserProfile> {
                         boxShadow: [
                             BoxShadow(
                                 color: Color.fromARGB(50, 31, 40, 51),
-                                offset: Offset(-5, 0),
+                                offset: Offset(0, 5),
                                 blurRadius: 20,
                             )
                         ],
