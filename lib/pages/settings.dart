@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/layouts/default.dart';
+import 'package:mobile_intranet/pages/login/select.dart';
 import 'package:mobile_intranet/pages/settings/ScheduleSettings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
     final String title;
@@ -50,6 +51,22 @@ class _SettingsPageState extends State<SettingsPage> {
         return DefaultLayout(
             title: "Paramètres",
             child: createSettingsList(context),
+            actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.settings_power),
+                    tooltip: "Se déconnecter",
+                    onPressed: () {
+                        SharedPreferences.getInstance().then((prefs) {
+                            prefs.clear();
+
+                            // Redirect to selection view
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (BuildContext context) => SelectLogin(loginEmail: null)
+                            ));
+                        });
+                    },
+                ),
+            ],
         );
     }
 
