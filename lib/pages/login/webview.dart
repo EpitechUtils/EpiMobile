@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
@@ -52,22 +53,37 @@ class _LoginWebview extends State<LoginWebview> {
                 try {
                     // Get html page from javascript
                     this._webview.evalJavascript("document.documentElement.innerHTML").then((body) {
-                        // Remove html tags from response
-                        RegExp exp = RegExp(
-                            r"<[^>]*>",
-                            multiLine: true,
-                            caseSensitive: true
-                        );
 
-                        return body.replaceAll(exp, '');
+                        // \u003Chead>\u003C/head>\u003Cbody>\u003Cpre style=\"word-wrap: break-word; white-space: pre-wrap;\">{\n    \"autologin\": \"https:\\/\\/intra.epitech.eu\\/auth-b4076976be4815f632794fd00a5a6c69d1655939\"\n}\n\u003C/pre>\u003C/body>
+                        // https://intra.epitech.eu/auth-b4076976be4815f632794fd00a5a6c69d1655939
+                        if (Platform.isIOS) {
+                            // Remove html tags from response
+                            RegExp exp = RegExp(
+                                r"<[^>]*>",
+                                multiLine: true,
+                                caseSensitive: true
+                            );
+                            return body.replaceAll(exp, '');
+                        } else {
+                            String autologin = body.substring(body.indexOf("autologin"));
+                            String autolog_url = autologin.substring(autologin.indexOf(":") + 1);
+                            autolog_url = autolog_url.substring(1, autolog_url.indexOf("\\n}"));
+                            autolog_url = autolog_url.replaceAll("\\", "");
+                            return autolog_url.substring(1, autolog_url.length - 1);
+                        }
                     }).then((autologJson) {
-                        Map<String, dynamic> result = json.decode(autologJson);
+                        Map<String, dynamic> result;
+
+                        if (Platform.isIOS)
+                            result = json.decode(autologJson);
+                        else
+                            result = {"autologin": autologJson};
 
                         // Check if autolog exists
                         if (result["autologin"] == null) {
                             Navigator.of(context).pushReplacementNamed('/error_login');
                             return;
-                        }
+                        } // (E9&T^\;
 
                         // Close webview and destroy it
                         this._webview.close();
