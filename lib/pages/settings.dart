@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
+import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/pages/settings/ScheduleSettings.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -46,27 +47,10 @@ class _SettingsPageState extends State<SettingsPage> {
     /// Display content
     @override
     Widget build(BuildContext context) {
-	return Container(
-	    color: Color.fromARGB(255, 255, 255, 255),
-	    child: SafeArea(
-		top: false,
-		bottom: false,
-		child: Scaffold(
-		    appBar: AppBar(
-			backgroundColor: Color.fromARGB(255, 41, 155, 203),
-			title: Text("Settings",
-			    style: TextStyle(
-				fontWeight: FontWeight.bold,
-				fontFamily: "NunitoSans"
-			    ),
-			),
-			brightness: Brightness.dark,
-		    ),
-		    body: createSettingsList(context),
-		    bottomNavigationBar: BottomNavigationComponent()
-		),
-	    ),
-	);
+        return DefaultLayout(
+            title: "Paramètres",
+            child: createSettingsList(context),
+        );
     }
 
 }
