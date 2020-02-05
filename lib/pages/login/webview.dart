@@ -54,8 +54,6 @@ class _LoginWebview extends State<LoginWebview> {
                     // Get html page from javascript
                     this._webview.evalJavascript("document.documentElement.innerHTML").then((body) {
 
-                        // \u003Chead>\u003C/head>\u003Cbody>\u003Cpre style=\"word-wrap: break-word; white-space: pre-wrap;\">{\n    \"autologin\": \"https:\\/\\/intra.epitech.eu\\/auth-b4076976be4815f632794fd00a5a6c69d1655939\"\n}\n\u003C/pre>\u003C/body>
-                        // https://intra.epitech.eu/auth-b4076976be4815f632794fd00a5a6c69d1655939
                         if (Platform.isIOS) {
                             // Remove html tags from response
                             RegExp exp = RegExp(
