@@ -9,6 +9,7 @@ import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlots.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
+import 'package:mobile_intranet/parser/components/epitest/result.dart';
 import 'package:intl/intl.dart';
 
 /// Parser class
@@ -144,6 +145,12 @@ class Parser {
         dynamic json = await this._network.get(url);
 
         return RegistrationSlots.fromJson(json);
+    }
+
+    Future<Result> parseEpitest(String date) async {
+        // https://login.microsoftonline.com/common/oauth2/authorize?client_id=c3728513-e7f6-497b-b319-619aa86f5b50&redirect_uri=https://my.epitest.eu&response_type=id_token
+        // c3728513-e7f6-497b-b319-619aa86f5b50
+        String url = "https://api.epitest.eu/me/" + date + "";
     }
 
 }

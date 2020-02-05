@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_intranet/layouts/default.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 /// TODO: (clement) : regarde sur api.epitest.eu y'a tout, si a chaque nouveau test tu peux envoyer une notification push c'est archi cool
 /// TestsResults page
 /// Get results from my.Epitech.eu
 class TestsResultsPage extends StatelessWidget {
 
+    final _webview = new FlutterWebviewPlugin();
+
     @override
     Widget build(BuildContext context) {
+        return DefaultLayout(
+            title: "Résultats des tests",
+            child: WebviewScaffold(
+                url: "https://login.microsoftonline.com/common/oauth2/authorize?client_id=c3728513-e7f6-497b-b319-619aa86f5b50&redirect_uri=https://my.epitest.eu&response_type=id_token",
+
+            ),
+        );
+        /*
         return DefaultLayout(
             title: "Résultats des tests",
             child: Container(
@@ -53,6 +64,6 @@ class TestsResultsPage extends StatelessWidget {
                     ],
                 ),
             ),
-        );
+        );*/
     }
 }
