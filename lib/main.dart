@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/pages/ProfilePage.dart';
+import 'package:mobile_intranet/pages/profile.dart';
 import 'package:mobile_intranet/pages/schedule.dart';
 import 'package:mobile_intranet/pages/SettingsPage.dart';
 import 'package:mobile_intranet/pages/splashscreen.dart';

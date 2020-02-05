@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/profile/MarksProfile.dart';
 import 'package:mobile_intranet/pages/profile/UserProfile.dart';
@@ -10,6 +9,7 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/layouts/default.dart';
 
 /// ProfilePage extended by StatefulWidget
 /// Generate state and display widget
@@ -42,12 +42,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
             // Parse profile information
             parser.parseProfile(prefs.get("email"))
                 .then((Profile profile) => this.setState(() {
-                    this._profile = profile;
+                this._profile = profile;
             }));
 
             parser.parseNetsoul(prefs.get("email"))
                 .then((Netsoul netsoul) => this.setState(() {
-                    this._netsoul = netsoul;
+                this._netsoul = netsoul;
             }));
         }));
     }
@@ -68,55 +68,52 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
         super.dispose();
     }
 
-    /// Display content
-    @override
     Widget build(BuildContext context) {
-        return Container(
-            color: Color.fromARGB(255, 255, 255, 255),
-            child: SafeArea(
-                top: false,
-                bottom: false,
-                child: Scaffold(
-                    appBar: AppBar(
-                        backgroundColor: Color.fromARGB(255, 41, 155, 203),
-                        title: Text(_profile == null ? "Loading..." : _profile.firstName + " " + _profile.lastName,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "NunitoSans"
-                            ),
-                        ),
-                        brightness: Brightness.dark,
-                        //centerTitle: false,
-                        bottom: TabBar(
-                            controller: this._controller,
-                            tabs: <Widget>[
-                                Tab(
-                                    icon: Icon(Icons.person),
-                                    text: "Profile",
-                                ),
-                                Tab(
-                                    icon: Icon(Icons.edit_attributes),
-                                    text: "Notes",
-                                ),
-                                Tab(
-                                    icon: Icon(Icons.list),
-                                    text: "Absences (" + ((this._profile == null) ? "..." : this._profile.missed.length.toString()) + ")",
-                                )
+        return DefaultLayout(
+            bottomAppBar: TabBar(
+                controller: this._controller,
+                tabs: <Widget>[
+                    Tab(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Icon(Icons.person),
+                                SizedBox(width: 5),
+                                Text("Profile")
                             ],
                         ),
                     ),
-                    body: TabBarView(
-                        controller: this._controller,
-                        children: (_profile == null || _netsoul == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
-                            UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
-                            MarksProfile(profile: this._profile),
-                            AbsenceProfile(profile: this._profile)
-                        ]
+                    Tab(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Icon(Icons.edit_attributes),
+                                SizedBox(width: 5),
+                                Text("Notes")
+                            ],
+                        ),
                     ),
-                    bottomNavigationBar: BottomNavigationComponent()
-                ),
+                    Tab(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Icon(Icons.list),
+                                SizedBox(width: 5),
+                                Text("Absences")
+                            ],
+                        ),
+                    ),
+                ],
             ),
+            child: TabBarView(
+                controller: this._controller,
+                children: (_profile == null || _netsoul == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
+                    UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
+                    MarksProfile(profile: this._profile),
+                    AbsenceProfile(profile: this._profile)
+                ]
+            ),
+            title: "Profile"
         );
     }
-
 }
