@@ -10,9 +10,41 @@ class DefaultLayout extends StatelessWidget {
     final Widget child;
     final Widget bottomAppBar;
     final List<Widget> actions;
+    final bool hasProfileButton;
 
     // Constructor
-    DefaultLayout({@required this.title, @required this.child, this.bottomAppBar, this.actions});
+    DefaultLayout({@required this.title, @required this.child, this.bottomAppBar, this.actions, this.hasProfileButton = true});
+
+    Widget buildAppBar(BuildContext context) {
+        if (this.hasProfileButton) {
+            return AppBar(
+                actions: this.actions,
+                leading: IconButton(
+                    icon: Icon(Icons.people),
+                    tooltip: "Mon profil",
+                    onPressed: () => Navigator.of(context).pushReplacementNamed('/profile'),
+                ),
+                title: Text(this.title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),
+                ),
+                centerTitle: true,
+                bottom: this.bottomAppBar
+            );
+        } else {
+            return AppBar(
+                actions: this.actions,
+                title: Text(this.title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),
+                ),
+                centerTitle: true,
+                bottom: this.bottomAppBar
+            );
+        }
+    }
 
     /// Build header
     @override
@@ -22,21 +54,7 @@ class DefaultLayout extends StatelessWidget {
                 top: false,
                 bottom: false,
                 child: Scaffold(
-                    appBar: AppBar(
-                        actions: this.actions,
-                        leading: IconButton(
-                            icon: Icon(Icons.people),
-                            tooltip: "Mon profil",
-                            onPressed: () => Navigator.of(context).pushReplacementNamed('/profile'),
-                        ),
-                        title: Text(this.title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold
-                            ),
-                        ),
-                        centerTitle: true,
-                        bottom: this.bottomAppBar
-                    ),
+                    appBar: buildAppBar(context),
                     body: this.child,
                     bottomNavigationBar: BottomNavigation()
                 ),

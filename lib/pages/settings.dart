@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             prefs.clear();
 
                             // Redirect to selection view
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) => SelectLogin(loginEmail: null)
                             ));
                         });
