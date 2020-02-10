@@ -292,32 +292,6 @@ class _ReminderDashboard extends State<ReminderDashboard> {
 
             ],
         );
-
-
-
-        return Container(
-            decoration: new BoxDecoration(
-                color: Colors.black,
-                boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(50, 31, 40, 51),
-                        offset: Offset(-5, 0),
-                        blurRadius: 20,
-                    )
-                ],
-                image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    repeat: ImageRepeat.repeat,
-                    image: AssetImage("assets/images/background.png")
-                )
-            ),
-            child: Column(
-                children: <Widget>[
-                    buildNextSession(),
-                    buildNextDelivery(),
-                ],
-            ),
-        );
     }
 
     Widget buildNextSession() {

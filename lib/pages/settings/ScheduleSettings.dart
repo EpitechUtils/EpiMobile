@@ -51,29 +51,29 @@ class _ScheduleSettingsState extends State<ScheduleSettings> {
                 value: this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_FR],
                 onChanged: (bool value) {
                     setState(() {
-                    this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_FR] = value;
-                    this.preferences.setBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR, value);
+                        this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_FR] = value;
+                        this.preferences.setBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR, value);
                     });
-                },
+                  },
                 ),
                 SwitchListTile(
                 title: Text("Afficher uniquement les modules où je suis inscris"),
                 value: this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES],
                 onChanged: (bool value) {
-                    setState(() {
-                    this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES] = value;
-                    this.preferences.setBool(ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES, value);
-                    });
-                },
+                        setState(() {
+                            this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES] = value;
+                            this.preferences.setBool(ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES, value);
+                        });
+                    },
                 ),
                 SwitchListTile(
                 title: Text("Afficher uniquement les sessions où je suis inscris"),
                 value: this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS],
                 onChanged: (bool value) {
                     setState(() {
-                    this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS] = value;
+                     this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS] = value;
                     });
-                },
+                 },
                 ),
             ],
             ),

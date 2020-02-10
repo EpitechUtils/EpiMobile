@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/pages/notifications.dart';
 import 'package:mobile_intranet/pages/profile.dart';
 import 'package:mobile_intranet/pages/schedule.dart';
 import 'package:mobile_intranet/pages/settings.dart';
@@ -173,7 +174,8 @@ class EpitechMobile extends StatelessWidget {
                 '/tests_results': (context) => TestsResultsPage(),
                 '/profile': (context) => ProfilePage(),
                 '/schedule': (context) => SchedulePage(),
-                '/settings': (context) => SettingsPage()
+                '/settings': (context) => SettingsPage(),
+                '/notifications': (context) => NotificationsPage()
             },
             //debugShowMaterialGrid: true,
             debugShowCheckedModeBanner: false
