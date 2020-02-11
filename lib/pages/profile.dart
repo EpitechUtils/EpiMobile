@@ -9,6 +9,7 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 import 'package:mobile_intranet/layouts/default.dart';
 
 /// ProfilePage extended by StatefulWidget
@@ -70,6 +71,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
 
     Widget build(BuildContext context) {
         return DefaultLayout(
+            notifications: this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             bottomAppBar: TabBar(
                 controller: this._controller,
                 tabs: <Widget>[

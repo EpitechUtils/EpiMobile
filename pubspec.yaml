@@ -26,6 +26,7 @@ dependencies:
   calendar_views: ^0.5.2
   intl: ^0.15.8
   pushy_flutter: 1.0.3 # TODO tests and config for IOS
+  android_alarm_manager: ^0.4.5+3
   background_fetch:
 
   flutter:

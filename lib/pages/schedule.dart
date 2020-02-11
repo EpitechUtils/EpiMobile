@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/BottomNavigationComponent.dart';
 import 'package:mobile_intranet/components/CalendarComponent.dart';
 import 'package:mobile_intranet/layouts/default.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,6 +136,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     @override
     Widget build(BuildContext context) {
         return DefaultLayout(
+            notifications: this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             title: "Planning",
             child: Container(
                 child: Column(

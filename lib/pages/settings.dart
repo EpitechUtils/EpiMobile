@@ -5,6 +5,7 @@ import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
 import 'package:mobile_intranet/pages/settings/ScheduleSettings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 
 class SettingsPage extends StatefulWidget {
     final String title;
@@ -18,15 +19,16 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+    SharedPreferences prefs;
 
     @override
     void initState() {
-	super.initState();
+	    super.initState();
     }
 
     @override
     void dispose() {
-	super.dispose();
+	    super.dispose();
     }
 
     Widget createSettingsList(BuildContext context)
@@ -49,6 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
     @override
     Widget build(BuildContext context) {
         return DefaultLayout(
+            notifications: this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             title: "Paramètres",
             child: createSettingsList(context),
             actions: <Widget>[

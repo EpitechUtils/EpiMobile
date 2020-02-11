@@ -11,9 +11,10 @@ class DefaultLayout extends StatelessWidget {
     final Widget bottomAppBar;
     final List<Widget> actions;
     final bool hasProfileButton;
+    final int notifications;
 
     // Constructor
-    DefaultLayout({@required this.title, @required this.child, this.bottomAppBar, this.actions, this.hasProfileButton = true});
+    DefaultLayout({@required this.title, @required this.child, this.bottomAppBar, this.actions, this.hasProfileButton = true, this.notifications = 0});
 
     Widget buildAppBar(BuildContext context) {
         if (this.hasProfileButton) {
@@ -56,7 +57,7 @@ class DefaultLayout extends StatelessWidget {
                 child: Scaffold(
                     appBar: buildAppBar(context),
                     body: this.child,
-                    bottomNavigationBar: BottomNavigation()
+                    bottomNavigationBar: BottomNavigation(notifications: this.notifications)
                 ),
             ),
         );

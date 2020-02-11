@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             this.prefs = prefs;
             Parser parser = Parser(prefs.getString("autolog_url"));
 
+            this.prefs.setInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT, 0);
             parser.parseDashboardNotifications().then((Notifications notifications) => this.setState(() {
                 this.notifications = notifications;
 
@@ -107,6 +109,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     Widget build(BuildContext context) {
         return DefaultLayout(
             title: "Notifications",
+            notifications: this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             child: createNotificationsList(context),
         );
     }

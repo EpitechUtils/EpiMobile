@@ -26,7 +26,7 @@ class EpitechMobile extends StatelessWidget {
     static final _deviceTokenKey = "device_token";
     String _deviceToken;
 
-    static void onBackgroundHeadlessFetch() {
+    static void onBackgroundHeadlessFetch(String taskId) {
         print('[BackgroundFetch EpiMobile] Headless event received.');
         SharedPreferences.getInstance().then((pref) {
             if (pref.getKeys().contains(_deviceTokenKey)) {
@@ -50,14 +50,14 @@ class EpitechMobile extends StatelessWidget {
             } else {
                 print("[Shared Preferences]: Missing `$_deviceTokenKey` from keys.");
             }
-            BackgroundFetch.finish();
+            BackgroundFetch.finish(taskId);
         }, onError: (e) {
             print("[Shared Preferences]: Error `$e`.");
-            BackgroundFetch.finish();
+            BackgroundFetch.finish(taskId);
         });
     }
 
-    void _onBackgroundFetch() {
+    void _onBackgroundFetch(String taskId) {
         print("[BackgroundFetch EpiMobile] Background fetch event received.");
         http.post(
             "https://api.pushy.me/push?api_key=0b86578a2c575282a3f16edd1feb96c1acbb05c2ee7db9765f25d5845bd9ea4c",
@@ -74,7 +74,7 @@ class EpitechMobile extends StatelessWidget {
         }, onError: (e) {
             print("http error: $e");
         });
-        BackgroundFetch.finish();
+        BackgroundFetch.finish(taskId);
     }
 
     Future<String> _pushyRegister() async {
@@ -117,7 +117,7 @@ class EpitechMobile extends StatelessWidget {
                     requiresStorageNotLow: false,
                     requiresDeviceIdle: false,
                     startOnBoot: true,
-                    requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_ANY,
+                    requiredNetworkType: NetworkType.ANY,
                 ),
                 _onBackgroundFetch);
         });

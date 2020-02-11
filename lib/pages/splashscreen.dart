@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
-import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
-import 'package:mobile_intranet/pages/login/webview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
+import 'dart:io';
+import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
+import 'package:mobile_intranet/parser/components/dashboard/Notification/Notification.dart';
 
 /// SplashScreen extended from StatefulWidget
 /// State
@@ -30,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
             prefs.setBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_FR, false);
             prefs.setBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_MODULES, false);
             prefs.setBool(ConfigurationKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS, false);
+            prefs.setString(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_LAST_ID, null);
         }
     }
 
@@ -48,12 +50,52 @@ class _SplashScreenState extends State<SplashScreen> {
         ));
     }
 
+    void configJobs() async {
+
+        if (Platform.isAndroid) {
+            await Jobs.setupAndroidJob();
+        }
+
+        /*
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        var cron = new Cron();
+
+        print("Config cron...");
+
+        cron.schedule(new Schedule.parse('* * * * *'), () async {
+            print("Enter cron...");
+            // Get List of new notifications
+            // Change prefs settings for number of new notifications
+            var notifs = await Jobs.getNewNotifications(prefs);
+
+            print("Process cron...");
+
+            for (var n in notifs) {
+                print(n.title + " " + n.content + " : " + n.id);
+                print("--------------");
+            }
+
+            print("Exit cron...");
+        });
+        */
+    }
+
+    void getNewNotifications() async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var list = await Jobs.getNewNotifications(prefs);
+        
+        prefs.setInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT, list.length);
+    }
+
     /// Init state of the widget and start timer
     @override
     void initState() {
         super.initState();
         this.startTime();
         this.configCacheEntry();
+        this.configJobs();
+        this.getNewNotifications();
     }
 
     /// Build widget and display content

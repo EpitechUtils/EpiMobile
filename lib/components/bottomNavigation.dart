@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 /// BottomNavigation bar class
 class BottomNavigation extends StatelessWidget {
+    final int notifications;
+
+    BottomNavigation({this.notifications = 0});
 
     /// Get color by current route name
     Color getThemeColorByRoute(BuildContext context, String route) {
@@ -56,15 +59,42 @@ class BottomNavigation extends StatelessWidget {
                                 },
                             ),
 
-                            IconButton(
-                                icon: Icon(Icons.notifications_active),
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                color: this.getThemeColorByRoute(context, '/notifications'),
-                                onPressed: () {
-                                    if (ModalRoute.of(context).settings.name != '/notifications')
-                                        Navigator.of(context).pushReplacementNamed('/notifications');
-                                },
+                            Stack(
+                                children: <Widget>[
+                                    IconButton(
+                                        icon: Icon(Icons.notifications),
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        color: this.getThemeColorByRoute(context, '/notifications'),
+                                        onPressed: () {
+                                            if (ModalRoute.of(context).settings.name != '/notifications')
+                                                Navigator.of(context).pushReplacementNamed('/notifications');
+                                        },
+                                    ),
+                                    Positioned(
+                                        right: 11,
+                                        top: 11,
+                                        child: Container(
+                                            padding: EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius: BorderRadius.circular(6),
+                                            ),
+                                            constraints: BoxConstraints(
+                                                minWidth: 14,
+                                                minHeight: 14,
+                                            ),
+                                            child: Text(
+                                                this.notifications.toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 8,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                            ),
+                                        ),
+                                    )
+                                ],
                             ),
 
                             IconButton(

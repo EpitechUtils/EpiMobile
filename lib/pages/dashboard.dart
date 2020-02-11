@@ -11,6 +11,8 @@ import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/remindersDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/ModulesDashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
+import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
+
 
 /// Dashboard Stateful [Widget]
 /// Implements the feed of viral images
@@ -77,6 +79,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     Widget build(BuildContext context) {
         return DefaultLayout(
             title: "Tableau de Bord",
+            notifications: this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             bottomAppBar: TabBar(
                 controller: this._controller,
                 tabs: <Widget>[
