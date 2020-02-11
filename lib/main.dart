@@ -11,12 +11,14 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/pages/dashboard.dart';
 import 'package:mobile_intranet/pages/login/error.dart';
+import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
 import 'package:mobile_intranet/pages/login/synchronization.dart';
 
 /// Main application start
 void main() {
     runApp(EpitechMobile());
     BackgroundFetch.registerHeadlessTask(EpitechMobile.onBackgroundHeadlessFetch);
+    BackgroundFetch.registerHeadlessTask(EpitechMobile.onBackgroundHeadlessCheckForSessions);
 }
 
 /// Main application class
@@ -49,6 +51,21 @@ class EpitechMobile extends StatelessWidget {
                 });
             } else {
                 print("[Shared Preferences]: Missing `$_deviceTokenKey` from keys.");
+            }
+            BackgroundFetch.finish(taskId);
+        }, onError: (e) {
+            print("[Shared Preferences]: Error `$e`.");
+            BackgroundFetch.finish(taskId);
+        });
+    }
+
+    static void onBackgroundHeadlessCheckForSessions(String taskId) {
+        print('[BackgroundFetch EpiMobile] Headless event received.');
+        SharedPreferences.getInstance().then((pref) async {
+            var session = await Jobs.getNextSessionNotification(pref);
+
+            if (session != null) {
+                print("Session soon ! :" +  session.start + " " + session.title + " " + session.activityTitle);
             }
             BackgroundFetch.finish(taskId);
         }, onError: (e) {

@@ -1,6 +1,9 @@
+import 'package:intl/intl.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notification/Notification.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
+import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
+import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'dart:core';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ConfigurationKeys.dart' as ConfigurationKeys;
@@ -67,4 +70,16 @@ Future<List<Notification>> getNewNotifications(SharedPreferences prefs) async {
     }
     prefs.setString(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_LAST_ID, notifications.notifications[0].id);
     return list;
+}
+
+Future<ScheduleSession> getNextSessionNotification(SharedPreferences prefs) async {
+    ScheduleDay day = await Parser(prefs.getString("autolog_url")).parseScheduleDay(DateTime.now());
+
+    for (var session in day.sessions) {
+        var start = DateFormat("yyyy-MM-dd HH:mm:ss").parse(session.start);
+
+        if (DateTime.now().difference(start).inMinutes <= 30 && !(session.eventRegistered is bool))
+            return session;
+    }
+    return null;
 }
