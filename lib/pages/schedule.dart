@@ -136,7 +136,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     @override
     Widget build(BuildContext context) {
         return DefaultLayout(
-            notifications: this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
+	    notifications: (this.prefs == null) ? 0 : this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             title: "Planning",
             child: Container(
                 child: Column(

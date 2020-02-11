@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/pages/schedule/sessions/scheduleSessionNormal.dart';
+import 'package:mobile_intranet/pages/schedule/sessions/ScheduleSessionNormal.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/pages/schedule/sessions/ScheduleSessionRdv.dart';
@@ -35,11 +35,8 @@ class _ScheduleSessionInformation extends State<ScheduleSessionInformation> {
     {
         if (this.preferences == null)
             return Center(child: CircularProgressIndicator());
-        switch (this.widget.scheduleSession.typeCode) {
-	        case "rdv":
-		        return ScheduleSessionRdv(scheduleSession: this.widget.scheduleSession, preferences: this.preferences);
-            case "session":
-                return ScheduleSessionNormal(scheduleSession: this.widget.scheduleSession, preferences: this.preferences);
-	    }
+	if (this.widget.scheduleSession.typeCode == "rdv")
+		return ScheduleSessionRdv(scheduleSession: this.widget.scheduleSession, preferences: this.preferences);
+	return ScheduleSessionNormal(scheduleSession: this.widget.scheduleSession, preferences: this.preferences);
     }
 }

@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
 
     Widget build(BuildContext context) {
         return DefaultLayout(
-            notifications: this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
+            notifications: (this._prefs == null) ? 0 : this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             bottomAppBar: TabBar(
                 controller: this._controller,
                 tabs: <Widget>[

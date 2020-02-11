@@ -161,26 +161,6 @@ class EpitechMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     //WidgetsFlutterBinding.ensureInitialized();
     //FlutterDownloader.initialize();
-    var localNotification = FlutterLocalNotificationsPlugin();
-    localNotification.initialize(InitializationSettings(
-        AndroidInitializationSettings('ic_launcher'),
-        IOSInitializationSettings())).then((what) {
-          print("[Local Notifications]: `${what}`");
-
-          localNotification.show(0, "C'EST LE TITRE", "MANGE MA BITE IDE DE MERDE", NotificationDetails(AndroidNotificationDetails("", "", "", importance: Importance.Max,
-                    priority: Priority.High,
-                    ticker: 'ticker'),
-                IOSNotificationDetails()),
-            payload: "item x")
-        .then((x) {
-      print("[Local notification]: Success.");
-    }, onError: (e) {
-      print("[Local notification]: Error `${e}`.");
-    });
-
-    }, onError: (e) {
-          print("[Local Notifications]: error `${e}`");
-    });
 //    Pushy.listen();
 //    Pushy.requestStoragePermission();
 //    _pushyRegister().then((String deviceToken) {

@@ -51,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
     @override
     Widget build(BuildContext context) {
         return DefaultLayout(
-            notifications: this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
+	    notifications: (this.prefs == null) ? 0 : this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             title: "Paramètres",
             child: createSettingsList(context),
             actions: <Widget>[

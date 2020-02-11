@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
@@ -79,6 +80,10 @@ class _SplashScreenState extends State<SplashScreen> {
             print("Exit cron...");
         });
         */
+    }
+
+    Future<dynamic> didReceive(int id, String title, String body, String payload) {
+        print(id.toString() + " " + title);
     }
 
     void getNewNotifications() async {

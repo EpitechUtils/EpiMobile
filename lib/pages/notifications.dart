@@ -109,7 +109,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     Widget build(BuildContext context) {
         return DefaultLayout(
             title: "Notifications",
-            notifications: this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
+            notifications: (this.prefs == null) ? 0 : this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             child: createNotificationsList(context),
         );
     }
