@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:background_fetch/background_fetch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
 
 /// Main application class
 /// Extended from [StatelessWidget]
@@ -67,6 +68,7 @@ class EpitechMobile extends StatelessWidget {
     await pref.setString("last_notif_id", notifs.notifications[i].id);
   }
 
+  /*
   static void onBackgroundHeadlessFetch() {
     print('[BackgroundFetch EpiMobile] Headless event received.');
     SharedPreferences.getInstance().then((pref) {
@@ -108,7 +110,7 @@ class EpitechMobile extends StatelessWidget {
       print("[BackgroundFetch]: `${e}`.");
       BackgroundFetch.finish();
     });
-
+*/
 
 //    localNotification.show(0, "C'EST LE TITRE", "C'EST LE COPRS", NotificationDetails(AndroidNotificationDetails("", "", "", importance: Importance.Max,
 //                    priority: Priority.High,
@@ -120,6 +122,21 @@ class EpitechMobile extends StatelessWidget {
 //    }, onError: (e) {
 //      print("[Local notification]: Error `${e}`.");
 //    });
+//  }
+
+  static void onBackgroundHeadlessCheckForSessions(String taskId) {
+      print('[BackgroundFetch EpiMobile] Headless event received.');
+      SharedPreferences.getInstance().then((pref) async {
+          var session = await Jobs.getNextSessionNotification(pref);
+
+          if (session != null) {
+              print("Session soon ! :" +  session.start + " " + session.title + " " + session.activityTitle);
+          }
+          BackgroundFetch.finish(taskId);
+      }, onError: (e) {
+          print("[Shared Preferences]: Error `$e`.");
+          BackgroundFetch.finish(taskId);
+      });
   }
 
   Future<String> _pushyRegister() async {
@@ -241,5 +258,5 @@ class EpitechMobile extends StatelessWidget {
 /// Main application start
 void main() {
   runApp(EpitechMobile());
-  BackgroundFetch.registerHeadlessTask(EpitechMobile.onBackgroundHeadlessFetch);
+  //BackgroundFetch.registerHeadlessTask(EpitechMobile.onBackgroundHeadlessFetch);
 }
