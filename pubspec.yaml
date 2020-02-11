@@ -28,6 +28,7 @@ dependencies:
   pushy_flutter: 1.0.3 # TODO tests and config for IOS
   android_alarm_manager: ^0.4.5+3
   background_fetch:
+  flutter_local_notifications:
 
   flutter:
     sdk: flutter
