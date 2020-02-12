@@ -25,10 +25,9 @@ dependencies:
   html: ^0.14.0+3
   calendar_views: ^0.5.2
   intl: ^0.15.8
-  pushy_flutter: 1.0.3 # TODO tests and config for IOS
   android_alarm_manager: ^0.4.5+3
-  background_fetch:
-  flutter_local_notifications:
+  background_fetch: #TODO config for IOS
+  flutter_local_notifications: #TODO config for IOS
 
   flutter:
     sdk: flutter

@@ -20,53 +20,52 @@ import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
 /// Main application class
 /// Extended from [StatelessWidget]
 class EpitechMobile extends StatelessWidget {
-//  FlutterLocalNotificationsPlugin localNotification;
-  static final _deviceTokenKey = "device_token";
-  String _deviceToken;
+  FlutterLocalNotificationsPlugin localNotifications =
+      FlutterLocalNotificationsPlugin();
 
-  static Future<void> notifyLastNotifs(String deviceToken) async {
-    final pref = await SharedPreferences.getInstance();
-    final parser = Parser(pref.getString("autolog_url"));
-    final notifs = await parser.parseDashboardNotifications();
-
-    final lastNotifID = pref.getString("last_notif_id");
-    print(lastNotifID);
-    var i = 0;
-
-    for (; i < notifs.notifications.length; i++) {
-      if (notifs.notifications[i].id == lastNotifID) {
-        break;
-      }
-    }
-
-    if (i >= notifs.notifications.length) {
-      i--;
-    }
-
-    for (; i >= 0; i--) {
-      final title = (notifs.notifications[i].title.contains('<'))
-          ? notifs.notifications[i].title
-              .substring(0, notifs.notifications[i].title.indexOf('<'))
-          : notifs.notifications[i].title;
-//      http.post(
-//          "https://api.pushy.me/push?api_key=0b86578a2c575282a3f16edd1feb96c1acbb05c2ee7db9765f25d5845bd9ea4c",
-//          headers: {"Content-type": "application/json"},
-//          body: '''
-//      {
-//        "to": "${deviceToken}",
-//        "data": {
-//          "message": "${title}"
-//        }
+//  static Future<void> notifyLastNotifs(String deviceToken) async {
+//    final pref = await SharedPreferences.getInstance();
+//    final parser = Parser(pref.getString("autolog_url"));
+//    final notifs = await parser.parseDashboardNotifications();
+//
+//    final lastNotifID = pref.getString("last_notif_id");
+//    print(lastNotifID);
+//    var i = 0;
+//
+//    for (; i < notifs.notifications.length; i++) {
+//      if (notifs.notifications[i].id == lastNotifID) {
+//        break;
 //      }
-//      ''').then((resp) {
-//        print(resp.body);
-//      }, onError: (e) {
-//        print("http error: $e");
-//      });
-    }
-
-    await pref.setString("last_notif_id", notifs.notifications[i].id);
-  }
+//    }
+//
+//    if (i >= notifs.notifications.length) {
+//      i--;
+//    }
+//
+//    for (; i >= 0; i--) {
+//      final title = (notifs.notifications[i].title.contains('<'))
+//          ? notifs.notifications[i].title
+//              .substring(0, notifs.notifications[i].title.indexOf('<'))
+//          : notifs.notifications[i].title;
+////      http.post(
+////          "https://api.pushy.me/push?api_key=0b86578a2c575282a3f16edd1feb96c1acbb05c2ee7db9765f25d5845bd9ea4c",
+////          headers: {"Content-type": "application/json"},
+////          body: '''
+////      {
+////        "to": "${deviceToken}",
+////        "data": {
+////          "message": "${title}"
+////        }
+////      }
+////      ''').then((resp) {
+////        print(resp.body);
+////      }, onError: (e) {
+////        print("http error: $e");
+////      });
+//    }
+//
+//    await pref.setString("last_notif_id", notifs.notifications[i].id);
+//  }
 
   /*
   static void onBackgroundHeadlessFetch() {
@@ -112,63 +111,27 @@ class EpitechMobile extends StatelessWidget {
     });
 */
 
-//    localNotification.show(0, "C'EST LE TITRE", "C'EST LE COPRS", NotificationDetails(AndroidNotificationDetails("", "", "", importance: Importance.Max,
-//                    priority: Priority.High,
-//                    ticker: 'ticker'),
-//                IOSNotificationDetails()),
-//            payload: "item x")
-//        .then((x) {
-//      print("[Local notification]: Success.");
+//  static void onBackgroundHeadlessCheckForSessions(String taskId) {
+//    print('[BackgroundFetch EpiMobile] Headless event received.');
+//    SharedPreferences.getInstance().then((pref) async {
+//      var session = await Jobs.getNextSessionNotification(pref);
+//
+//      if (session != null) {
+//        print("Session soon ! :" +
+//            session.start +
+//            " " +
+//            session.title +
+//            " " +
+//            session.activityTitle);
+//      }
+//      BackgroundFetch.finish(taskId);
 //    }, onError: (e) {
-//      print("[Local notification]: Error `${e}`.");
+//      print("[Shared Preferences]: Error `$e`.");
+//      BackgroundFetch.finish(taskId);
 //    });
 //  }
 
-  static void onBackgroundHeadlessCheckForSessions(String taskId) {
-      print('[BackgroundFetch EpiMobile] Headless event received.');
-      SharedPreferences.getInstance().then((pref) async {
-          var session = await Jobs.getNextSessionNotification(pref);
-
-          if (session != null) {
-              print("Session soon ! :" +  session.start + " " + session.title + " " + session.activityTitle);
-          }
-          BackgroundFetch.finish(taskId);
-      }, onError: (e) {
-          print("[Shared Preferences]: Error `$e`.");
-          BackgroundFetch.finish(taskId);
-      });
-  }
-
-  Future<String> _pushyRegister() async {
-    String deviceToken;
-    await Pushy.register().then((t) {
-      Pushy.setNotificationListener(_pushyNotificationHandler);
-      deviceToken = t;
-      print("[Pushy]: Device token `${t}`");
-    }, onError: (e) {
-      print("[Pushy]: Error `${e}`");
-    });
-
-    return deviceToken;
-  }
-
-  void _pushyNotificationHandler(Map<String, dynamic> data) {
-    print("[Pushy]: Got `${data}`.");
-    Pushy.clearBadge();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //WidgetsFlutterBinding.ensureInitialized();
-    //FlutterDownloader.initialize();
-//    Pushy.listen();
-//    Pushy.requestStoragePermission();
-//    _pushyRegister().then((String deviceToken) {
-//      _deviceToken = deviceToken;
-//      SharedPreferences.getInstance().then((pref) {
-//        pref.setString(_deviceTokenKey, deviceToken);
-//      });
-//
+  Future<void> _initBackground() async {
 //      BackgroundFetch.configure(
 //          BackgroundFetchConfig(
 //            minimumFetchInterval: 15,
@@ -182,7 +145,60 @@ class EpitechMobile extends StatelessWidget {
 //            requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_ANY,
 //          ),
 //          _onBackgroundFetch);
-//    });
+// BackgroundFetch.registerHeadlessTask(EpitechMobile.onBackgroundHeadlessFetch);
+    return;
+  }
+
+  Future<void> _initNotifications() async {
+    await localNotifications
+        .initialize(
+            InitializationSettings(
+                AndroidInitializationSettings('@mipmap/ic_launcher'),
+                IOSInitializationSettings()),
+            onSelectNotification: this._onSelectNotification)
+        .then(
+            (success) =>
+                debugPrint("[Local Notifications]: Success ? `${success}`"),
+            onError: (e) => debugPrint("[Local Notifications]: Error `${e}`"));
+    return;
+  }
+
+  Future<void> _showActivityNotification(String title, String body) async {
+    await localNotifications
+        .show(
+          0,
+          title,
+          body,
+          NotificationDetails(
+              AndroidNotificationDetails('epimobile-activity-channel-id',
+                  'Activité', 'Une activité va bientôt avoir lieu',
+                  playSound: false,
+                  importance: Importance.High,
+                  priority: Priority.High),
+              IOSNotificationDetails(presentSound: false)),
+          payload: 'activity',
+        )
+        .then(
+            (success) => debugPrint(
+                "[Local Notifications]: Notification sent succefully`"),
+            onError: (e) => debugPrint(
+                "[Local Notifications]: Error when sending notfication `${e}`"));
+    return;
+  }
+
+  Future<void> _onSelectNotification(String notificationPayload) async {
+    debugPrint(
+        "[Local Notifications]: Selected, payload `${notificationPayload}`");
+    return;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //WidgetsFlutterBinding.ensureInitialized();
+    //FlutterDownloader.initialize();
+    _initNotifications().then((_) {
+      _showActivityNotification("C'est le titre", "C'est le corps");
+    });
 
     return MaterialApp(
         title: 'EpiCompanion',
@@ -238,5 +254,4 @@ class EpitechMobile extends StatelessWidget {
 /// Main application start
 void main() {
   runApp(EpitechMobile());
-  //BackgroundFetch.registerHeadlessTask(EpitechMobile.onBackgroundHeadlessFetch);
 }
