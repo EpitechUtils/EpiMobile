@@ -70,7 +70,8 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
 			    onPressed: () {
 
 			    },
-			    child: Text("S'inscrire", style: TextStyle(color: Colors.white),),
+			    color: (this.widget.scheduleSession.eventRegistered is bool ? Colors.green : Colors.blueGrey),
+			    child: Text((this.widget.scheduleSession.eventRegistered is bool ? "S'inscrire" : "X"), style: TextStyle(color: Colors.white),),
 			),
 		    )
 		],

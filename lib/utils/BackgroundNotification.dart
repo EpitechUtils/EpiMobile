@@ -1,10 +1,11 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BackgroundNotificationManager {
-    static FlutterLocalNotificationsPlugin _localNotifications =
-    FlutterLocalNotificationsPlugin();
+    static FlutterLocalNotificationsPlugin _localNotifications = FlutterLocalNotificationsPlugin();
     static Future<void> Function(String) _onSelect;
 
     static Future<void> _onSelectNotification(String payload) async {
@@ -13,28 +14,43 @@ class BackgroundNotificationManager {
         return;
     }
 
+    // Called every 15 minutes
     static Future<void> _onFetch() async {
-        //TODO make check for notifications here
-        BackgroundNotificationManager.showActivityNotification(
-                "C'est le titre", "C'est le corps");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var notifications = await Jobs.getNewNotifications(prefs);
+        var nextSessions = await Jobs.getNextSessionNotification(prefs);
+
+        if (notifications.length != 0) {
+            String title = (notifications[0].title.contains('<')) ?
+                notifications[0].title.substring(0, notifications[0].title.indexOf('<')) : notifications[0].title;
+
+            if (notifications.length > 1)
+                title += (" et " + (notifications.length - 1).toString() + " autres");
+            BackgroundNotificationManager.showNotificationNotification(title);
+        }
+        if (nextSessions != null) {
+            BackgroundNotificationManager.showActivityNotification(
+                "Prochaine session à " + nextSessions.start.split(' ')[0],
+                nextSessions.activityTitle + " - " + (nextSessions.room.code.substring(nextSessions.room.code.lastIndexOf('/'), nextSessions.room.code.length))
+            );
+        }
         return;
     }
 
-    static Future<void> _onBackgroundFetch() async {
+    static Future<void> _onBackgroundFetch(String taskId) async {
         debugPrint("[Background Fetch]: Fetch occured");
         await _onFetch();
-        BackgroundFetch.finish();
+        BackgroundFetch.finish(taskId);
     }
 
-    static Future<void> _onHeadlessBackgroundFetch() async {
+    static Future<void> _onHeadlessBackgroundFetch(String taskId) async {
         WidgetsFlutterBinding.ensureInitialized();
         debugPrint("[Background Fetch]: Headless fetch occured");
         await _onFetch();
-        BackgroundFetch.finish();
+        BackgroundFetch.finish(taskId);
     }
 
-    static Future<void> initialize(
-            Future<void> Function(String) onSelectNotification) async {
+    static Future<void> initialize(Future<void> Function(String) onSelectNotification) async {
         WidgetsFlutterBinding.ensureInitialized();
         _onSelect = onSelectNotification;
 
@@ -48,7 +64,7 @@ class BackgroundNotificationManager {
                     requiresStorageNotLow: false,
                     requiresDeviceIdle: false,
                     startOnBoot: true,
-                    requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_ANY,
+                    requiredNetworkType: NetworkType.ANY,
                 ),
                 _onBackgroundFetch)
                 .then((code) {
@@ -78,10 +94,8 @@ class BackgroundNotificationManager {
         });
     }
 
-    static Future<void> showActivityNotification(
-            String title, String body) async {
-        await _localNotifications
-                .show(
+    static Future<void> showActivityNotification(String title, String body) async {
+        await _localNotifications.show(
             0,
             title,
             body,
@@ -103,8 +117,7 @@ class BackgroundNotificationManager {
     }
 
     static Future<void> showNotificationNotification(String content) async {
-        await _localNotifications
-                .show(
+        await _localNotifications.show(
             0,
             "Intra Notification",
             content,
