@@ -68,9 +68,20 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
 		    Container(
 			child: RaisedButton(
 			    onPressed: () {
-
+				SharedPreferences.getInstance().then((SharedPreferences prefs) {
+					IntranetAPIUtils().registerToActivity(
+					    prefs.getString("autolog_url"),
+					    ((this.widget.scheduleSession.scolarYear == null) ? DateTime.now().year.toString() : this.widget.scheduleSession.scolarYear),
+					    this.widget.scheduleSession.codeModule,
+					    this.widget.scheduleSession.codeInstance,
+					    this.widget.scheduleSession.codeActivity,
+					    this.widget.scheduleSession.eventRegistered is bool
+					).then((dynamic res) {
+					    this.setState(() {});
+					});
+				});
 			    },
-			    color: (this.widget.scheduleSession.eventRegistered is bool ? Colors.green : Colors.blueGrey),
+			    color: (this.widget.scheduleSession.eventRegistered is bool ? Colors.green : Colors.red),
 			    child: Text((this.widget.scheduleSession.eventRegistered is bool ? "S'inscrire" : "X"), style: TextStyle(color: Colors.white),),
 			),
 		    )

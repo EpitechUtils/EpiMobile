@@ -76,6 +76,22 @@ class IntranetAPIUtils {
         });
     }
 
+    Future<dynamic> registerToActivity(String autolog, String year, String codeModule, String codeInstance, String codeActi, bool register) async {
+        String url = autolog + "/module/" + year + "/" + codeModule + "/" + codeInstance + "/" + codeActi;
+
+        if (register)
+            url += "/register?format=json";
+        else
+            url += "/unregister?format=json";
+
+        return this._network.post(url, {}).then((res) {
+            if (res == null)
+                return null;
+
+            return res;
+        });
+    }
+
     Future<dynamic> registerToRdvSlot(String url, int idTeam, int idSlot) async {
         Map jsonMap = {};
 

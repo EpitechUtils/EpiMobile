@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'ProfileMark.dart';
+import 'ProfileModules.dart';
 
 part 'Profile.g.dart';
 
@@ -20,9 +21,9 @@ class Profile {
     final Map<String, dynamic> nsstat;
     final Map<String, dynamic> flags;
     final List<dynamic> missed;
-    final List<dynamic> modules;
     @JsonKey(name: "notes")
     final List<ProfileMark> marks;
+    final List<ProfileModules> modules;
 
     int ghostLen;
     int difficultyLen;
