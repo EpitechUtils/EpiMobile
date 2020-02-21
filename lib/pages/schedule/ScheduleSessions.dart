@@ -112,10 +112,11 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 			    child: Column(
 				mainAxisAlignment: MainAxisAlignment.spaceBetween,
 				children: <Widget>[
-				    Container(
+				    Flexible(
 					child: Text(
 					    event.moduleTitle + " - " + event.activityTitle,
-					    style: TextStyle(color: Colors.white)
+					    style: TextStyle(color: Colors.white),
+					    overflow: TextOverflow.ellipsis,
 					),
 				    )
 				],
@@ -123,28 +124,30 @@ class _ScheduleSessionsState extends State<ScheduleSessions> {
 			),
 			Container(
 			    alignment: Alignment.bottomRight,
-			    margin: EdgeInsets.only(right: 2),
 			    child: Row(
 				mainAxisAlignment: MainAxisAlignment.end,
 				children: <Widget>[
-				    Container(
+				    Flexible(
 					child: Text(
 					    event.room.code.substring(event.room.code.lastIndexOf('/') + 1, event.room.code.length) + " - ",
 					    style: TextStyle(color: Colors.white),
+					    overflow: TextOverflow.ellipsis,
 					)
 				    ),
-				    Container(
+				    Flexible(
 					child: Text(
 					    event.numberStudentsRegistered.toString() + "/" + event.room.seats.toString() + "  ",
 					    style: TextStyle(color: Colors.white),
+					    overflow: TextOverflow.ellipsis,
 					),
 				    ),
+				    /*
 				    Container(
 					child: Icon(
 					    (event.eventRegistered is bool) ? Icons.person : Icons.check,
 					    color: (event.eventRegistered is bool) ? Colors.white : Colors.lightGreenAccent,
 					),
-				    )
+				    )*/
 				],
 			    )
 			)
