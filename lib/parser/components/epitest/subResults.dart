@@ -14,8 +14,9 @@ class SubResults
     String mark;
     double mandatoryFailed;
     List<ResultsExternalItems> externalItems;
+    int testRunId;
 
-    SubResults(this.logins, this.mandatoryFailed, this.mark, this.externalItems, this.prerequisites, this.skills);
+    SubResults(this.logins, this.mandatoryFailed, this.mark, this.externalItems, this.prerequisites, this.skills, this.testRunId);
 
     factory SubResults.fromJson(Map<String, dynamic> json) => _$SubResultsFromJson(json);
 

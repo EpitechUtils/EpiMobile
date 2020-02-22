@@ -8,6 +8,7 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/epitest/result.dart';
 import 'package:mobile_intranet/parser/components/epitest/results.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_intranet/pages/argos/resultInformation.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class TestsResultsPage extends StatefulWidget {
@@ -97,15 +98,42 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
         return Container(
             child: Column(
                 children: <Widget>[
-                    Text("Major " + result.results.externalItems.firstWhere((elem) {
-                        return elem.type == "lint.major";
-                    }).value.toStringAsPrecision(1)),
-                    Text("Minor " + result.results.externalItems.firstWhere((elem) {
-                        return elem.type == "lint.minor";
-                    }).value.toStringAsPrecision(1)),
-                    Text("Info " + result.results.externalItems.firstWhere((elem) {
-                        return elem.type == "lint.info";
-                    }).value.toStringAsPrecision(1)),
+                    Container(
+			width: 60,
+			child: Row(
+			    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+			    children: <Widget>[
+			        Text("Major", style: TextStyle(fontWeight: FontWeight.w400),),
+				Text(result.results.externalItems.firstWhere((elem) {
+				    return elem.type == "lint.major";
+				}).value.toStringAsPrecision(1))
+			    ],
+			),
+		    ),
+		    Container(
+			width: 60,
+			child: Row(
+			    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+			    children: <Widget>[
+				Text("Minor", style: TextStyle(fontWeight: FontWeight.w400),),
+				Text(result.results.externalItems.firstWhere((elem) {
+				    return elem.type == "lint.minor";
+				}).value.toStringAsPrecision(1))
+			    ],
+			),
+		    ),
+		    Container(
+			width: 60,
+			child: Row(
+			    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+			    children: <Widget>[
+				Text("Info", style: TextStyle(fontWeight: FontWeight.w400),),
+				Text(result.results.externalItems.firstWhere((elem) {
+				    return elem.type == "lint.info";
+				}).value.toStringAsPrecision(1))
+			    ],
+			),
+		    ),
                 ],
             ),
         );
@@ -163,8 +191,16 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
         return ListView.builder(
             itemCount: this.results.results.length,
             itemBuilder: (BuildContext context, int index) {
-
-                return Container(
+                return InkWell(
+		    onTap: () {
+		        Navigator.of(context).push(MaterialPageRoute(
+			    builder: (context) => ResultInformationPage(
+				bearer: this.token,
+				result: this.results.results[index],
+				id: this.results.results[index].results.testRunId,
+			    )
+			));
+		    },
                     child: Column(
                         children: <Widget>[
                             Container(
@@ -172,7 +208,7 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                        //Text(this.results.results[index].project.module.code + " - ", style: TextStyle(fontWeight: FontWeight.w600),),
+                                        Text(this.results.results[index].project.module.code + " - ", style: TextStyle(fontWeight: FontWeight.w600),),
                                         Text(this.results.results[index].project.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
                                     ],
                                 )

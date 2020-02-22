@@ -1,3 +1,4 @@
+import 'package:mobile_intranet/parser/components/epitest/details/skillDetails.dart';
 import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
@@ -171,6 +172,27 @@ class Parser {
 	}
 
         return results;
+    }
+
+    Future<SkillDetails> parseEpitestDetails(String id, String bearer) async {
+        String url = "https://api.epitest.eu/me/details/" + id;
+        dynamic json = await this._network.get(url, bearer: bearer);
+        var details = SkillDetails.fromJson({"skills": json["skills"]});
+
+        double passed = 0;
+        double total = 0;
+        for (var skill in details.skills) {
+            for (var test in skill.fullSkillReport.tests) {
+                if (test.passed)
+                    passed++;
+                total++;
+            }
+            skill.fullSkillReport.percent = passed / total;
+            passed = 0;
+            total = 0;
+        }
+
+        return details;
     }
 
 }

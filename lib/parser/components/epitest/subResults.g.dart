@@ -23,7 +23,9 @@ SubResults _$SubResultsFromJson(Map<String, dynamic> json) {
             e == null
                 ? null
                 : ResultsSkill.fromJson(e as Map<String, dynamic>)),
-      ));
+      ),
+      json['testRunId'] as int)
+    ..percentage = (json['percentage'] as num)?.toDouble();
 }
 
 Map<String, dynamic> _$SubResultsToJson(SubResults instance) =>
@@ -31,7 +33,9 @@ Map<String, dynamic> _$SubResultsToJson(SubResults instance) =>
       'logins': instance.logins,
       'prerequisites': instance.prerequisites,
       'skills': instance.skills,
+      'percentage': instance.percentage,
       'mark': instance.mark,
       'mandatoryFailed': instance.mandatoryFailed,
-      'externalItems': instance.externalItems
+      'externalItems': instance.externalItems,
+      'testRunId': instance.testRunId
     };
