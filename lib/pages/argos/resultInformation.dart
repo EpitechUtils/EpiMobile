@@ -28,11 +28,8 @@ class _ResultInformationPageState extends State<ResultInformationPage>
     {
         super.initState();
 	SharedPreferences.getInstance().then((SharedPreferences prefs) {
-	    print(this.widget.bearer);
 	    Parser(prefs.getString("autolog_url")).parseEpitestDetails(this.widget.id.toString(), this.widget.bearer).then((SkillDetails details) {
 		this.setState(() => this.details = details);
-		print(this.details.skills.length);
-		print(this.details.skills[0].fullSkillReport.tests.length);
 	    });
 	});
     }
