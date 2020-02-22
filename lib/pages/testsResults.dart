@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_intranet/layouts/default.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
+import 'package:mobile_intranet/parser/components/epitest/result.dart';
 import 'package:mobile_intranet/parser/components/epitest/results.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -47,20 +48,15 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
     }
 
     void onStateChanged(WebViewStateChanged state) async {
-        print("URL CHANGED: " + state.url);
-        if (state.url.startsWith("https://login.microsoftonline.com/common/oauth2/authorize") && !this.resetLocalStorage) {
-            _webview.evalJavascript('localStorage.clear()').then((value) {
-               print("CLEAR STORAGE: " + value);
-               this.resetLocalStorage = true;
+        if (state.url == "https://my.epitech.eu/index.html") {
+            _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
+                print(value);
+                if (value != null && value != "null") {
+                    this.setState(() => this.token = value.replaceAll('"', ''));
+                    this.parseResults((DateTime.now().year - 1).toString());
+                }
             });
         }
-        _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
-            print("Eval:" + value);
-            if (value != null && value != "null") {
-                this.setState(() => this.token = value.replaceAll('"', ''));
-                this.parseResults((DateTime.now().year - 1).toString());
-            }
-        });
     }
 
     void parseResults(String year) {
@@ -75,6 +71,92 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
         if (percent >= 50)
             return Colors.orange;
         return Colors.red;
+    }
+
+    Widget buildResultScore(BuildContext context, Result result) {
+        return Container(
+            child: Stack(
+                children: <Widget>[
+                    Positioned(
+                        child: Text(result.results.percentage.toStringAsPrecision(3), style: TextStyle(fontWeight: FontWeight.w700),),
+                        left: 17,
+                        top: 25,
+                    ),
+                    CircularPercentIndicator(
+                        radius: 60,
+                        percent: result.results.percentage / 100,
+                        progressColor: getRadiusColor(result.results.percentage),
+                        backgroundColor: Colors.black45,
+                    )
+                ],
+            ),
+        );
+    }
+
+    Widget buildMetrics(BuildContext context, Result result) {
+        return Container(
+            child: Column(
+                children: <Widget>[
+                    Text("Major " + result.results.externalItems.firstWhere((elem) {
+                        return elem.type == "lint.major";
+                    }).value.toStringAsPrecision(1)),
+                    Text("Minor " + result.results.externalItems.firstWhere((elem) {
+                        return elem.type == "lint.minor";
+                    }).value.toStringAsPrecision(1)),
+                    Text("Info " + result.results.externalItems.firstWhere((elem) {
+                        return elem.type == "lint.info";
+                    }).value.toStringAsPrecision(1)),
+                ],
+            ),
+        );
+    }
+
+    Widget buildCoverage(BuildContext context, Result result) {
+        return Container(
+            child: Row(
+                children: <Widget>[
+                    Container(
+                        child: Stack(
+                            children: <Widget>[
+                                Positioned(
+                                    child: Text(
+                                        result.results.externalItems.firstWhere((elem) => elem.type == "coverage.branches", orElse: () => null)?.value?.toStringAsPrecision(3) ?? "0.00"
+                                    ),
+                                    left: 17,
+                                    top: 25,
+                                ),
+                                CircularPercentIndicator(
+                                    radius: 60,
+                                    percent: (result.results.externalItems.firstWhere((elem) => elem.type == "coverage.branches", orElse: () => null)?.value ?? 0) / 100,
+                                    progressColor: getRadiusColor(result.results.externalItems.firstWhere((elem) => elem.type == "coverage.branches", orElse: () => null)?.value ?? 0),
+                                    backgroundColor: Colors.black45,
+                                )
+                            ],
+                        ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 2),
+                        child: Stack(
+                            children: <Widget>[
+                                Positioned(
+                                    child: Text(
+                                        result.results.externalItems.firstWhere((elem) => elem.type == "coverage.lines", orElse: () => null)?.value?.toStringAsPrecision(3) ?? "0.00"
+                                    ),
+                                    left: 17,
+                                    top: 25,
+                                ),
+                                CircularPercentIndicator(
+                                    radius: 60,
+                                    percent: (result.results.externalItems.firstWhere((elem) => elem.type == "coverage.lines", orElse: () => null)?.value ?? 0) / 100,
+                                    progressColor: getRadiusColor(result.results.externalItems.firstWhere((elem) => elem.type == "coverage.lines", orElse: () => null)?.value ?? 0),
+                                    backgroundColor: Colors.black45,
+                                )
+                            ],
+                        ),
+                    )
+                ],
+            ),
+        );
     }
 
     Widget buildResults(BuildContext context) {
@@ -99,81 +181,9 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: <Widget>[
-                                        Stack(
-                                            children: <Widget>[
-                                                Positioned(
-                                                    child: Text(this.results.results[index].results.percentage.toStringAsPrecision(3), style: TextStyle(fontWeight: FontWeight.w700),),
-                                                    left: 17,
-                                                    top: 25,
-                                                ),
-                                                CircularPercentIndicator(
-                                                    radius: 60,
-                                                    percent: this.results.results[index].results.percentage / 100,
-                                                    progressColor: getRadiusColor(this.results.results[index].results.percentage),
-                                                    backgroundColor: Colors.black45,
-                                                )
-                                            ],
-                                        ),
-                                        Container(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Text("Major " + this.results.results[index].results.externalItems.firstWhere((elem) {
-                                                        return elem.type == "lint.major";
-                                                    }).value.toStringAsPrecision(1)),
-                                                    Text("Minor " + this.results.results[index].results.externalItems.firstWhere((elem) {
-                                                        return elem.type == "lint.minor";
-                                                    }).value.toStringAsPrecision(1)),
-                                                    Text("Info " + this.results.results[index].results.externalItems.firstWhere((elem) {
-                                                        return elem.type == "lint.info";
-                                                    }).value.toStringAsPrecision(1)),
-                                                ],
-                                            ),
-                                        ),
-                                        Container(
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: Stack(
-                                                            children: <Widget>[
-                                                                Positioned(
-                                                                    child: Text(
-                                                                        this.results.results[index].results.externalItems.firstWhere((elem) => elem.type == "coverage.branches", orElse: () => null)?.value?.toStringAsPrecision(3) ?? "0.00"
-                                                                    ),
-                                                                    left: 17,
-                                                                    top: 25,
-                                                                ),
-                                                                CircularPercentIndicator(
-                                                                    radius: 60,
-                                                                    percent: (this.results.results[index].results.externalItems.firstWhere((elem) => elem.type == "coverage.branches", orElse: () => null)?.value ?? 0) / 100,
-                                                                    progressColor: getRadiusColor(this.results.results[index].results.externalItems.firstWhere((elem) => elem.type == "coverage.branches", orElse: () => null)?.value ?? 0),
-                                                                    backgroundColor: Colors.black45,
-                                                                )
-                                                            ],
-                                                        ),
-                                                    ),
-                                                    Container(
-                                                        margin: EdgeInsets.only(left: 2),
-                                                        child: Stack(
-                                                            children: <Widget>[
-                                                                Positioned(
-                                                                    child: Text(
-                                                                        this.results.results[index].results.externalItems.firstWhere((elem) => elem.type == "coverage.lines", orElse: () => null)?.value?.toStringAsPrecision(3) ?? "0.00"
-                                                                    ),
-                                                                    left: 17,
-                                                                    top: 25,
-                                                                ),
-                                                                CircularPercentIndicator(
-                                                                    radius: 60,
-                                                                    percent: (this.results.results[index].results.externalItems.firstWhere((elem) => elem.type == "coverage.lines", orElse: () => null)?.value ?? 0) / 100,
-                                                                    progressColor: getRadiusColor(this.results.results[index].results.externalItems.firstWhere((elem) => elem.type == "coverage.lines", orElse: () => null)?.value ?? 0),
-                                                                    backgroundColor: Colors.black45,
-                                                                )
-                                                            ],
-                                                        ),
-                                                    )
-                                                ],
-                                            ),
-                                        )
+                                        buildResultScore(context, this.results.results[index]),
+                                        buildMetrics(context, this.results.results[index]),
+                                        buildCoverage(context, this.results.results[index])
                                     ],
                                 ),
                             ),
@@ -192,8 +202,7 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
             return DefaultLayout(
                 title: "Résultat des tests",
                 child: WebviewScaffold(
-                    url: "https://login.microsoftonline.com/common/oauth2/authorize?client_id=c3728513-e7f6-497b-b319-619aa86f5b50&redirect_uri=https%3A%2F%2Fmy.epitech.eu%2Findex.html&response_type=id_token",
-                    withJavascript: true,
+                    url: "https://login.microsoftonline.com/common/oauth2/authorize?client_id=c3728513-e7f6-497b-b319-619aa86f5b50&nonce=396527b8-f50b-49ea-a812-990cd07128bb&redirect_uri=https%3A%2F%2Fmy.epitech.eu%2Findex.html&response_type=id_token&state=",
                 ),
             );
 

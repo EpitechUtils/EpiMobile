@@ -151,8 +151,6 @@ class Parser {
 
     Future<Results> parseEpitest(String year, String bearer) async {
         String url = "https://api.epitest.eu/me/" + year;
-        print(url);
-        print(bearer);
         dynamic json = await this._network.get(url, bearer: bearer);
         Map<String, dynamic> jsonToParse = {
             "results": json
