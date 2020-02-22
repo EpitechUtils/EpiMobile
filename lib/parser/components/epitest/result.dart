@@ -9,11 +9,10 @@ part 'result.g.dart';
 class Result
 {
     ResultProject project;
-    ResultModule module;
     SubResults results;
     String date;
 
-    Result(this.project, this.date, this.module, this.results);
+    Result(this.project, this.date, this.results);
 
     factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 

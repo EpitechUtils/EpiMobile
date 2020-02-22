@@ -8,10 +8,11 @@ part 'subResults.g.dart';
 class SubResults
 {
     List<String> logins;
-    int prerequisites;
+    double prerequisites;
     Map<String, ResultsSkill> skills;
+    double percentage;
     String mark;
-    int mandatoryFailed;
+    double mandatoryFailed;
     List<ResultsExternalItems> externalItems;
 
     SubResults(this.logins, this.mandatoryFailed, this.mark, this.externalItems, this.prerequisites, this.skills);

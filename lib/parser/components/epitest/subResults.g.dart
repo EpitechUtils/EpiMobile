@@ -9,14 +9,14 @@ part of 'subResults.dart';
 SubResults _$SubResultsFromJson(Map<String, dynamic> json) {
   return SubResults(
       (json['logins'] as List)?.map((e) => e as String)?.toList(),
-      json['mandatoryFailed'] as int,
+      (json['mandatoryFailed'] as num)?.toDouble(),
       json['mark'] as String,
       (json['externalItems'] as List)
           ?.map((e) => e == null
               ? null
               : ResultsExternalItems.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      json['prerequisites'] as int,
+      (json['prerequisites'] as num)?.toDouble(),
       (json['skills'] as Map<String, dynamic>)?.map(
         (k, e) => MapEntry(
             k,

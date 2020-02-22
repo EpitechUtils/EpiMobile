@@ -12,6 +12,8 @@ import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:mobile_intranet/parser/components/epitest/result.dart';
 import 'package:intl/intl.dart';
 
+import 'components/epitest/results.dart';
+
 /// Parser class
 class Parser {
     String autolog;
@@ -147,10 +149,30 @@ class Parser {
         return RegistrationSlots.fromJson(json);
     }
 
-    Future<Result> parseEpitest(String date) async {
-        // https://login.microsoftonline.com/common/oauth2/authorize?client_id=c3728513-e7f6-497b-b319-619aa86f5b50&redirect_uri=https://my.epitest.eu&response_type=id_token
-        // c3728513-e7f6-497b-b319-619aa86f5b50
-        String url = "https://api.epitest.eu/me/" + date + "";
+    Future<Results> parseEpitest(String year, String bearer) async {
+        String url = "https://api.epitest.eu/me/" + year;
+        print(url);
+        print(bearer);
+        dynamic json = await this._network.get(url, bearer: bearer);
+        Map<String, dynamic> jsonToParse = {
+            "results": json
+        };
+
+        Results results = Results.fromJson(jsonToParse);
+        double skillsAmount = 0;
+        double skillTotal = 0;
+
+        for (var res in results.results) {
+            for (var skill in res.results.skills.values) {
+		skillTotal += skill.count;
+                skillsAmount += skill.passed;
+	    }
+            res.results.percentage = (skillsAmount / skillTotal) * 100;
+            skillTotal = 0;
+            skillsAmount = 0;
+	}
+
+        return results;
     }
 
 }

@@ -7,8 +7,8 @@ part of 'resultsExternalItems.dart';
 // **************************************************************************
 
 ResultsExternalItems _$ResultsExternalItemsFromJson(Map<String, dynamic> json) {
-  return ResultsExternalItems(
-      json['value'] as int, json['type'] as String, json['comment'] as String);
+  return ResultsExternalItems((json['value'] as num)?.toDouble(),
+      json['type'] as String, json['comment'] as String);
 }
 
 Map<String, dynamic> _$ResultsExternalItemsToJson(

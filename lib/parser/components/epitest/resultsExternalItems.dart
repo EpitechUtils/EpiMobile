@@ -6,7 +6,7 @@ part 'resultsExternalItems.g.dart';
 class ResultsExternalItems
 {
     String type;
-    int value;
+    double value;
     String comment;
 
     ResultsExternalItems(this.value, this.type, this.comment);

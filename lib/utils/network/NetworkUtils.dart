@@ -14,7 +14,7 @@ class NetworkUtils {
     JsonDecoder _gson = new JsonDecoder();
 
     // ignore: avoid_init_to_null
-    dynamic get(String url, {Cookie cookie: null}) async {
+    dynamic get(String url, {Cookie cookie: null, String bearer: null}) async {
         String response = await this._client.getUrl(Uri.parse(url))
             .then((HttpClientRequest req) {
             req.followRedirects = true;
@@ -22,6 +22,10 @@ class NetworkUtils {
             // Set headers
             req.headers.set("Content-Type", "application/json");
             req.headers.set("Accept", "application/json");
+            
+            if (bearer != null) {
+                req.headers.set("Authorization", "Bearer " + bearer);
+            }
 
             // Set cookies if not null
             if (cookie != null) {
