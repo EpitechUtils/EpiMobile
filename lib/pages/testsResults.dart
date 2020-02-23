@@ -49,14 +49,20 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
     }
 
     void onStateChanged(WebViewStateChanged state) async {
-        if (state.url == "https://my.epitech.eu/index.html") {
-            _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
-                print(value);
-                if (value != null && value != "null") {
-                    this.setState(() => this.token = value.replaceAll('"', ''));
-                    this.parseResults((DateTime.now().year - 1).toString());
-                }
-            });
+        if (state.url.startsWith("https://my.epitech.eu/index.html")) {
+            if (state.type == WebViewState.shouldStart)
+                this._webview.hide();
+
+            if (mounted && state.type == WebViewState.finishLoad) {
+                _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
+                    print(value);
+                    if (value != null && value != "null") {
+                        this._webview.close();
+                        this.setState(() => this.token = value.replaceAll('"', ''));
+                        this.parseResults((DateTime.now().year - 1).toString());
+                    }
+                });
+            }
         }
     }
 
