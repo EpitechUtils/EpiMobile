@@ -39,13 +39,13 @@ class _UserProfile extends State<UserProfile> {
                         image: new DecorationImage(
                             fit: BoxFit.cover,
                             repeat: ImageRepeat.repeat,
-                            image: AssetImage("assets/images/background.png")
+                            image: AssetImage("assets/images/background.png"),
+                            colorFilter: ColorFilter.srgbToLinearGamma(),
                         )
                     ),
                     child: Row(
                         children: <Widget>[
                             // Profile image from intranet
-                            // TODO: Change address when connection is OK
                             Container(
                                 padding: EdgeInsets.all(20),
                                 child: Align(
@@ -109,9 +109,13 @@ class _UserProfile extends State<UserProfile> {
                         padding: EdgeInsets.all(5.0),
                         children: <Widget>[
                             createNetsoul(),
+                            Divider(),
                             createFlagList("Fantômes", "ghost", this.widget.profile.ghostLen, Icons.access_alarms),
+                            Divider(),
                             createFlagList("Difficultés", "difficulty", this.widget.profile.difficultyLen, Icons.warning),
+                            Divider(),
                             createFlagList("Encouragements", "remarkable", this.widget.profile.remarkableLen, Icons.thumb_up),
+                            Divider(),
                             createFlagList("Médailles", "medal", this.widget.profile.medalLen, Icons.lightbulb_outline)
                         ],
                     )
@@ -122,89 +126,85 @@ class _UserProfile extends State<UserProfile> {
 
     Widget createNetsoul() {
         return Container(
-            child: Card(
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                        Row(
-                            children: <Widget>[
-                                Container(
-                                    width: MediaQuery.of(context).size.width / 2 - 20,
-                                    child: ListTile(
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                                        title: Text("Semaine dernière"),
-                                        subtitle: Text((this.widget.netsoul.weekLog != null) ? this.widget.netsoul.weekLog.toString() + " h" : "NaN"),
-                                        leading: Icon(Icons.access_time,
-                                            size: 35,
-                                            color: Color.fromARGB(255, 41, 155, 203)
-                                        ),
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                    Row(
+                        children: <Widget>[
+                            Container(
+                                width: MediaQuery.of(context).size.width / 2 - 20,
+                                child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                    title: Text("Semaine dernière"),
+                                    subtitle: Text((this.widget.netsoul.weekLog != null) ? this.widget.netsoul.weekLog.toString() + " h" : "NaN"),
+                                    leading: Icon(Icons.access_time,
+                                        size: 35,
+                                        color: Colors.black
                                     ),
                                 ),
-                                Container(
-                                    width: MediaQuery.of(context).size.width / 2 - 20,
-                                    child: ListTile(
-                                        title: Text("Cette semaine"),
-                                        subtitle: Text((this.widget.netsoul.lastWeekLog != null) ? this.widget.netsoul.lastWeekLog.toString() + " h" : "NaN"),
-                                        leading: Icon(Icons.group,
-                                            size: 35,
-                                            color: Color.fromARGB(255, 41, 155, 203)
-                                        ),
-                                    ),
-                                ),
-                            ],
-                        ),
-                        Container(
-                            child: Sparkline(
-                                data: this.widget.netsoul.time,
-                                lineGradient: GradientComponent.green(),
-                                fillGradient: GradientComponent.green(),
-                                fillMode: FillMode.below,
-                                pointsMode: PointsMode.none,
-                                pointSize: 7,
-                                pointColor: Colors.amber,
                             ),
-                        )
-                    ],
-                ),
+                            Container(
+                                width: MediaQuery.of(context).size.width / 2 - 20,
+                                child: ListTile(
+                                    title: Text("Cette semaine"),
+                                    subtitle: Text((this.widget.netsoul.lastWeekLog != null) ? this.widget.netsoul.lastWeekLog.toString() + " h" : "NaN"),
+                                    leading: Icon(Icons.group,
+                                        size: 35,
+                                        color: Colors.black
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
+                    Container(
+                        child: Sparkline(
+                            data: this.widget.netsoul.time,
+                            lineGradient: GradientComponent.green(),
+                            fillGradient: GradientComponent.green(),
+                            fillMode: FillMode.below,
+                            pointsMode: PointsMode.none,
+                            pointSize: 7,
+                            pointColor: Colors.amber,
+                        ),
+                    )
+                ],
             ),
         );
     }
 
     Widget createFlagList(String listName, String jsonField, int fieldLength, IconData icon) {
         return Container(
-            child: Card(
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                        ListTile(
-                            leading: Icon(icon, color: Color.fromARGB(255, 41, 155, 203)),
-                            title: Text.rich(
-                                TextSpan(
-                                    text: listName + "\t-\t",
-                                    style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
-                                    children: <TextSpan>[
-                                        TextSpan(
-                                            text: fieldLength.toString(),
-                                            style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.bold)
-                                        )
-                                    ]
-                                )
-                            ),
-                        ),
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: fieldLength,
-                            itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                    child: Text(
-                                        this.widget.profile.flags[jsonField]["modules"][index]["title"].toString(),
-                                        textAlign: TextAlign.center,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                    ListTile(
+                        leading: Icon(icon, color: Colors.black),
+                        title: Text.rich(
+                            TextSpan(
+                                text: listName + "\t-\t",
+                                style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
+                                children: <TextSpan>[
+                                    TextSpan(
+                                        text: fieldLength.toString(),
+                                        style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.bold)
                                     )
-                                );
-                            },
-                        )
-                    ],
-                ),
+                                ]
+                            )
+                        ),
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: fieldLength,
+                        itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                                child: Text(
+                                    this.widget.profile.flags[jsonField]["modules"][index]["title"].toString(),
+                                    textAlign: TextAlign.center,
+                                )
+                            );
+                        },
+                    )
+                ],
             ),
         );
     }
