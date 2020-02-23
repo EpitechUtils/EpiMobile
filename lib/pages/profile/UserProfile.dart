@@ -193,6 +193,7 @@ class _UserProfile extends State<UserProfile> {
                         ),
                     ),
                     ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: fieldLength,
                         itemBuilder: (BuildContext context, int index) {

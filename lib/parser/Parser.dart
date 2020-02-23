@@ -10,7 +10,6 @@ import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlots.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
-import 'package:mobile_intranet/parser/components/epitest/result.dart';
 import 'package:intl/intl.dart';
 
 import 'components/epitest/results.dart';

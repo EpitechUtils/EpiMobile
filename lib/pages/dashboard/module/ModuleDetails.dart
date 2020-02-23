@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/layouts/default.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/parser/components/dashboard/module/ModuleInformation.dart';
 
@@ -21,19 +22,13 @@ class _ModuleDetails extends State<ModuleDetails> {
     @override
     Widget build(BuildContext context) {
 	if (this.moduleInformation == null) {
-	    return Scaffold(
-		appBar: AppBar(
-		    title: Text("Title")
-		),
-		body: CircularProgressIndicator()
+	    return DefaultLayout(
+		child: Center(child: Icon(Icons.work, size: 100,)),
+		title: "En cours de développement...",
+		hasProfileButton: false,
 	    );
 	} else {
-	    return Scaffold(
-		appBar: AppBar(
-		    title: Text("Title")
-		),
-		body: Text("Hello")
-	    );
+
 	}
     }
 }
