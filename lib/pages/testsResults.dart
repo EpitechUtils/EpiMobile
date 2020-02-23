@@ -19,9 +19,6 @@ class TestsResultsPage extends StatefulWidget {
     State<StatefulWidget> createState() => _TestsResultsPageState();
 }
 
-/// TODO: (clement) : regarde sur api.epitest.eu y'a tout, si a chaque nouveau test tu peux envoyer une notification push c'est archi cool
-/// TestsResults page
-/// Get results from my.Epitech.eu
 class _TestsResultsPageState extends State<TestsResultsPage> {
 
     final _webview = new FlutterWebviewPlugin();
@@ -30,8 +27,10 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
     Results results;
     SharedPreferences prefs;
     bool resetLocalStorage = false;
+    String date;
 
     _TestsResultsPageState() {
+	this.date = (DateTime.now().year - 1).toString();
         SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() => this.prefs = prefs));
     }
 
@@ -59,7 +58,7 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
                     if (value != null && value != "null") {
                         this._webview.close();
                         this.setState(() => this.token = value.replaceAll('"', ''));
-                        this.parseResults((DateTime.now().year - 1).toString());
+                        this.parseResults(this.date);
                     }
                 });
             }
@@ -193,48 +192,89 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
         );
     }
 
+    Widget buildYearSelector(BuildContext context) {
+        return Container(
+	    margin: EdgeInsets.only(left: 10),
+	    child: Row(
+		children: <Widget>[
+		    Text("Année: "),
+		    DropdownButton<String>(
+			value: this.date,
+			items: <String>[(DateTime.now().year - 1).toString(), (DateTime.now().year - 2).toString(), (DateTime.now().year - 3).toString(), (DateTime.now().year - 4).toString(), (DateTime.now().year - 5).toString()]
+			    .map<DropdownMenuItem<String>>((String value) {
+			    return DropdownMenuItem<String>(
+				value: value,
+				child: Text(value),
+			    );
+			}).toList(),
+			onChanged: (String value) {
+			    this.setState(() {
+				this.date = value;
+				this.results = null;
+				this.parseResults(this.date);
+			    });
+			},
+		    ),
+		],
+	    )
+	);
+    }
+
+    Widget buildTestsResults(BuildContext context) {
+        return Flexible(
+	    child: ListView.builder(
+		itemCount: this.results.results.length,
+		itemBuilder: (BuildContext context, int index) {
+		    return InkWell(
+			onTap: () {
+			    Navigator.of(context).push(MaterialPageRoute(
+				builder: (context) => ResultInformationPage(
+				    bearer: this.token,
+				    result: this.results.results[index],
+				    id: this.results.results[index].results.testRunId,
+				)
+			    ));
+			},
+			child: Column(
+			    children: <Widget>[
+				Container(
+				    padding: EdgeInsets.all(5),
+				    child: Row(
+					mainAxisAlignment: MainAxisAlignment.start,
+					children: <Widget>[
+					    Text(this.results.results[index].project.module.code + " - ", style: TextStyle(fontWeight: FontWeight.w600),),
+					    Text(this.results.results[index].project.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
+					],
+				    )
+				),
+				Container(
+				    child: Row(
+					mainAxisAlignment: MainAxisAlignment.spaceAround,
+					children: <Widget>[
+					    buildResultScore(context, this.results.results[index]),
+					    buildMetrics(context, this.results.results[index]),
+					    buildCoverage(context, this.results.results[index])
+					],
+				    ),
+				),
+				Divider()
+			    ],
+			)
+		    );
+		}
+	    )
+	);
+    }
+
     Widget buildResults(BuildContext context) {
-        return ListView.builder(
-            itemCount: this.results.results.length,
-            itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-		    onTap: () {
-		        Navigator.of(context).push(MaterialPageRoute(
-			    builder: (context) => ResultInformationPage(
-				bearer: this.token,
-				result: this.results.results[index],
-				id: this.results.results[index].results.testRunId,
-			    )
-			));
-		    },
-                    child: Column(
-                        children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.all(5),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                        Text(this.results.results[index].project.module.code + " - ", style: TextStyle(fontWeight: FontWeight.w600),),
-                                        Text(this.results.results[index].project.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
-                                    ],
-                                )
-                            ),
-                            Container(
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                        buildResultScore(context, this.results.results[index]),
-                                        buildMetrics(context, this.results.results[index]),
-                                        buildCoverage(context, this.results.results[index])
-                                    ],
-                                ),
-                            ),
-                            Divider()
-                        ],
-                    )
-                );
-            }
-        );
+        return Column(
+	    crossAxisAlignment: CrossAxisAlignment.start,
+	    children: <Widget>[
+	        buildYearSelector(context),
+		Divider(),
+		buildTestsResults(context)
+	    ],
+	);
     }
 
     @override
