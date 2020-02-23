@@ -148,7 +148,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
                                 endDate: endDate,
                                 onDateSelected: onSelect,
                                 dateTileBuilder: dateTileBuilder,
-                                iconColor: Colors.lightBlueAccent,
+                                iconColor: Colors.black,
                                 monthNameWidget: _monthNameWidget,
                                 markedDates: [],
                                 containerDecoration: BoxDecoration(
