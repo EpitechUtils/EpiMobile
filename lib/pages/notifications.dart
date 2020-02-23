@@ -48,9 +48,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
         return ListView.builder(
             itemCount: this.notifications.notifications.length,
             itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    child: Card(
-                        child: Row(
+                return Column(
+                    children: <Widget>[
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                                 Container(
@@ -93,13 +93,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                     this.notifications.notifications[index].title.split('|')[1],
                                                     style: TextStyle(fontSize: 10),
                                                 ),
-                                            ),
+                                            )
                                         ],
                                     )
-                                )
+                                ),
                             ],
                         ),
-                    )
+                        Divider()
+                    ],
                 );
             },
         );

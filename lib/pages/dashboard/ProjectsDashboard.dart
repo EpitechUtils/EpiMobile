@@ -36,60 +36,63 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
             itemBuilder: (BuildContext context, int index) {
                 return Container(
                     padding: EdgeInsets.all(1),
-                    child: Card(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                                Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                        Container(
-                                            margin: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                                (this.widget.dashboard.projects[index].name.length < 40) ? this.widget.dashboard.projects[index].name : this.widget.dashboard.projects[index].name.substring(0, 35) + " ...",
-                                                style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600)
-                                            ),
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(left: 3, top: 2),
-                                            child: Text(
-                                                checkProjectRegisterState(this.widget.dashboard.projects[index]),
-                                                style: TextStyle(fontFamily: "NunitoSans")
-                                            )
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(top: 2),
-                                            child: LinearPercentIndicator(
-                                                width: MediaQuery.of(context).size.width - 100,
-                                                lineHeight: 3,
-                                                percent: double.parse(this.widget.dashboard.projects[index].timeline) / 100,
-                                                progressColor: ((this.widget.dashboard.projects[index].timeline == "100.0000") ? Colors.red : Colors.green),
-                                            )
-                                        )
-                                    ],
-                                ),
-                                Container(
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                        children: <Widget>[
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                    Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
                                             Container(
-                                                child: IconButton(
-                                                    icon: Icon(
-                                                        Icons.arrow_forward_ios,
-                                                        color: Color.fromARGB(255, 41, 155, 203),
-                                                    ),
-                                                    onPressed: () {
-                                                        Navigator.push(context, MaterialPageRoute(
-                                                            builder: (context) => ProjectChildPage(project: this.widget.dashboard.projects[index]))
-                                                        );
-                                                    }
+                                                margin: EdgeInsets.only(left: 10),
+                                                child: Text(
+                                                    (this.widget.dashboard.projects[index].name.length < 40) ? this.widget.dashboard.projects[index].name : this.widget.dashboard.projects[index].name.substring(0, 35) + " ...",
+                                                    style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600)
+                                                ),
+                                            ),
+                                            Container(
+                                                margin: EdgeInsets.only(left: 3, top: 2),
+                                                child: Text(
+                                                    checkProjectRegisterState(this.widget.dashboard.projects[index]),
+                                                    style: TextStyle(fontFamily: "NunitoSans")
+                                                )
+                                            ),
+                                            Container(
+                                                margin: EdgeInsets.only(top: 2),
+                                                child: LinearPercentIndicator(
+                                                    width: MediaQuery.of(context).size.width - 100,
+                                                    lineHeight: 3,
+                                                    percent: double.parse(this.widget.dashboard.projects[index].timeline) / 100,
+                                                    progressColor: ((this.widget.dashboard.projects[index].timeline == "100.0000") ? Colors.red : Colors.green),
                                                 )
                                             )
                                         ],
+                                    ),
+                                    Container(
+                                        child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                                Container(
+                                                    child: IconButton(
+                                                        icon: Icon(
+                                                            Icons.arrow_forward_ios,
+                                                            color: Color(0xFF131313),
+                                                        ),
+                                                        onPressed: () {
+                                                            Navigator.push(context, MaterialPageRoute(
+                                                                builder: (context) => ProjectChildPage(project: this.widget.dashboard.projects[index]))
+                                                            );
+                                                        }
+                                                    )
+                                                )
+                                            ],
+                                        )
                                     )
-                                )
-                            ],
-                        ),
+                                ],
+                            ),
+                            Divider()
+                        ],
                     )
                 );
             },
