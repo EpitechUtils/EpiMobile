@@ -103,19 +103,57 @@ class _LoginWebview extends State<LoginWebview> {
         return Scaffold(
             body: WebviewScaffold(
                 appBar: AppBar(
-                    title: Text("Connexion à l'intranet",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold
+                    flexibleSpace: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: <Color>[
+                                    Color(0xFF0072ff),
+                                    Color(0xFF2F80ED),
+                                ]
+                            )
                         ),
                     ),
-                    centerTitle: true,
+                    automaticallyImplyLeading: false,
+                    title: Text("Connexion à l'intranet",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30
+                        ),
+                    ),
+                    centerTitle: false,
                 ),
                 url: widget.authUrl,
                 withJavascript: true,
                 withZoom: false,
                 clearCache: false,
                 clearCookies: true,
-            )
+            ),
+            floatingActionButton: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    margin: const EdgeInsets.only(left: 30, top: 20, bottom: 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    height: 50,
+                    child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        elevation: 5,
+                        onPressed: () => Navigator.of(context).maybePop(),
+                        color: Color(0xFF0072ff),
+                        child: Text("Annuler la connexion",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                            ),
+                        )
+                    ),
+                ),
+            ),
         );
     }
 

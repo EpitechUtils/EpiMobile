@@ -56,7 +56,9 @@ class SelectLogin extends StatelessWidget {
                 // Login display
                 Text(this.loginEmail == null ? "Non connecté" : this.loginEmail,
                     style: TextStyle(
-                        fontSize: 16
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600
                     ),
                 )
             ],
@@ -71,7 +73,14 @@ class SelectLogin extends StatelessWidget {
             body: Container(
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 10),
                 decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: <Color>[
+                            Color(0xFF0072ff),
+                            Color(0xFF2F80ED),
+                        ]
+                    )
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -86,10 +95,10 @@ class SelectLogin extends StatelessWidget {
 
                         Text("Selection d'utilisateur",
                             style: TextStyle(
-                                color: Color(0xFF131313),
+                                color: Colors.white,
                                 fontSize: 25.0,
-                                fontFamily: "Raleway",
-                                letterSpacing: 1.0,
+                                //fontFamily: "Raleway",
+                                //letterSpacing: 1.0,
                             )
                         ),
 
@@ -99,10 +108,10 @@ class SelectLogin extends StatelessWidget {
                             "vous connecter",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Color(0xFF131313),
+                                color: Colors.white,
                                 fontSize: 15.0,
-                                fontFamily: "Raleway",
-                                letterSpacing: 1.0,
+                                //fontFamily: "Raleway",
+                                //letterSpacing: 1.0,
                             )
                         ),
 
@@ -112,19 +121,35 @@ class SelectLogin extends StatelessWidget {
 
                         SizedBox(height: 30),
 
-                        FlatButton.icon(
-                            onPressed: this.createNewConnection(context),
-                            color: Color(0xFF131313),
-                            icon: Icon(Icons.add,
-                                size: 16,
-                                color: Colors.white,
+                        Container(
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Color(0xFF464646).withOpacity(0.2),
+                                        blurRadius: 6.0,
+                                    )
+                                ]
                             ),
-                            label: Text("Créer nouvelle connexion",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontFamily: "Raleway",
-                                    letterSpacing: 1.0,
+                            child: FlatButton.icon(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                onPressed: this.createNewConnection(context),
+                                color: Colors.white,
+                                icon: Icon(Icons.add,
+                                    size: 16,
+                                    //color: Colors.white,
+                                ),
+                                label: Container(
+                                    margin: const EdgeInsets.only(top: 3),
+                                    child: Text("Créer nouvelle connexion",
+                                        style: TextStyle(
+                                            //color: Colors.white,
+                                            fontSize: 16,
+                                            //fontFamily: "Raleway",
+                                            //letterSpacing: 1.0,
+                                        )
+                                    ),
                                 )
                             )
                         )

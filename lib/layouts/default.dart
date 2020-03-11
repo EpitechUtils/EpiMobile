@@ -245,6 +245,11 @@ class DefaultLayout extends StatelessWidget {
                                                 children: <Widget>[
                                                     Divider(),
                                                     ListTile(
+                                                        leading: Icon(Icons.settings),
+                                                        title: Text('Paramètres'),
+                                                        onTap: () => Navigator.of(context).pushReplacementNamed('/settings'),
+                                                    ),
+                                                    ListTile(
                                                         leading: Icon(Icons.power_settings_new),
                                                         title: Text('Se déconnecter'),
                                                         onTap: () {
@@ -257,11 +262,6 @@ class DefaultLayout extends StatelessWidget {
                                                                 ));
                                                             });
                                                         },
-                                                    ),
-                                                    ListTile(
-                                                        leading: Icon(Icons.settings),
-                                                        title: Text('Paramètres'),
-                                                        onTap: () => Navigator.of(context).pushReplacementNamed('/settings'),
                                                     ),
                                                     ListTile(
                                                         leading: Icon(Icons.help),

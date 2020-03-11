@@ -14,8 +14,6 @@ class Synchronization extends StatelessWidget {
         SharedPreferences.getInstance().then((prefs) {
             // Get login by autolog
             IntranetAPIUtils.internal().getLoggedUserEmail(prefs.getString("autolog_url")).then((login) {
-                print(login);
-
                 // Save login email if no error
                 if (login == null) {
                     Navigator.of(context).pushReplacementNamed('/error_login');
@@ -23,7 +21,8 @@ class Synchronization extends StatelessWidget {
                 }
 
                 prefs.setString("email", login);
-                Navigator.of(context).pushReplacementNamed('/home');
+                Timer(Duration(seconds: 4),
+                    () => Navigator.of(context).pushReplacementNamed('/home'));
             });
         });
 
@@ -31,7 +30,14 @@ class Synchronization extends StatelessWidget {
             body: Container(
                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8),
                 decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: <Color>[
+                            Color(0xFF0072ff),
+                            Color(0xFF2F80ED),
+                        ]
+                    )
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -46,9 +52,9 @@ class Synchronization extends StatelessWidget {
 
                         Text("Synchronisation...",
                             style: TextStyle(
-                                color: Color(0xFF131313),
+                                color: Colors.white,
                                 fontSize: 25.0,
-                                fontFamily: "Raleway",
+                                //fontFamily: "Raleway",
                                 letterSpacing: 1.0,
                             )
                         ),
@@ -59,9 +65,9 @@ class Synchronization extends StatelessWidget {
                             "pour l'utilisation de l'application.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Color(0xFF131313),
+                                color: Colors.white,
                                 fontSize: 15.0,
-                                fontFamily: "Raleway",
+                                //fontFamily: "Raleway",
                                 letterSpacing: 1.0,
                             )
                         ),
@@ -69,7 +75,7 @@ class Synchronization extends StatelessWidget {
                         SizedBox(height: 30),
 
                         SpinKitThreeBounce(
-                            color: Color(0xFF131313),
+                            color: Colors.white,
                             size: 30,
                         )
 
