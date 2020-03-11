@@ -116,11 +116,24 @@ class _LoginWebview extends State<LoginWebview> {
                         ),
                     ),
                     automaticallyImplyLeading: false,
-                    title: Text("Connexion à l'intranet",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30
-                        ),
+                    title: Row(
+                        children: <Widget>[
+                            Container(
+                                margin: const EdgeInsets.only(right: 15),
+                                child: InkWell(
+                                    onTap: () => Navigator.of(context).maybePop(),
+                                    child: Icon(Icons.arrow_back_ios,
+                                        size: 25,
+                                    ),
+                                ),
+                            ),
+                            Text("Connexion à l'intranet",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30
+                                ),
+                            )
+                        ],
                     ),
                     centerTitle: false,
                 ),
@@ -129,30 +142,6 @@ class _LoginWebview extends State<LoginWebview> {
                 withZoom: false,
                 clearCache: false,
                 clearCookies: true,
-            ),
-            floatingActionButton: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    margin: const EdgeInsets.only(left: 30, top: 20, bottom: 40),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: 50,
-                    child: MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        elevation: 5,
-                        onPressed: () => Navigator.of(context).maybePop(),
-                        color: Color(0xFF0072ff),
-                        child: Text("Annuler la connexion",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold
-                            ),
-                        )
-                    ),
-                ),
             ),
         );
     }
