@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_intranet/pages/dashboard/module/ModuleDetails.dart';
 
 class ModulesDashboard extends StatefulWidget {
-    Dashboard dashboard;
-    SharedPreferences prefs;
+    final Dashboard dashboard;
 
-    ModulesDashboard({Key key, @required this.dashboard, @required this.prefs}) : super(key: key);
+    ModulesDashboard({Key key, @required this.dashboard}) : super(key: key);
 
     @override
     _ModulesDashboard createState() => new _ModulesDashboard();
@@ -18,6 +17,35 @@ class _ModulesDashboard extends State<ModulesDashboard> {
 
     @override
     Widget build(BuildContext context) {
+        if (this.widget.dashboard.modules.length == 0) {
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                        SvgPicture.asset("assets/images/icons/shelf.svg",
+                            width: MediaQuery.of(context).size.width / 3,
+                        ),
+
+                        SizedBox(height: 20),
+
+                        Text("Pas de données trouvées...",
+                            style: TextStyle(
+                                //color: Color(0xFF131313),
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold
+                                //fontFamily: "Raleway",
+                                //letterSpacing: 1.0,
+                            )
+                        ),
+
+                        SizedBox(height: 50),
+                    ],
+                ),
+            );
+        }
+
         return ListView.builder(
             itemCount: this.widget.dashboard.modules.length,
             itemBuilder: (BuildContext context, int index) {

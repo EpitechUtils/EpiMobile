@@ -7,12 +7,11 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
-import 'package:mobile_intranet/pages/dashboard/ProjectsDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/projectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/remindersDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/ModulesDashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
-
 
 /// Dashboard Stateful [Widget]
 /// Implements the feed of viral images
@@ -82,14 +81,19 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             notifications: (this._prefs == null) ? 0 : this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             bottomAppBar: TabBar(
                 controller: this._controller,
+                indicatorColor: Colors.white,
                 tabs: <Widget>[
                     Tab(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                                 Icon(Icons.notifications),
                                 SizedBox(width: 5),
-                                Text("Alertes")
+                                Text("Alertes",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                )
                             ],
                         ),
                     ),
@@ -99,17 +103,25 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                             children: <Widget>[
                                 Icon(Icons.folder),
                                 SizedBox(width: 5),
-                                Text("Projets")
+                                Text("Projets",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                )
                             ],
                         ),
                     ),
                     Tab(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                                 Icon(Icons.view_module),
                                 SizedBox(width: 5),
-                                Text("Modules")
+                                Text("Modules",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                )
                             ],
                         ),
                     ),
@@ -120,7 +132,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                 children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
                     ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
                     ProjectsDashboard(dashboard: this._dashboard),
-                    ModulesDashboard(dashboard: this._dashboard, prefs: this._prefs),
+                    ModulesDashboard(dashboard: this._dashboard),
                     //RecentDashboard(notifications: this._notifications, prefs: this._prefs),
                 ]
             ),

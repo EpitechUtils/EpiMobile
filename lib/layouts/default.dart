@@ -20,17 +20,38 @@ class DefaultLayout extends StatelessWidget {
         if (this.hasProfileButton) {
             return AppBar(
                 actions: this.actions,
-                leading: IconButton(
-                    icon: Icon(Icons.people),
-                    tooltip: "Mon profil",
-                    onPressed: () => Navigator.of(context).pushReplacementNamed('/profile'),
+                title: Row(
+                    children: <Widget>[
+                        Container(
+                            margin: const EdgeInsets.only(right: 15),
+                            child: InkWell(
+                                onTap: () {},
+                                child: Icon(Icons.menu,
+                                    size: 30,
+                                ),
+                            ),
+                        ),
+                        Text(this.title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30
+                            ),
+                        )
+                    ],
                 ),
-                title: Text(this.title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold
+                flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: <Color>[
+                                Color(0xFF0072ff),
+                                Color(0xFF2F80ED),
+                            ]
+                        )
                     ),
                 ),
-                centerTitle: true,
+                centerTitle: false,
                 bottom: this.bottomAppBar
             );
         } else {
@@ -38,10 +59,23 @@ class DefaultLayout extends StatelessWidget {
                 actions: this.actions,
                 title: Text(this.title,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30
                     ),
                 ),
-                centerTitle: true,
+                flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: <Color>[
+                                Color(0xFF0072ff),
+                                Color(0xFF2F80ED),
+                            ]
+                        )
+                    ),
+                ),
+                centerTitle: false,
                 bottom: this.bottomAppBar
             );
         }
@@ -57,7 +91,7 @@ class DefaultLayout extends StatelessWidget {
                 child: Scaffold(
                     appBar: buildAppBar(context),
                     body: this.child,
-                    bottomNavigationBar: BottomNavigation(notifications: this.notifications)
+                    //bottomNavigationBar: BottomNavigation(notifications: this.notifications)
                 ),
             ),
         );

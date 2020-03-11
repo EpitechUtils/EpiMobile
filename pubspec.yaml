@@ -7,7 +7,7 @@ description: Intranet epitech mobile
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -26,8 +26,8 @@ dependencies:
   calendar_views: ^0.5.2
   intl: ^0.15.8
   android_alarm_manager: ^0.4.5+3
-  background_fetch: ^0.5.0 #TODO config for IOS
-  flutter_local_notifications: #TODO config for IOS
+  background_fetch: ^0.5.0
+  flutter_local_notifications:
 
   flutter:
     sdk: flutter

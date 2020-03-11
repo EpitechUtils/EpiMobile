@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
+import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/BoardModule.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
+import 'package:mobile_intranet/parser/components/subcomponents/Activity.dart';
 
 /// ReminderDashboard from dashboard
 class ReminderDashboard extends StatefulWidget {
@@ -43,9 +45,8 @@ class _ReminderDashboard extends State<ReminderDashboard> {
     /// Build render
     @override
     Widget build(BuildContext context) {
-        return Container(
-            height: MediaQuery.of(context).size.height - 200,
-            child: ListView(
+        return SingleChildScrollView(
+            child: Column(
                 children: <Widget>[
                     this.buildNextSession(),
                     this.buildNextDelivery(),
@@ -60,110 +61,111 @@ class _ReminderDashboard extends State<ReminderDashboard> {
             return Container();
 
         return Container(
-            padding: EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
-            child: Card(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+            margin: const EdgeInsets.only(top: 20, bottom: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                    Text("Prochaines activités",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                            color: Theme.of(context).primaryColor
+                        )
+                    ),
 
-                        // Header
-                        Container(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                                children: <Widget>[
-                                    Container(
-                                        child: Icon(
-                                            Icons.schedule,
-                                            color: Theme.of(context).primaryColor
+                    Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Column(
+                            children: () {
+                                List<Widget> activitiesListWidget = [];
+
+                                // Add all activities
+                                this.widget.dashboard.activities.forEach((Activity activity) {
+                                    Widget activityWidget = Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: Color(0xFF464646).withOpacity(0.2),
+                                                    blurRadius: 6.0,
+                                                )
+                                            ]
                                         ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Container(
-                                        child: Text("Prochaines activités",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 20,
-                                                color: Theme.of(context).primaryColor
-                                            )
-                                        ),
-                                    ),
-                                ],
-                            )
-                        ),
-
-                        // Content
-                        Container(
-                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: this.widget.dashboard.activities.length,
-                                separatorBuilder: (BuildContext context, int index) => Divider(),
-                                itemBuilder: (BuildContext context, int index) {
-                                    return Container(
-                                        child: Row(
-                                            children: <Widget>[
-
-                                                // Registered or not badge
-                                                SizedBox(
-                                                    height: 50,
-                                                    width: 3,
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(10),
-                                                            color: (this.widget.dashboard.activities[index].inscriptionDate is bool) ? Color(0xFF2ecc71) : Color(0xFFe74c3c),
-                                                        ),
-                                                    ),
-                                                ),
-
-                                                SizedBox(width: 5),
-
-                                                // Content
-                                                Expanded(
-                                                    child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        margin: const EdgeInsets.only(bottom: 10),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(5),
+                                            child: Container(
+                                                padding: const EdgeInsets.all(10),
+                                                color: Theme.of(context).cardColor,
+                                                child: Container(
+                                                    child: Row(
                                                         children: <Widget>[
-                                                            Container(
-                                                                padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                                                                child: Text(
-                                                                    this.widget.dashboard.activities[index].module + " | " + this.widget.dashboard.activities[index].name,
-                                                                    style: TextStyle(
-                                                                        fontWeight: FontWeight.w600
+
+                                                            // Registered or not badge
+                                                            SizedBox(
+                                                                height: 35,
+                                                                width: 3,
+                                                                child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(10),
+                                                                        color: (activity.inscriptionDate is bool) ? Color(0xFF2ecc71) : Color(0xFFe74c3c),
                                                                     ),
                                                                 ),
                                                             ),
 
-                                                            Container(
-                                                                padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                                                                child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            SizedBox(width: 5),
+
+                                                            // Content
+                                                            Expanded(
+                                                                child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: <Widget>[
                                                                         Container(
-                                                                            child: Text(
-                                                                                "Le " + this.widget.dashboard.activities[index].timelineStart
+                                                                            padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+                                                                            child: Text(activity.module + " | " + activity.name,
+                                                                                style: TextStyle(
+                                                                                    fontWeight: FontWeight.w600
+                                                                                ),
                                                                             ),
                                                                         ),
+
                                                                         Container(
-                                                                            child: Text(
-                                                                                (this.widget.dashboard.activities[index].room == null) ? "Salle non spécifiée"
-                                                                                    : this.widget.dashboard.activities[index].room,
-                                                                                style: TextStyle(fontStyle: FontStyle.italic),
+                                                                            padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+                                                                            child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: <Widget>[
+                                                                                    Container(
+                                                                                        child: Text("Le " + activity.timelineStart),
+                                                                                    ),
+                                                                                    Container(
+                                                                                        child: Text(
+                                                                                            (activity.room == null) ? "Salle non spécifiée"
+                                                                                                : activity.room,
+                                                                                            style: TextStyle(fontStyle: FontStyle.italic),
+                                                                                        ),
+                                                                                    ),
+                                                                                ],
                                                                             ),
-                                                                        ),
-                                                                    ],
+                                                                        )
+                                                                    ]
                                                                 ),
                                                             )
-                                                        ]
-                                                    ),
+                                                        ],
+                                                    )
                                                 )
-                                            ],
+                                            )
                                         )
                                     );
-                                },
-                            )
-                        )
-                    ],
-                ),
+
+                                    // Add to list
+                                    activitiesListWidget.add(activityWidget);
+                                });
+
+                                return activitiesListWidget;
+                            }(),
+                        ),
+                    )
+                ],
             ),
         );
     }
@@ -173,78 +175,77 @@ class _ReminderDashboard extends State<ReminderDashboard> {
             return Container();
 
         return Container(
-            padding: EdgeInsets.only(top: 5, left: 10, right: 10),
-            child: Card(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-
-                        // Header
-                        Container(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                                children: <Widget>[
-                                    Container(
-                                        child: Icon(
-                                            Icons.access_alarm,
-                                            color: Theme.of(context).primaryColor
-                                        ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Container(
-                                        child: Text("Projets à rendre",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 20,
-                                                color: Theme.of(context).primaryColor
-                                            )
-                                        ),
-                                    ),
-                                ],
-                            )
-                        ),
-
-                        // Content
-                        Container(
-                            padding: EdgeInsets.all(10),
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                separatorBuilder: (BuildContext context, int index) => Divider(),
-                                itemCount: this.widget.moduleBoard.projectsToDeliveryAmount,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                    return Container(
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                                Container(
-                                                    child: Row(
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: Text(
-                                                                    this.widget.moduleBoard.registeredProjects[index].moduleName + " : ",
-                                                                    style: TextStyle(fontWeight: FontWeight.w600),
-                                                                ),
-                                                            ),
-                                                            Container(
-                                                                child: Text(
-                                                                    DateFormat("dd/MM/yyyy").format(DateTime.parse(this.widget.moduleBoard.registeredProjects[index].endActivity)).toString()
-                                                                ),
-                                                            )
-                                                        ],
-                                                    ),
-                                                ),
-                                                Text(
-                                                    this.widget.moduleBoard.registeredProjects[index].name,
-                                                ),
-                                            ],
-                                        ),
-                                    );
-                                },
-                            )
+            margin: const EdgeInsets.only(top: 0, bottom: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                    Text("Projets à rendre",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                            color: Theme.of(context).primaryColor
                         )
-                    ],
-                ),
+                    ),
+
+                    Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Column(
+                            children: () {
+                                List<Widget> projectsListWidget = [];
+
+                                // Add all activities
+                                this.widget.moduleBoard.registeredProjects.forEach((BoardModule project) {
+                                    Widget projectWidget = Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: Color(0xFF464646).withOpacity(0.2),
+                                                    blurRadius: 6.0,
+                                                )
+                                            ]
+                                        ),
+                                        margin: const EdgeInsets.only(bottom: 10),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(5),
+                                            child: Container(
+                                                padding: const EdgeInsets.all(10),
+                                                color: Theme.of(context).cardColor,
+                                                child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                        Container(
+                                                            child: Row(
+                                                                children: <Widget>[
+                                                                    Container(
+                                                                        child: Text(project.moduleName + " : ",
+                                                                            style: TextStyle(fontWeight: FontWeight.w600),
+                                                                        ),
+                                                                    ),
+                                                                    Container(
+                                                                        child: Text(
+                                                                            DateFormat("dd/MM/yyyy").format(DateTime.parse(project.endActivity)).toString()
+                                                                        ),
+                                                                    )
+                                                                ],
+                                                            ),
+                                                        ),
+                                                        Text(project.name,),
+                                                    ],
+                                                )
+                                            )
+                                        )
+                                    );
+
+                                    // Add to list
+                                    projectsListWidget.add(projectWidget);
+                                });
+
+                                return projectsListWidget;
+                            }(),
+                        ),
+                    )
+                ],
             ),
         );
     }
