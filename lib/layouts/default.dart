@@ -38,7 +38,7 @@ class DefaultLayout extends StatelessWidget {
                         Text(this.title,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 30
+                                fontSize: 25
                             ),
                         )
                     ],
@@ -64,7 +64,7 @@ class DefaultLayout extends StatelessWidget {
                 title: Text(this.title,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30
+                        fontSize: 25
                     ),
                 ),
                 flexibleSpace: Container(
@@ -114,7 +114,7 @@ class DefaultLayout extends StatelessWidget {
                                                             children: <Widget>[
                                                                 Container(
                                                                     margin: const EdgeInsets.only(bottom: 10),
-                                                                    child: Text("EpiCompagnon",
+                                                                    child: Text("My Intranet",
                                                                         style: TextStyle(
                                                                             fontWeight: FontWeight.bold,
                                                                             color: Colors.white,
@@ -219,8 +219,8 @@ class DefaultLayout extends StatelessWidget {
                                                 title: Text('Notifications'),
                                                 subtitle: Text("Les grades ? Troooop bien !"),
                                                 onTap: () {
-                                                    if (ModalRoute.of(context).settings.name != '/tests_results')
-                                                        Navigator.of(context).pushReplacementNamed("/tests_results");
+                                                    if (ModalRoute.of(context).settings.name != '/notifications')
+                                                        Navigator.of(context).pushReplacementNamed("/notifications");
                                                 },
                                             ),
                                             ListTile(
@@ -263,10 +263,10 @@ class DefaultLayout extends StatelessWidget {
                                                             });
                                                         },
                                                     ),
-                                                    ListTile(
+                                                    /*ListTile(
                                                         leading: Icon(Icons.help),
                                                         title: Text('Aide et Feedback')
-                                                    )
+                                                    )*/
                                                 ],
                                             )
                                         )

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 import 'dart:io';
 import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
-import 'package:mobile_intranet/parser/components/dashboard/Notification/Notification.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 /// SplashScreen extended from StatefulWidget
 /// State
@@ -108,13 +108,29 @@ class _SplashScreenState extends State<SplashScreen> {
     Widget build(BuildContext context) {
         return Container(
             decoration: BoxDecoration(
-                color: Color(0xFF131313)
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[
+                        Color(0xFF0072ff),
+                        Color(0xFF2F80ED),
+                    ]
+                )
             ),
-            child: Row(
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                    Image.asset("assets/images/icons/logo_dark.png"),
+                    SvgPicture.asset("assets/images/icons/smartphone.svg",
+                        width: MediaQuery.of(context).size.width / 2,
+                    ),
+
+                    SizedBox(height: 60),
+
+                    SpinKitThreeBounce(
+                        color: Colors.white,
+                        size: 30,
+                    )
                 ],
             )
         );

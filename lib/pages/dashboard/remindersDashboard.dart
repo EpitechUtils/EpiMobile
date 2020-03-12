@@ -61,7 +61,7 @@ class _ReminderDashboard extends State<ReminderDashboard> {
             return Container();
 
         return Container(
-            margin: const EdgeInsets.only(top: 20, bottom: 15),
+            margin: const EdgeInsets.only(top: 20),
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +175,7 @@ class _ReminderDashboard extends State<ReminderDashboard> {
             return Container();
 
         return Container(
-            margin: const EdgeInsets.only(top: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 20, bottom: 10),
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

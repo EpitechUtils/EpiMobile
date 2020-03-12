@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
-import 'package:mobile_intranet/components/GradientComponent.dart';
 import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 
 /// UserProfile state ful creator
@@ -26,7 +25,7 @@ class _UserProfile extends State<UserProfile> {
         return Column(
             children: <Widget>[
                 // Header top profile
-                Container(
+                /*Container(
                     decoration: new BoxDecoration(
                         color: Colors.black,
                         boxShadow: [
@@ -103,12 +102,23 @@ class _UserProfile extends State<UserProfile> {
                             )
                         ],
                     ),
-                ),
+                ),*/
                 Flexible(
                     child: ListView(
                         padding: EdgeInsets.all(5.0),
                         children: <Widget>[
-                            createNetsoul(),
+                            Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: Text("Temps de connexion à l'école",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Theme.of(context).primaryColor
+                                    )
+                                ),
+                            ),
+                            this.createNetsoul(),
+                            //LogChart(netsoul: this.widget.netsoul),
                             Divider(),
                             createFlagList("Fantômes", "ghost", this.widget.profile.ghostLen, Icons.access_alarms),
                             Divider(),
@@ -126,48 +136,114 @@ class _UserProfile extends State<UserProfile> {
 
     Widget createNetsoul() {
         return Container(
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                    Row(
-                        children: <Widget>[
-                            Container(
-                                width: MediaQuery.of(context).size.width / 2 - 20,
-                                child: ListTile(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                                    title: Text("Semaine dernière"),
-                                    subtitle: Text((this.widget.netsoul.weekLog != null) ? this.widget.netsoul.weekLog.toString() + " h" : "NaN"),
-                                    leading: Icon(Icons.access_time,
-                                        size: 35,
-                                        color: Colors.black
+            margin: const EdgeInsets.only(bottom: 15, top: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Color(0xFF464646).withOpacity(0.2),
+                            blurRadius: 10.0,
+                        )
+                    ]
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Container(
+                        color: Theme.of(context).cardColor,
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                    Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                                        padding: const EdgeInsets.only(bottom: 15),
+                                        child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                                Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                        Text("Semaine dernière",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Theme.of(context).primaryColor
+                                                            )
+                                                        ),
+                                                        Text((this.widget.netsoul.weekLog != null) ? this.widget.netsoul.weekLog.toString() + " h" : "NaN",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Theme.of(context).primaryColor
+                                                            )
+                                                        ),
+                                                    ],
+                                                ),
+
+                                                Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: <Widget>[
+                                                        Text("Cette semaine",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Theme.of(context).primaryColor
+                                                            )
+                                                        ),
+                                                        Text((this.widget.netsoul.lastWeekLog != null) ? this.widget.netsoul.lastWeekLog.toString() + " h" : "NaN",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Theme.of(context).primaryColor
+                                                            )
+                                                        ),
+                                                    ],
+                                                )
+                                            ],
+                                        ),
                                     ),
-                                ),
-                            ),
-                            Container(
-                                width: MediaQuery.of(context).size.width / 2 - 20,
-                                child: ListTile(
-                                    title: Text("Cette semaine"),
-                                    subtitle: Text((this.widget.netsoul.lastWeekLog != null) ? this.widget.netsoul.lastWeekLog.toString() + " h" : "NaN"),
-                                    leading: Icon(Icons.group,
-                                        size: 35,
-                                        color: Colors.black
+                                    Container(
+                                        child: Sparkline(
+                                            data: this.widget.netsoul.time,
+                                            lineWidth: 15.0,
+                                            lineGradient: LinearGradient(
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight,
+                                                colors: <Color>[
+                                                    Color(0xFF0072ff),
+                                                    Color(0xFF2F80ED),
+                                                ]
+                                            ),
+                                            fillGradient: LinearGradient(
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight,
+                                                colors: <Color>[
+                                                    Color(0xFF0072ff),
+                                                    Color(0xFF2F80ED),
+                                                ]
+                                            ),
+                                            fillMode: FillMode.below,
+                                            pointsMode: PointsMode.none,
+                                        ),
                                     ),
-                                ),
+                                    Container(
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight,
+                                                colors: <Color>[
+                                                    Color(0xFF0072ff),
+                                                    Color(0xFF2F80ED),
+                                                ]
+                                            ),
+                                        ),
+                                    )
+                                ],
                             ),
-                        ],
-                    ),
-                    Container(
-                        child: Sparkline(
-                            data: this.widget.netsoul.time,
-                            lineGradient: GradientComponent.green(),
-                            fillGradient: GradientComponent.green(),
-                            fillMode: FillMode.below,
-                            pointsMode: PointsMode.none,
-                            pointSize: 7,
-                            pointColor: Colors.amber,
                         ),
-                    )
-                ],
+                    ),
+                )
             ),
         );
     }

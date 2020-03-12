@@ -41,9 +41,9 @@ class IntranetAPIUtils {
     }
 
     Future<dynamic> get(String url) async {
-        var cacheManager = await CacheManager.getInstance();
+        var cacheManager = DefaultCacheManager();
 
-        return await cacheManager.getFile(url);
+        return cacheManager.getFile(url);
     }
 
     Future<dynamic> registerToProject(String url, String name, List<String> team) async {

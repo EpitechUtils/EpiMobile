@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +33,15 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     TabController _controller;
     SharedPreferences _prefs;
     Profile _profile;
+    String _autolog = "";
     Netsoul _netsoul;
 
     _ProfilePageState() {
         // Load shared preferences
         SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() {
             this._prefs = prefs;
-            Parser parser = Parser(prefs.getString("autolog_url"));
+            this._autolog = prefs.getString("autolog_url");
+            Parser parser = Parser(this._autolog);
 
             // Parse profile information
             parser.parseProfile(prefs.get("email"))
@@ -72,17 +75,38 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     Widget build(BuildContext context) {
         return DefaultLayout(
             notifications: (this._prefs == null) ? 0 : this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
+            actions: <Widget>[
+                Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle
+                    ),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(60),
+                        child: CachedNetworkImage(
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
+                            imageUrl: this._autolog + this._profile.pictureUrl,
+                        ),
+                    ),
+                )
+            ],
             bottomAppBar: TabBar(
                 indicatorColor: Colors.white,
                 controller: this._controller,
                 tabs: <Widget>[
                     Tab(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                                 Icon(Icons.person),
                                 SizedBox(width: 5),
-                                Text("Profile")
+                                Text("Résumé",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                )
                             ],
                         ),
                     ),
@@ -92,17 +116,25 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             children: <Widget>[
                                 Icon(Icons.edit_attributes),
                                 SizedBox(width: 5),
-                                Text("Notes")
+                                Text("Notes",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                )
                             ],
                         ),
                     ),
                     Tab(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                                 Icon(Icons.list),
                                 SizedBox(width: 5),
-                                Text("Absences")
+                                Text("Absence",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                )
                             ],
                         ),
                     ),
@@ -116,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     AbsenceProfile(profile: this._profile)
                 ]
             ),
-            title: "Profile"
+            title: "Mon Profil"
         );
     }
 }
