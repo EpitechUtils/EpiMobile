@@ -18,7 +18,7 @@ class EpitechMobile extends StatelessWidget {
         //WidgetsFlutterBinding.ensureInitialized();
         //FlutterDownloader.initialize();
         return MaterialApp(
-            title: 'EpiCompanion',
+            title: 'MyEpitech',
             theme: ThemeData(
                 scaffoldBackgroundColor: Colors.white,
                 cardColor: Colors.white,
@@ -37,21 +37,23 @@ class EpitechMobile extends StatelessWidget {
                 primaryIconTheme: IconThemeData(color: Color(0xFF131313)),
                 textTheme: TextTheme(
                     title: TextStyle(
-                        fontFamily: "CalibreSemibold",
+                        fontFamily: "Sarabun",
                         fontSize: 35,
                         letterSpacing: 1,
-                        color: Color(0xFF131313)),
+                        color: Color(0xFF131313)
+                    ),
                     subtitle: TextStyle(
                         color: Color(0xFF131313),
                         fontSize: 20,
-                        fontFamily: "CalibreSemibold",
+                        fontFamily: "Sarabun",
                         letterSpacing: 1.0,
                     ),
                     button: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                        fontFamily: "CalibreSemibold",
-                        letterSpacing: 1)
+                        fontFamily: "Sarabun",
+                        letterSpacing: 1
+                    )
                 )
             ),
             themeMode: ThemeMode.light,

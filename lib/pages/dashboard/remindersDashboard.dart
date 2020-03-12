@@ -198,41 +198,47 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                 this.widget.moduleBoard.registeredProjects.forEach((BoardModule project) {
                                     Widget projectWidget = Container(
                                         decoration: BoxDecoration(
-                                            boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: Color(0xFF464646).withOpacity(0.2),
-                                                    blurRadius: 6.0,
-                                                )
-                                            ]
+                                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                            border: Border.all(
+                                                color: Color(0xFFABABAB),
+                                                width: 1,
+                                            )
                                         ),
                                         margin: const EdgeInsets.only(bottom: 10),
-                                        child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(5),
-                                            child: Container(
-                                                padding: const EdgeInsets.all(10),
-                                                color: Theme.of(context).cardColor,
-                                                child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                        Container(
-                                                            child: Row(
-                                                                children: <Widget>[
-                                                                    Container(
-                                                                        child: Text(project.moduleName + " : ",
-                                                                            style: TextStyle(fontWeight: FontWeight.w600),
+                                        child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            //color: Theme.of(context).cardColor,
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: <Widget>[
+                                                    Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: <Widget>[
+                                                            Container(
+                                                                child: Row(
+                                                                    children: <Widget>[
+                                                                        Container(
+                                                                            child: Text(project.moduleName + " : ",
+                                                                                style: TextStyle(fontWeight: FontWeight.w600),
+                                                                            ),
                                                                         ),
-                                                                    ),
-                                                                    Container(
-                                                                        child: Text(
-                                                                            DateFormat("dd/MM/yyyy").format(DateTime.parse(project.endActivity)).toString()
-                                                                        ),
-                                                                    )
-                                                                ],
+                                                                        Container(
+                                                                            child: Text(
+                                                                                DateFormat("dd/MM/yyyy").format(DateTime.parse(project.endActivity)).toString()
+                                                                            ),
+                                                                        )
+                                                                    ],
+                                                                ),
                                                             ),
-                                                        ),
-                                                        Text(project.name,),
-                                                    ],
-                                                )
+                                                            Text(project.name,),
+                                                        ],
+                                                    ),
+
+                                                    Icon(Icons.arrow_forward_ios,
+                                                        color: Colors.black,
+                                                        size: 15,
+                                                    )
+                                                ],
                                             )
                                         )
                                     );

@@ -37,6 +37,7 @@ class DefaultLayout extends StatelessWidget {
                         ),
                         Text(this.title,
                             style: TextStyle(
+                                fontFamily: "Sarabun",
                                 fontWeight: FontWeight.bold,
                                 fontSize: 25
                             ),

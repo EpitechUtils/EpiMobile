@@ -67,13 +67,23 @@ flutter:
     - assets/images/icons/
 
   fonts:
-    - family: CalibreSemibold
+    - family: Sarabun
       fonts:
-        - asset: assets/fonts/CalibreSemibold.otf
-
-    - family: Raleway
-      fonts:
-        - asset: assets/fonts/Raleway-Regular.ttf
+        - asset: assets/fonts/Sarabun/Sarabun-Regular.ttf
+        - asset: assets/fonts/Sarabun/Sarabun-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Sarabun/Sarabun-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Sarabun/Sarabun-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Sarabun/Sarabun-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Sarabun/Sarabun-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Sarabun/Sarabun-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Sarabun/Sarabun-ExtraBold.ttf
+          weight: 700
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
