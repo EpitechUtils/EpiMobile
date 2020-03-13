@@ -15,96 +15,18 @@ class UserProfile extends StatefulWidget {
     UserProfile({Key key, @required this.prefs, @required this.profile, @required this.netsoul}) : super(key: key);
 
     /// Creating state
-    _UserProfile createState() => _UserProfile();
+    State<StatefulWidget> createState() => _UserProfile();
 }
 
 class _UserProfile extends State<UserProfile> {
 
+    /// Build summary of profile user
     @override
     Widget build(BuildContext context) {
         return SingleChildScrollView(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                    // Header top profile
-                    /*Container(
-                      decoration: new BoxDecoration(
-                          color: Colors.black,
-                          boxShadow: [
-                              BoxShadow(
-                                  color: Color.fromARGB(50, 31, 40, 51),
-                                  offset: Offset(0, 5),
-                                  blurRadius: 20,
-                              )
-                          ],
-                          image: new DecorationImage(
-                              fit: BoxFit.cover,
-                              repeat: ImageRepeat.repeat,
-                              image: AssetImage("assets/images/background.png"),
-                              colorFilter: ColorFilter.srgbToLinearGamma(),
-                          )
-                      ),
-                      child: Row(
-                          children: <Widget>[
-                              // Profile image from intranet
-                              Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(this.widget.prefs.getString("autolog_url") + this.widget.profile.pictureUrl)
-                                              )
-                                          )
-                                      ),
-                                  ),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.only(left: 20.0),
-                                  child: Column(
-                                      children: <Widget>[
-                                          Container(
-                                              child: Text.rich(
-                                                  TextSpan(
-                                                      text: "Crédits\t",
-                                                      style: TextStyle(fontFamily: "NunitoSans"),
-                                                      children: <TextSpan>[
-                                                          TextSpan(
-                                                              text: this.widget.profile.credits.toString(),
-                                                              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: "NunitoSans")
-                                                          )]
-                                                  )
-                                              )
-                                          ),
-                                          Container(
-                                              margin: EdgeInsets.only(top: 10.0),
-                                              child: Text.rich(
-                                                  TextSpan(
-                                                      text: "GPA\t",
-                                                      style: TextStyle(fontFamily: "NunitoSans"),
-                                                      children: <TextSpan>[
-                                                          TextSpan(
-                                                              text: this.widget.profile.gpa[0]["gpa"].toString(),
-                                                              style: TextStyle(fontWeight: FontWeight.bold)
-                                                          ),
-                                                          TextSpan(
-                                                              text: "\t(cycle " + this.widget.profile.gpa[0]["cycle"].toString() + ")",
-                                                              style: TextStyle(fontStyle: FontStyle.italic)
-                                                          )
-                                                      ])
-                                              ),
-                                          )
-                                      ],
-                                  ),
-                              )
-                          ],
-                      ),
-                  ),*/
                     Container(
                         margin: const EdgeInsets.only(top: 20),
                         padding: const EdgeInsets.only(left: 15, right: 15),

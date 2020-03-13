@@ -150,17 +150,29 @@ class DefaultLayout extends StatelessWidget {
                                                                 ),
                                                             ],
                                                         ),
+                                                        Container(
+                                                            alignment: Alignment.centerLeft,
+                                                            margin: const EdgeInsets.only(bottom: 10),
+                                                            child: Text("v1.1.0 (bêta 2)",
+                                                                textAlign: TextAlign.left,
+                                                                style: TextStyle(
+                                                                    color: Colors.white,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 12
+                                                                ),
+                                                            ),
+                                                        )
                                                         /*Container(
-                                                margin: const EdgeInsets.only(bottom: 10),
-                                                child: Text("Cette version est encore en bêta. N'hésitez pas "
-                                                    "à nous rapporter tous les bugs et autres via l'onglet \"aide et feedback\" ci-dessous.",
-                                                    style: TextStyle(
-                                                        color: Colors.yellow,
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 12
-                                                    ),
-                                                ),
-                                            )*/
+                                                            margin: const EdgeInsets.only(bottom: 10),
+                                                            child: Text("Cette version est encore en bêta. N'hésitez pas "
+                                                                "à nous rapporter tous les bugs et autres via l'onglet \"aide et feedback\" ci-dessous.",
+                                                                style: TextStyle(
+                                                                    color: Colors.yellow,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 12
+                                                                ),
+                                                            ),
+                                                        )*/
                                                     ],
                                                 ),
                                                 decoration: BoxDecoration(
@@ -182,6 +194,7 @@ class DefaultLayout extends StatelessWidget {
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/home')
                                                         Navigator.of(context).pushReplacementNamed('/home');
+                                                    else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
                                             ListTile(
@@ -192,6 +205,7 @@ class DefaultLayout extends StatelessWidget {
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/schedule')
                                                         Navigator.of(context).pushReplacementNamed("/schedule");
+                                                    else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
                                             ListTile(
@@ -202,6 +216,7 @@ class DefaultLayout extends StatelessWidget {
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/tests_results')
                                                         Navigator.of(context).pushReplacementNamed("/tests_results");
+                                                    else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
                                             ListTile(
@@ -221,7 +236,7 @@ class DefaultLayout extends StatelessWidget {
                                                                     minWidth: 14,
                                                                     minHeight: 14,
                                                                 ),
-                                                                child: Text(this.notifications.toString(),
+                                                                child: Text(this.notifications == null ? "0" : this.notifications.toString(),
                                                                     style: TextStyle(
                                                                         color: Colors.white,
                                                                         fontSize: 9,
@@ -237,6 +252,7 @@ class DefaultLayout extends StatelessWidget {
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/notifications')
                                                         Navigator.of(context).pushReplacementNamed("/notifications");
+                                                    else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
                                             ListTile(
@@ -247,6 +263,7 @@ class DefaultLayout extends StatelessWidget {
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/profile')
                                                         Navigator.of(context).pushReplacementNamed("/profile");
+                                                    else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
                                         ],
@@ -263,7 +280,11 @@ class DefaultLayout extends StatelessWidget {
                                                     ListTile(
                                                         leading: Icon(Icons.settings),
                                                         title: Text('Paramètres'),
-                                                        onTap: () => Navigator.of(context).pushReplacementNamed('/settings'),
+                                                        onTap: () {
+                                                            if (ModalRoute.of(context).settings.name != '/settings')
+                                                                Navigator.of(context).pushReplacementNamed("/settings");
+                                                            else this.scaffoldKey.currentState.openEndDrawer();
+                                                        },
                                                     ),
                                                     ListTile(
                                                         leading: Icon(Icons.power_settings_new),

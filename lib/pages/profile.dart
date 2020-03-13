@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/profile/MarksProfile.dart';
-import 'package:mobile_intranet/pages/profile/UserProfile.dart';
+import 'package:mobile_intranet/pages/profile/userSummaryProfile.dart';
 import 'package:mobile_intranet/pages/profile/AbsenceProfile.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
@@ -76,21 +76,27 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
         return DefaultLayout(
             notifications: (this._prefs == null) ? 0 : this._prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             actions: <Widget>[
-                Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle
-                    ),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(60),
-                        child: CachedNetworkImage(
-                            width: 30,
-                            height: 30,
-                            fit: BoxFit.cover,
-                            imageUrl: this._autolog + this._profile.pictureUrl,
-                        ),
-                    ),
-                )
+                (){
+                    if (this._profile == null)
+                        return Container();
+
+                    return Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        child: CircleAvatar(
+                            child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: CachedNetworkImageProvider(this._autolog + this._profile.pictureUrl)
+                                    )
+                                ),
+                            )
+                        )
+                    );
+                }()
             ],
             bottomAppBar: TabBar(
                 indicatorColor: Colors.white,
