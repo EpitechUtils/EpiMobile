@@ -118,9 +118,12 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                                                                     ),
                                                                                 ),
 
-                                                                                Text(activity.name,
-                                                                                    style: TextStyle(
-                                                                                        fontWeight: FontWeight.w600
+                                                                                Flexible(
+                                                                                    child: Text(activity.name,
+                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                        style: TextStyle(
+                                                                                            fontWeight: FontWeight.w600
+                                                                                        ),
                                                                                     ),
                                                                                 )
                                                                             ],
@@ -214,6 +217,7 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                                             Container(
                                                                 margin: const EdgeInsets.only(left: 5, bottom: 5),
                                                                 child: Text(project.name.replaceAll("Projet : ", ""),
+                                                                    overflow: TextOverflow.ellipsis,
                                                                     style: TextStyle(fontWeight: FontWeight.w600),
                                                                 ),
                                                             ),

@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
         // Check if autologin url exists in shared preferences and redirect to homepage
         if (prefs.getString("autolog_url") != null) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
             return;
         }
 

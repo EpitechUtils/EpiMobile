@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/components/bottomNavigation.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -193,7 +193,7 @@ class DefaultLayout extends StatelessWidget {
                                                 subtitle: Text("J'ai quoi à rendre bientôt ?"),
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/home')
-                                                        Navigator.of(context).pushReplacementNamed('/home');
+                                                        Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                                                     else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
@@ -204,7 +204,7 @@ class DefaultLayout extends StatelessWidget {
                                                 subtitle: Text("C'est quoi ma prochaine activité ?"),
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/schedule')
-                                                        Navigator.of(context).pushReplacementNamed("/schedule");
+                                                        Navigator.of(context).pushNamedAndRemoveUntil("/schedule", (Route<dynamic> route) => false);
                                                     else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
@@ -215,7 +215,7 @@ class DefaultLayout extends StatelessWidget {
                                                 subtitle: Text("Oui, my.epitech.eu sur mobile..."),
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/tests_results')
-                                                        Navigator.of(context).pushReplacementNamed("/tests_results");
+                                                        Navigator.of(context).pushNamedAndRemoveUntil("/tests_results", (Route<dynamic> route) => false);
                                                     else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
@@ -251,7 +251,7 @@ class DefaultLayout extends StatelessWidget {
                                                 subtitle: Text("Les grades ? Troooop bien !"),
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/notifications')
-                                                        Navigator.of(context).pushReplacementNamed("/notifications");
+                                                        Navigator.of(context).pushNamedAndRemoveUntil("/notifications", (Route<dynamic> route) => false);
                                                     else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
@@ -262,7 +262,7 @@ class DefaultLayout extends StatelessWidget {
                                                 subtitle: Text("J'ai reçu une alerte temps de log..."),
                                                 onTap: () {
                                                     if (ModalRoute.of(context).settings.name != '/profile')
-                                                        Navigator.of(context).pushReplacementNamed("/profile");
+                                                        Navigator.of(context).pushNamedAndRemoveUntil("/profile", (Route<dynamic> route) => false);
                                                     else this.scaffoldKey.currentState.openEndDrawer();
                                                 },
                                             ),
@@ -282,7 +282,7 @@ class DefaultLayout extends StatelessWidget {
                                                         title: Text('Paramètres'),
                                                         onTap: () {
                                                             if (ModalRoute.of(context).settings.name != '/settings')
-                                                                Navigator.of(context).pushReplacementNamed("/settings");
+                                                                Navigator.of(context).pushNamedAndRemoveUntil("/settings", (Route<dynamic> route) => false);
                                                             else this.scaffoldKey.currentState.openEndDrawer();
                                                         },
                                                     ),
@@ -291,12 +291,15 @@ class DefaultLayout extends StatelessWidget {
                                                         title: Text('Se déconnecter'),
                                                         onTap: () {
                                                             SharedPreferences.getInstance().then((prefs) {
-                                                                prefs.clear();
+                                                                DefaultCacheManager manager = new DefaultCacheManager();
+                                                                manager.emptyCache();
 
-                                                                // Redirect to selection view
-                                                                Navigator.of(context).push(MaterialPageRoute(
-                                                                    builder: (BuildContext context) => SelectLogin(loginEmail: null)
-                                                                ));
+                                                                // Clear shared preferences
+                                                                prefs.clear().then((res) {
+                                                                    Navigator.of(context).push(MaterialPageRoute(
+                                                                        builder: (BuildContext context) => SelectLogin(loginEmail: null)
+                                                                    ));
+                                                                });
                                                             });
                                                         },
                                                     ),

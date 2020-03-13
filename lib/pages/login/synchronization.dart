@@ -16,13 +16,13 @@ class Synchronization extends StatelessWidget {
             IntranetAPIUtils.internal().getLoggedUserEmail(prefs.getString("autolog_url")).then((login) {
                 // Save login email if no error
                 if (login == null) {
-                    Navigator.of(context).pushReplacementNamed('/error_login');
+                    Navigator.of(context).pushNamedAndRemoveUntil('/error_login', (Route<dynamic> route) => false);
                     return;
                 }
 
                 prefs.setString("email", login);
                 Timer(Duration(seconds: 4),
-                    () => Navigator.of(context).pushReplacementNamed('/home'));
+                    () => Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false));
             });
         });
 

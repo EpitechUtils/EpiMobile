@@ -3,7 +3,6 @@ import 'package:mobile_intranet/parser/components/subcomponents/Project.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
-import 'package:mobile_intranet/pages/dashboard/project/ProjectChild.dart';
 
 class RegisterContent extends StatefulWidget {
     SharedPreferences prefs;

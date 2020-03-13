@@ -79,7 +79,7 @@ class _LoginWebview extends State<LoginWebview> {
 
                         // Check if autolog exists
                         if (result["autologin"] == null) {
-                            Navigator.of(context).pushReplacementNamed('/error_login');
+                            Navigator.of(context).pushNamedAndRemoveUntil('/error_login', (Route<dynamic> route) => false);
                             return;
                         } // (E9&T^\;
 
@@ -88,10 +88,10 @@ class _LoginWebview extends State<LoginWebview> {
 
                         // Save autolog and start synchronization
                         SharedPreferences.getInstance().then((prefs) => prefs.setString("autolog_url", result['autologin']));
-                        Navigator.of(context).pushReplacementNamed('/synchronization');
+                        Navigator.of(context).pushNamedAndRemoveUntil('/synchronization', (Route<dynamic> route) => false);
                     });
                 } catch (err) {
-                    Navigator.of(context).pushReplacementNamed('/error_login');
+                    Navigator.of(context).pushNamedAndRemoveUntil('/error_login', (Route<dynamic> route) => false);
                 }
             }
         }
