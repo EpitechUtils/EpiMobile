@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/Project.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProject.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/moduleProject/ModuleProjectGroup.dart';
@@ -58,31 +59,19 @@ class _ProjectChildPage extends State<ProjectChildPage> {
     @override
     Widget build(BuildContext context) {
         if (this._moduleProject == null) {
-            return Scaffold(
-                appBar: AppBar(
-                    title: Text(
-                        "Loading...",
-                        style: TextStyle(fontFamily: "NunitoSans")
-                    ),
-                ),
-                body: Center(
-                    child: CircularProgressIndicator()
-                )
+            return DefaultLayout(
+                title: "Chargement...",
+                child: Container(),
             );
         } else {
-            return Scaffold(
-                appBar: AppBar(
-                    title: Text(
-                        this._moduleProject.projectTitle,
-                        style: TextStyle(fontFamily: "NunitoSans")
-                    ),
-                ),
-                body: Column(
+            return DefaultLayout(
+                title: "Détails du projet",
+                child: Column(
                     children: <Widget>[
                         buildProjectBar(),
                         buildProjectGroupsList()
                     ],
-                )
+                ),
             );
         }
     }
@@ -111,13 +100,48 @@ class _ProjectChildPage extends State<ProjectChildPage> {
                                 ),
                                 onPressed: () {
                                     Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => new WebviewScaffold(
-                                            url: "https://docs.google.com/viewer?url=https://intra.epitech.eu" + this._moduleProject.filesUrls[index],
-                                            appBar: new AppBar(
-                                                title: Text("Sujet")
-                                            ),
+                                            builder: (context) => WebviewScaffold(
+                                                url: "https://docs.google.com/viewer?url=https://intra.epitech.eu" + this._moduleProject.filesUrls[index],
+                                                //initialChild: CircularProgressIndicator(),
+                                                appBar: AppBar(
+                                                    flexibleSpace: Container(
+                                                        decoration: BoxDecoration(
+                                                            gradient: LinearGradient(
+                                                                begin: Alignment.centerLeft,
+                                                                end: Alignment.centerRight,
+                                                                colors: <Color>[
+                                                                    Color(0xFF0072ff),
+                                                                    Color(0xFF2F80ED),
+                                                                ]
+                                                            )
+                                                        ),
+                                                    ),
+                                                    automaticallyImplyLeading: false,
+                                                    title: Row(
+                                                        children: <Widget>[
+                                                            Container(
+                                                                margin: const EdgeInsets.only(right: 15),
+                                                                child: InkWell(
+                                                                    onTap: () => Navigator.of(context).maybePop(),
+                                                                    child: Icon(Icons.arrow_back_ios,
+                                                                        size: 25,
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                            Text("Fichier PDF",
+                                                                style: TextStyle(
+                                                                    fontFamily: "Sarabun",
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 25
+                                                                )
+                                                            )
+                                                        ],
+                                                    ),
+                                                    centerTitle: false,
+                                                ),
+                                            )
                                         )
-                                    ));
+                                    );
                                 },
                                 highlightColor: Colors.lightBlueAccent,
                                 color: Colors.lightBlueAccent,

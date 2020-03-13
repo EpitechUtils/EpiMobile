@@ -9,7 +9,7 @@ import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
 import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/dashboard/projectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/remindersDashboard.dart';
-import 'package:mobile_intranet/pages/dashboard/ModulesDashboard.dart';
+import 'package:mobile_intranet/pages/dashboard/modulesDashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
 import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
 

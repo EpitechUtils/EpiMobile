@@ -26,15 +26,30 @@ class DefaultLayout extends StatelessWidget {
                 automaticallyImplyLeading: false,
                 title: Row(
                     children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.only(right: 15),
-                            child: InkWell(
-                                onTap: () => this.scaffoldKey.currentState.openDrawer(),
-                                child: Icon(Icons.menu,
-                                    size: 30,
+                        (){
+                            if (Navigator.canPop(context)) {
+                                return Container(
+                                    margin: const EdgeInsets.only(right: 15),
+                                    child: InkWell(
+                                        onTap: () => Navigator.maybePop(context),
+                                        child: Icon(Icons.arrow_back_ios,
+                                            size: 25,
+                                        ),
+                                    ),
+                                );
+                            }
+
+                            // Display menu
+                            return Container(
+                                margin: const EdgeInsets.only(right: 15),
+                                child: InkWell(
+                                    onTap: () => this.scaffoldKey.currentState.openDrawer(),
+                                    child: Icon(Icons.menu,
+                                        size: 30,
+                                    ),
                                 ),
-                            ),
-                        ),
+                            );
+                        }(),
                         Text(this.title,
                             style: TextStyle(
                                 fontFamily: "Sarabun",
