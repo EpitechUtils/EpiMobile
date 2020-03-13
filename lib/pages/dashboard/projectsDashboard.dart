@@ -50,14 +50,13 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Container(
                             decoration: BoxDecoration(
-                                boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                        color: Color(0xFF464646).withOpacity(0.2),
-                                        blurRadius: 6.0,
-                                    )
-                                ]
+                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                border: Border.all(
+                                    color: Color(0xFFABABAB),
+                                    width: 1,
+                                )
                             ),
-                            margin: const EdgeInsets.only(bottom: 10),
+                            margin: const EdgeInsets.only(bottom: 15),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
@@ -66,20 +65,35 @@ class _ProjectsDashboard extends State<ProjectsDashboard> {
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                            Text(project.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600
-                                                )
-                                            ),
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: <Widget>[
+                                                    Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: <Widget>[
+                                                            Text(project.name,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                    fontWeight: FontWeight.w600
+                                                                )
+                                                            ),
 
-                                            Text(this.checkProjectRegisterState(project)),
+                                                            Text(this.checkProjectRegisterState(project)),
+                                                        ],
+                                                    ),
+
+                                                    Icon(Icons.arrow_forward_ios,
+                                                        color: Colors.black,
+                                                        size: 15,
+                                                    )
+                                                ],
+                                            ),
 
                                             Container(
                                                 margin: EdgeInsets.only(top: 10),
                                                 child: LinearPercentIndicator(
                                                     padding: const EdgeInsets.symmetric(horizontal: 2),
-                                                    width: MediaQuery.of(context).size.width - 50,
+                                                    width: MediaQuery.of(context).size.width - 55,
                                                     lineHeight: 7,
                                                     percent: double.parse(project.timeline) / 100,
                                                     progressColor: ((project.timeline == "100.0000") ? Colors.red : Colors.green),

@@ -84,14 +84,13 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                 this.widget.dashboard.activities.forEach((Activity activity) {
                                     Widget activityWidget = Container(
                                         decoration: BoxDecoration(
-                                            boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: Color(0xFF464646).withOpacity(0.2),
-                                                    blurRadius: 6.0,
-                                                )
-                                            ]
+                                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                            border: Border.all(
+                                                color: Color(0xFFABABAB),
+                                                width: 1,
+                                            )
                                         ),
-                                        margin: const EdgeInsets.only(bottom: 10),
+                                        margin: const EdgeInsets.only(bottom: 15),
                                         child: ClipRRect(
                                             borderRadius: BorderRadius.circular(5),
                                             child: Container(
@@ -101,32 +100,30 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                                     child: Row(
                                                         children: <Widget>[
 
-                                                            // Registered or not badge
-                                                            SizedBox(
-                                                                height: 35,
-                                                                width: 3,
-                                                                child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(10),
-                                                                        color: (activity.inscriptionDate is bool) ? Color(0xFF2ecc71) : Color(0xFFe74c3c),
-                                                                    ),
-                                                                ),
-                                                            ),
-
-                                                            SizedBox(width: 5),
-
                                                             // Content
                                                             Expanded(
                                                                 child: Column(
                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: <Widget>[
-                                                                        Container(
-                                                                            padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                                                                            child: Text(activity.module + " | " + activity.name,
-                                                                                style: TextStyle(
-                                                                                    fontWeight: FontWeight.w600
+                                                                        Row(
+                                                                            children: <Widget>[
+                                                                                // Registered or not badge
+                                                                                Container(
+                                                                                    margin: const EdgeInsets.only(left: 5, right: 5),
+                                                                                    height: 10,
+                                                                                    width: 10,
+                                                                                    decoration: BoxDecoration(
+                                                                                        shape: BoxShape.circle,
+                                                                                        color: (activity.inscriptionDate is bool) ? Color(0xFF4CAF50) : Color(0xFFf44336),
+                                                                                    ),
                                                                                 ),
-                                                                            ),
+
+                                                                                Text(activity.name,
+                                                                                    style: TextStyle(
+                                                                                        fontWeight: FontWeight.w600
+                                                                                    ),
+                                                                                )
+                                                                            ],
                                                                         ),
 
                                                                         Container(
@@ -141,7 +138,7 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                                                                         child: Text(
                                                                                             (activity.room == null) ? "Salle non spécifiée"
                                                                                                 : activity.room,
-                                                                                            style: TextStyle(fontStyle: FontStyle.italic),
+                                                                                            style: TextStyle(fontWeight: FontWeight.w700),
                                                                                         ),
                                                                                     ),
                                                                                 ],
@@ -215,22 +212,15 @@ class _ReminderDashboard extends State<ReminderDashboard> {
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: <Widget>[
                                                             Container(
-                                                                child: Row(
-                                                                    children: <Widget>[
-                                                                        Container(
-                                                                            child: Text(project.moduleName + " : ",
-                                                                                style: TextStyle(fontWeight: FontWeight.w600),
-                                                                            ),
-                                                                        ),
-                                                                        Container(
-                                                                            child: Text(
-                                                                                DateFormat("dd/MM/yyyy").format(DateTime.parse(project.endActivity)).toString()
-                                                                            ),
-                                                                        )
-                                                                    ],
+                                                                margin: const EdgeInsets.only(left: 5, bottom: 5),
+                                                                child: Text(project.name.replaceAll("Projet : ", ""),
+                                                                    style: TextStyle(fontWeight: FontWeight.w600),
                                                                 ),
                                                             ),
-                                                            Text(project.name,),
+                                                            Container(
+                                                                margin: const EdgeInsets.only(left: 5),
+                                                                child: Text("Rendu le " + DateFormat("dd/MM/yyyy").format(DateTime.parse(project.endActivity)).toString()),
+                                                            )
                                                         ],
                                                     ),
 

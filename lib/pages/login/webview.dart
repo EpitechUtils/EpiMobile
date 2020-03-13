@@ -129,9 +129,10 @@ class _LoginWebview extends State<LoginWebview> {
                             ),
                             Text("Connexion à l'intranet",
                                 style: TextStyle(
+                                    fontFamily: "Sarabun",
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 30
-                                ),
+                                    fontSize: 25
+                                )
                             )
                         ],
                     ),
