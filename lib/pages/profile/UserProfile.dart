@@ -22,133 +22,128 @@ class _UserProfile extends State<UserProfile> {
 
     @override
     Widget build(BuildContext context) {
-        return Column(
-            children: <Widget>[
-                // Header top profile
-                /*Container(
-                    decoration: new BoxDecoration(
-                        color: Colors.black,
-                        boxShadow: [
-                            BoxShadow(
-                                color: Color.fromARGB(50, 31, 40, 51),
-                                offset: Offset(0, 5),
-                                blurRadius: 20,
+        return SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                    // Header top profile
+                    /*Container(
+                      decoration: new BoxDecoration(
+                          color: Colors.black,
+                          boxShadow: [
+                              BoxShadow(
+                                  color: Color.fromARGB(50, 31, 40, 51),
+                                  offset: Offset(0, 5),
+                                  blurRadius: 20,
+                              )
+                          ],
+                          image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              repeat: ImageRepeat.repeat,
+                              image: AssetImage("assets/images/background.png"),
+                              colorFilter: ColorFilter.srgbToLinearGamma(),
+                          )
+                      ),
+                      child: Row(
+                          children: <Widget>[
+                              // Profile image from intranet
+                              Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Container(
+                                          width: 100.0,
+                                          height: 100.0,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(this.widget.prefs.getString("autolog_url") + this.widget.profile.pictureUrl)
+                                              )
+                                          )
+                                      ),
+                                  ),
+                              ),
+                              Container(
+                                  margin: EdgeInsets.only(left: 20.0),
+                                  child: Column(
+                                      children: <Widget>[
+                                          Container(
+                                              child: Text.rich(
+                                                  TextSpan(
+                                                      text: "Crédits\t",
+                                                      style: TextStyle(fontFamily: "NunitoSans"),
+                                                      children: <TextSpan>[
+                                                          TextSpan(
+                                                              text: this.widget.profile.credits.toString(),
+                                                              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: "NunitoSans")
+                                                          )]
+                                                  )
+                                              )
+                                          ),
+                                          Container(
+                                              margin: EdgeInsets.only(top: 10.0),
+                                              child: Text.rich(
+                                                  TextSpan(
+                                                      text: "GPA\t",
+                                                      style: TextStyle(fontFamily: "NunitoSans"),
+                                                      children: <TextSpan>[
+                                                          TextSpan(
+                                                              text: this.widget.profile.gpa[0]["gpa"].toString(),
+                                                              style: TextStyle(fontWeight: FontWeight.bold)
+                                                          ),
+                                                          TextSpan(
+                                                              text: "\t(cycle " + this.widget.profile.gpa[0]["cycle"].toString() + ")",
+                                                              style: TextStyle(fontStyle: FontStyle.italic)
+                                                          )
+                                                      ])
+                                              ),
+                                          )
+                                      ],
+                                  ),
+                              )
+                          ],
+                      ),
+                  ),*/
+                    Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Text("Temps de connexion à l'école",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 15,
+                                color: Theme.of(context).primaryColor
                             )
-                        ],
-                        image: new DecorationImage(
-                            fit: BoxFit.cover,
-                            repeat: ImageRepeat.repeat,
-                            image: AssetImage("assets/images/background.png"),
-                            colorFilter: ColorFilter.srgbToLinearGamma(),
-                        )
+                        ),
                     ),
-                    child: Row(
-                        children: <Widget>[
-                            // Profile image from intranet
-                            Container(
-                                padding: EdgeInsets.all(20),
-                                child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Container(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(this.widget.prefs.getString("autolog_url") + this.widget.profile.pictureUrl)
-                                            )
-                                        )
-                                    ),
-                                ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(left: 20.0),
-                                child: Column(
-                                    children: <Widget>[
-                                        Container(
-                                            child: Text.rich(
-                                                TextSpan(
-                                                    text: "Crédits\t",
-                                                    style: TextStyle(fontFamily: "NunitoSans"),
-                                                    children: <TextSpan>[
-                                                        TextSpan(
-                                                            text: this.widget.profile.credits.toString(),
-                                                            style: TextStyle(fontWeight: FontWeight.bold, fontFamily: "NunitoSans")
-                                                        )]
-                                                )
-                                            )
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(top: 10.0),
-                                            child: Text.rich(
-                                                TextSpan(
-                                                    text: "GPA\t",
-                                                    style: TextStyle(fontFamily: "NunitoSans"),
-                                                    children: <TextSpan>[
-                                                        TextSpan(
-                                                            text: this.widget.profile.gpa[0]["gpa"].toString(),
-                                                            style: TextStyle(fontWeight: FontWeight.bold)
-                                                        ),
-                                                        TextSpan(
-                                                            text: "\t(cycle " + this.widget.profile.gpa[0]["cycle"].toString() + ")",
-                                                            style: TextStyle(fontStyle: FontStyle.italic)
-                                                        )
-                                                    ])
-                                            ),
-                                        )
-                                    ],
-                                ),
-                            )
-                        ],
-                    ),
-                ),*/
-                Flexible(
-                    child: ListView(
-                        padding: EdgeInsets.all(5.0),
-                        children: <Widget>[
-                            Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                padding: const EdgeInsets.only(left: 10, right: 10),
-                                child: Text("Temps de connexion à l'école",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Theme.of(context).primaryColor
-                                    )
-                                ),
-                            ),
-                            this.createNetsoul(),
-                            //LogChart(netsoul: this.widget.netsoul),
-                            Divider(),
-                            createFlagList("Fantômes", "ghost", this.widget.profile.ghostLen, Icons.access_alarms),
-                            Divider(),
-                            createFlagList("Difficultés", "difficulty", this.widget.profile.difficultyLen, Icons.warning),
-                            Divider(),
-                            createFlagList("Encouragements", "remarkable", this.widget.profile.remarkableLen, Icons.thumb_up),
-                            Divider(),
-                            createFlagList("Médailles", "medal", this.widget.profile.medalLen, Icons.lightbulb_outline)
-                        ],
-                    )
-                ),
-            ],
+                    this.createNetsoulLogChart(),
+                    this.createFlagsList("Fantômes", "ghost"),
+                    this.createFlagsList("Difficultés", "difficulty"),
+                    this.createFlagsList("Encouragements", "remarkable"),
+                    this.createFlagsList("Médailles", "medal"),
+                    SizedBox(height: 20)
+                ],
+            ),
         );
     }
 
-    Widget createNetsoul() {
+    /// Create netsoul chart graph
+    /// Generate [Sparkline] graph with rounded lines
+    Widget createNetsoulLogChart() {
         return Container(
             margin: const EdgeInsets.only(bottom: 15, top: 15),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
                 decoration: BoxDecoration(
                     boxShadow: <BoxShadow>[
                         BoxShadow(
                             color: Color(0xFF464646).withOpacity(0.2),
-                            blurRadius: 10.0,
+                            blurRadius: 15.0,
                         )
                     ]
                 ),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(6),
                     child: Container(
                         color: Theme.of(context).cardColor,
                         child: Container(
@@ -248,38 +243,67 @@ class _UserProfile extends State<UserProfile> {
         );
     }
 
-    Widget createFlagList(String listName, String jsonField, int fieldLength, IconData icon) {
+    /// Create the list of flag by title and jsonField
+    /// Return a [Widget] with a list of flags
+    Widget createFlagsList(String listName, String jsonField) {
+        List<dynamic> flagsList = this.widget.profile.flags[jsonField]["modules"];
+
+        // No flags by this type
+        if (flagsList.length == 0) {
+            return Container();
+        }
+
         return Container(
+            margin: const EdgeInsets.only(top: 15, bottom: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
-                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                    ListTile(
-                        leading: Icon(icon, color: Colors.black),
-                        title: Text.rich(
-                            TextSpan(
-                                text: listName + "\t-\t",
-                                style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.w600),
-                                children: <TextSpan>[
-                                    TextSpan(
-                                        text: fieldLength.toString(),
-                                        style: TextStyle(fontFamily: "NunitoSans", fontWeight: FontWeight.bold)
-                                    )
-                                ]
-                            )
-                        ),
+                    Text(listName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                            color: Theme.of(context).primaryColor
+                        )
                     ),
-                    ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: fieldLength,
-                        itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                                child: Text(
-                                    this.widget.profile.flags[jsonField]["modules"][index]["title"].toString(),
-                                    textAlign: TextAlign.center,
-                                )
-                            );
-                        },
+
+                    Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Column(
+                            children: () {
+                                List<Widget> projectsListWidget = [];
+
+                                // Add all activities
+                                flagsList.forEach((flag) {
+                                    Widget projectWidget = Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                            border: Border.all(
+                                                color: Color(0xFFABABAB),
+                                                width: 1,
+                                            )
+                                        ),
+                                        margin: const EdgeInsets.only(bottom: 10),
+                                        child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            //color: Theme.of(context).cardColor,
+                                            child: Container(
+                                                margin: const EdgeInsets.only(left: 5, bottom: 5),
+                                                child: Text(flag["title"].toString(),
+                                                    style: TextStyle(fontWeight: FontWeight.w600),
+                                                ),
+                                            ),
+                                        )
+                                    );
+
+                                    // Add to list
+                                    projectsListWidget.add(projectWidget);
+                                });
+
+                                return projectsListWidget;
+                            }(),
+                        ),
                     )
                 ],
             ),
