@@ -153,8 +153,11 @@ class _SchedulePageState extends State<SchedulePage> {
                                 );
                             }
                         ).then((value) {
-                            this.getAllSessionsFromSelectedDate(this.selectedDate, forceRefresh: true)
-                                .then((sessionsList) => this.setState(() => this.sessions = sessionsList));
+                            this.setState(() {
+                                this.sessions = null;
+                                this.getAllSessionsFromSelectedDate(this.selectedDate, forceRefresh: true)
+                                    .then((sessionsList) => this.sessions = sessionsList);
+                            });
                         });
                     },
                     child: Container(
