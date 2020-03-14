@@ -18,16 +18,6 @@ class IntranetAPIUtils {
         return this._network.get(this._baseUrl + "/admin/autolog?format=json");
     }
 
-    /// Login from redirect URI
-    // ignore: avoid_init_to_null
-    Future<bool> loginFromRedirectUri(String redirectUrl, {Cookie cookie: null}) async {
-        dynamic res = await this._network.get(redirectUrl, cookie: cookie);
-
-        if (res == null)
-            return false;
-        return true;
-    }
-
     /// Get and save autoLogin URI from URL
     // ignore: avoid_init_to_null
     Future<dynamic> getLoggedUserEmail(String autolog) async {
@@ -38,12 +28,6 @@ class IntranetAPIUtils {
 
             return res["login"];
         });
-    }
-
-    Future<dynamic> get(String url) async {
-        var cacheManager = DefaultCacheManager();
-
-        return cacheManager.getFile(url);
     }
 
     Future<dynamic> registerToProject(String url, String name, List<String> team) async {

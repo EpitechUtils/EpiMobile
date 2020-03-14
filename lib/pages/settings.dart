@@ -39,10 +39,10 @@ class _SettingsPageState extends State<SettingsPage> {
 	    itemCount: settings.length,
 	    itemBuilder: (BuildContext context, int index) {
 	        return ListTile(
-		    title: Text(settings[index]),
-		    leading: Icon(Icons.schedule),
-		    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleSettings())),
-		);
+                title: Text(settings[index]),
+                leading: Icon(Icons.schedule),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleSettings())),
+            );
 	    }
 	);
     }

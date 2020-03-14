@@ -7,29 +7,35 @@ description: Intranet epitech mobile
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.1.0+2
+version: 1.1.1+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
   flutter: ">=1.12.0"
 
 dependencies:
-  http: 0.12.0+2
+  #http: 0.12.0+2
+  dio: 3.0.9
+  dio_http_cache: ^0.2.6
   flutter_webview_plugin:
-  flutter_cache_manager: ^1.1.2
+  #flutter_cache_manager: ^1.1.2
   shared_preferences:
   font_awesome_flutter: 8.4.0
   percent_indicator: ^2.1.0
-  outline_material_icons: ^0.1.0
+  #outline_material_icons: ^0.1.0
   flutter_sparkline: ^0.1.0
-  html: ^0.14.0+3
-  calendar_views: ^0.5.2
+  #html: ^0.14.0+3
+  #calendar_views: ^0.5.2
   intl: ^0.15.8
   android_alarm_manager: ^0.4.5+3
   background_fetch: ^0.5.0
   flutter_local_notifications:
   cached_network_image: ^2.0.0
   timezone: 0.5.6
+  flutter_svg: 0.15.0
+  json_annotation: ^3.0.0
+  flutter_spinkit: ^4.0.0
+  add_2_calendar: ^1.3.1
 
   flutter:
     sdk: flutter
@@ -38,17 +44,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.     36CFF5
   #cupertino_icons: ^0.1.2
 
-  json_annotation: ^2.0.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   build_runner: ^1.0.0
-  json_serializable: ^2.0.0
-  flutter_spinkit: ^4.0.0
-  add_2_calendar: ^1.3.1
-  flutter_svg: 0.15.0
+  json_serializable: ^3.0.0
 
 
 # For information on the generic Dart part of this file, see the
@@ -66,6 +67,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
+    - packages/timezone/data/2019c.tzf
 
   fonts:
     - family: Sarabun

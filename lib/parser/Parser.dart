@@ -124,6 +124,20 @@ class Parser {
         return moduleBoardClass;
     }
 
+    Future<ScheduleDay> parseScheduleMonths(DateTime start, DateTime end) async {
+        String url = autolog + "/planning/load?format=json&start=";
+        dynamic formatter = DateFormat('yyyy-MM-dd');
+
+        url += formatter.format(start);
+        url += ("&end=" + formatter.format(end));
+
+        dynamic json = await this._network.get(url, cacheDuration: Duration(minutes: 30));
+        if (json is Map<String, dynamic>)
+            return ScheduleDay([]);
+
+        return ScheduleDay.fromJson({"sessions": json});
+    }
+
     Future<ScheduleDay> parseScheduleDay(DateTime day) async {
         String url = autolog + "/planning/load?format=json&start=";
         dynamic formatter = DateFormat('yyyy-MM-dd');
@@ -132,6 +146,9 @@ class Parser {
         url += ("&end=" + formatter.format(day));
 
         dynamic json = await this._network.get(url);
+        if (json is Map<String, dynamic>)
+            return ScheduleDay([]);
+
         return ScheduleDay.fromJson({"sessions": json});
     }
 

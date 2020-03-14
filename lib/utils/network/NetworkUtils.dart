@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkUtils {
@@ -8,56 +9,81 @@ class NetworkUtils {
     /// make this class singleton
     static NetworkUtils _instance = new NetworkUtils.internal();
     NetworkUtils.internal();
-    factory NetworkUtils() => _instance;
+    factory NetworkUtils() {
+        _instance.dio.interceptors.add(_instance.cacheManager.interceptor);
+
+        return _instance;
+    }
 
     HttpClient _client = HttpClient();
     JsonDecoder _gson = new JsonDecoder();
 
-    // ignore: avoid_init_to_null
-    dynamic get(String url, {Cookie cookie: null, String bearer: null}) async {
-        String response = await this._client.getUrl(Uri.parse(url))
-            .then((HttpClientRequest req) {
-            req.followRedirects = true;
+    DioCacheManager cacheManager = DioCacheManager(CacheConfig(baseUrl: "https://intra.epitech.eu"));
+    final Dio dio = Dio(BaseOptions(
+        baseUrl: "https://intra.epitech.eu",
+        connectTimeout: 20000,
+        receiveTimeout: 20000,
+        validateStatus: (status) => status < 500
+    ));
 
-            // Set headers
-            req.headers.set("Content-Type", "application/json");
-            req.headers.set("Accept", "application/json");
-            
-            if (bearer != null) {
-                req.headers.set("Authorization", "Bearer " + bearer);
-            }
+    dynamic get(String url, {String bearer, Duration cacheDuration}) async {
+        print(url);
+        if (cacheDuration == null)
+            cacheDuration = Duration(minutes: 5);
 
-            // Set cookies if not null
-            if (cookie != null) {
-                req.cookies.add(cookie);
-            }
+        try {
+            Response response = await this.dio.get(url,
+                options: buildCacheOptions(cacheDuration,
+                    options: Options(
+                        headers: () {
+                            if (bearer == null) {
+                                return {
+                                    'Accept': "application/json",
+                                    'Content-Type': "application/json",
+                                };
+                            }
 
-            // Close request configuration
-            return req.close();
-        }).then((HttpClientResponse response) async {
-            String body = await response.transform(utf8.decoder).join();
+                            // Add authorization token
+                            return {
+                                'Accept': "application/json",
+                                'Content-Type': "application/json",
+                                'Authorization': 'Bearer ' + bearer
+                            };
+                        }(),
+                        responseType: ResponseType.json,
+                        followRedirects: true,
+                        receiveDataWhenStatusError: true
+                    ),
+                    maxStale: Duration(days: 10)
+                ));
 
-            if (body == null || body.isEmpty || response.statusCode >= 500)
+            dynamic body = response.data;
+            if (body == null || response.statusCode >= 500)
                 return null;
 
             return body;
-        });
-
-        //debugPrint(response.toString());
-        if (response == null)
+        } catch (error) {
+            print(error);
             return null;
-        dynamic res = this._gson.convert(response);
-        return res;
+        }
     }
 
-    dynamic post(String url, Map jsonMap, {Cookie cookie: null}) async {
+    dynamic post(String url, Map jsonMap) async {
+        String response = await this.dio.post(url,
+            data: jsonMap,
+            options: Options(
+                contentType: 'application/json',
+                responseType: ResponseType.json,
+                followRedirects: true,
+            )).then((Response value) {
+                String body = value.data;
+                if (body == null || body.isEmpty || value.statusCode >= 500)
+                    return null;
 
-        dynamic response = await http.post(
-            url,
-            headers: {"Content-Type": "application/json"},
-            body: json.encode(jsonMap)
-        );
-        return response.body;
+                return body;
+            });
+
+        return response;
     }
 
 }
