@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_intranet/components/calendar/calendar.dart';
 import 'package:mobile_intranet/components/loadingComponent.dart';
 import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/pages/schedule/ScheduleSessionInformation.dart';
+import 'package:mobile_intranet/pages/settings/ScheduleSettings.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
@@ -33,13 +35,14 @@ class _SchedulePageState extends State<SchedulePage> {
     //SharedPreferences prefs;
     DateTime selectedDate = DateTime.now();
     List<Meeting> meetings;
-    DateHeader dateHeaderWidget = DateHeader();
+    DateHeader dateHeaderWidget;
 
     @override
     void initState() {
         super.initState();
 
         // Get sessions
+        this.dateHeaderWidget = DateHeader();
         this.getAllSessionsFromSelectedDate(this.selectedDate)
             .then((sessionsList) => this.setState(() => this.sessions = sessionsList));
     }
@@ -137,6 +140,32 @@ class _SchedulePageState extends State<SchedulePage> {
         return DefaultLayout(
             //notifications: (this.prefs == null) ? 0 : this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             title: "Planning",
+            actions: <Widget>[
+                InkWell(
+                    onTap: () {
+                        showModalBottomSheet(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)
+                            ),
+                            context: context,
+                            builder: (BuildContext context) {
+                                return Container(
+                                    margin: const EdgeInsets.only(top: 30),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                    child: ScheduleSettings(),
+                                );
+                            }
+                        );
+                    },
+                    child: Container(
+                        margin: const EdgeInsets.only(right: 15),
+                        child: Icon(FontAwesomeIcons.filter,
+                            color: Colors.white,
+                            size: 16,
+                        )
+                    )
+                )
+            ],
             bottomAppBar: PreferredSize(
                 preferredSize: Size.fromHeight(30),
                 child: this.dateHeaderWidget
