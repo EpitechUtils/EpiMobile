@@ -124,14 +124,14 @@ class Parser {
         return moduleBoardClass;
     }
 
-    Future<ScheduleDay> parseScheduleMonths(DateTime start, DateTime end) async {
+    Future<ScheduleDay> parseScheduleMonths(DateTime start, DateTime end, {bool forceRefresh}) async {
         String url = autolog + "/planning/load?format=json&start=";
         dynamic formatter = DateFormat('yyyy-MM-dd');
 
         url += formatter.format(start);
         url += ("&end=" + formatter.format(end));
 
-        dynamic json = await this._network.get(url, cacheDuration: Duration(minutes: 30));
+        dynamic json = await this._network.get(url, cacheDuration: Duration(minutes: 30), forceRefresh: forceRefresh);
         if (json is Map<String, dynamic>)
             return ScheduleDay([]);
 

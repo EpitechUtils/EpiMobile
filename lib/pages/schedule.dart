@@ -31,8 +31,6 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
 
     List<ScheduleSession> sessions;
-    //ScheduleDay scheduleDay;
-    //SharedPreferences prefs;
     DateTime selectedDate = DateTime.now();
     List<Meeting> meetings;
     DateHeader dateHeaderWidget;
@@ -47,14 +45,13 @@ class _SchedulePageState extends State<SchedulePage> {
             .then((sessionsList) => this.setState(() => this.sessions = sessionsList));
     }
 
-    Future<List<ScheduleSession>> getAllSessionsFromSelectedDate(DateTime current) async {
+    Future<List<ScheduleSession>> getAllSessionsFromSelectedDate(DateTime current, {bool forceRefresh = false}) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         Parser parser = Parser(prefs.get("autolog_url"));
 
-        print("getAllSessionsFromSelectedDate");
 
         // Get sessions by date
-        ScheduleDay res = await parser.parseScheduleMonths(current.subtract(Duration(days: 45)), current.add(Duration(days: 45)));
+        ScheduleDay res = await parser.parseScheduleMonths(current.subtract(Duration(days: 45)), current.add(Duration(days: 45)), forceRefresh: forceRefresh);
         List<ScheduleSession> sessions = res.sessions;
         sessions.removeWhere((event) {
             bool keyFr = prefs.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR),
@@ -155,13 +152,16 @@ class _SchedulePageState extends State<SchedulePage> {
                                     child: ScheduleSettings(),
                                 );
                             }
-                        );
+                        ).then((value) {
+                            this.getAllSessionsFromSelectedDate(this.selectedDate, forceRefresh: true)
+                                .then((sessionsList) => this.setState(() => this.sessions = sessionsList));
+                        });
                     },
                     child: Container(
                         margin: const EdgeInsets.only(right: 15),
                         child: Icon(FontAwesomeIcons.filter,
                             color: Colors.white,
-                            size: 16,
+                            size: 20,
                         )
                     )
                 )

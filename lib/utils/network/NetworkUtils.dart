@@ -26,13 +26,14 @@ class NetworkUtils {
         validateStatus: (status) => status < 500
     ));
 
-    dynamic get(String url, {String bearer, Duration cacheDuration}) async {
+    dynamic get(String url, {String bearer, Duration cacheDuration, bool forceRefresh}) async {
         if (cacheDuration == null)
             cacheDuration = Duration(minutes: 5);
 
         try {
             Response response = await this.dio.get(url,
                 options: buildCacheOptions(cacheDuration,
+                    forceRefresh: forceRefresh,
                     options: Options(
                         headers: () {
                             if (bearer == null) {
@@ -51,7 +52,7 @@ class NetworkUtils {
                         }(),
                         responseType: ResponseType.json,
                         followRedirects: true,
-                        receiveDataWhenStatusError: true
+                        receiveDataWhenStatusError: true,
                     ),
                     maxStale: Duration(days: 10)
                 ));
