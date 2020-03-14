@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,7 @@ class _SchedulePageState extends State<SchedulePage> {
     //SharedPreferences prefs;
     DateTime selectedDate = DateTime.now();
     List<Meeting> meetings;
+    DateHeader dateHeaderWidget = DateHeader();
 
     @override
     void initState() {
@@ -88,7 +91,6 @@ class _SchedulePageState extends State<SchedulePage> {
         if (this.sessions == null)
             return List<Meeting>();
 
-        print("getEpitechEventsDatasource");
         this.sessions.forEach((ScheduleSession event) {
             DateTime startTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(event.start);
             DateTime endTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(event.end);
@@ -120,8 +122,7 @@ class _SchedulePageState extends State<SchedulePage> {
             return;
 
         SchedulerBinding.instance.addPostFrameCallback((callback) {
-            this.selectedDate = selectedDatetime;
-            //setState(() {});
+            this.dateHeaderWidget.state.changeSelectedDate(selectedDatetime);
         });
 
     }
@@ -138,22 +139,11 @@ class _SchedulePageState extends State<SchedulePage> {
             title: "Planning",
             bottomAppBar: PreferredSize(
                 preferredSize: Size.fromHeight(30),
-                child: Container(
-                    margin: const EdgeInsets.only(left: 18, bottom: 10),
-                    alignment: Alignment.centerLeft,
-                    child: Text(DateFormat("d MMMM y").format(this.selectedDate).toString(),
-                        style: TextStyle(
-                            fontFamily: "Sarabun",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 17
-                        ),
-                    )
-                )
+                child: this.dateHeaderWidget
             ),
             child: Container(
                 child: SfCalendar(
-                    initialSelectedDate: this.selectedDate,
+                    //initialSelectedDate: this.selectedDate,
                     onViewChanged: this.onViewChanged,
                     view: CalendarView.day,
                     dataSource: MeetingDataSource(getEpitechEventsDatasource()),
@@ -236,4 +226,38 @@ class Meeting {
     Color background;
     bool isAllDay;
     ScheduleSession event;
+}
+
+class DateHeader extends StatefulWidget {
+
+    final DateHeaderState state = DateHeaderState();
+
+    DateHeaderState createState() => this.state;
+}
+
+class DateHeaderState extends State<DateHeader> {
+
+    DateTime selectedDate = DateTime.now();
+
+    void changeSelectedDate(DateTime newDate) {
+        this.setState(() {
+            this.selectedDate = newDate;
+        });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            margin: const EdgeInsets.only(left: 18, bottom: 10),
+            alignment: Alignment.centerLeft,
+            child: Text(DateFormat("d MMMM y").format(this.selectedDate).toString(),
+                style: TextStyle(
+                    fontFamily: "Sarabun",
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 17
+                ),
+            )
+        );
+    }
 }

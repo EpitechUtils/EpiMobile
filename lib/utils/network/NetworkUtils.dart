@@ -27,7 +27,6 @@ class NetworkUtils {
     ));
 
     dynamic get(String url, {String bearer, Duration cacheDuration}) async {
-        print(url);
         if (cacheDuration == null)
             cacheDuration = Duration(minutes: 5);
 
