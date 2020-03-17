@@ -83,7 +83,7 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
     /// When webview state is changed
     void onStateChanged(WebViewStateChanged state) async {
         if (state.url.startsWith("https://my.epitech.eu/index.html")) {
-            if (state.type == WebViewState.shouldStart) {
+            if (state.type == WebViewState.finishLoad) {
                 this._webview.hide();
 
                 // Get shared preferences
@@ -96,6 +96,12 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
                     // Store token and expiration token
                     prefs.setString("myepitech_token", params['id_token']);
                     prefs.setInt("myepitech_expire_at", tokenPayload['exp']);
+
+                    print(params['id_token']);
+                    tokenPayload.forEach((key, value) => print(key + " => " + value.toString()));
+                    _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
+                        print(value);
+                    });
 
                     // Close webview and parse results from API
                     this._webview.close();
