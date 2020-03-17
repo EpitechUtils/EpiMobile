@@ -1,5 +1,5 @@
 import 'package:mobile_intranet/parser/components/epitest/details/skillDetails.dart';
-import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
+import 'package:mobile_intranet/utils/network/networkUtils.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';

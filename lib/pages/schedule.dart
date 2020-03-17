@@ -9,13 +9,13 @@ import 'package:intl/intl.dart';
 import 'package:mobile_intranet/components/calendar/calendar.dart';
 import 'package:mobile_intranet/components/loadingComponent.dart';
 import 'package:mobile_intranet/layouts/default.dart';
-import 'package:mobile_intranet/pages/schedule/ScheduleSessionInformation.dart';
-import 'package:mobile_intranet/pages/settings/ScheduleSettings.dart';
+import 'package:mobile_intranet/pages/schedule/scheduleSessionInformation.dart';
+import 'package:mobile_intranet/pages/schedule/filters/scheduleFilter.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigKeys;
+import 'package:mobile_intranet/utils/configKey.dart' as ConfigKeys;
 
 class SchedulePage extends StatefulWidget {
     final String title;
@@ -31,7 +31,7 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
 
     List<ScheduleSession> sessions;
-    DateTime selectedDate = DateTime.now();
+    DateTime selectedDate;
     List<Meeting> meetings;
     DateHeader dateHeaderWidget;
 
@@ -40,7 +40,7 @@ class _SchedulePageState extends State<SchedulePage> {
         super.initState();
 
         // Get sessions
-        this.dateHeaderWidget = DateHeader();
+        this.selectedDate = DateTime.now();
         this.getAllSessionsFromSelectedDate(this.selectedDate)
             .then((sessionsList) => this.setState(() => this.sessions = sessionsList));
     }
@@ -49,9 +49,8 @@ class _SchedulePageState extends State<SchedulePage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         Parser parser = Parser(prefs.get("autolog_url"));
 
-
         // Get sessions by date
-        ScheduleDay res = await parser.parseScheduleMonths(current.subtract(Duration(days: 45)), current.add(Duration(days: 45)), forceRefresh: forceRefresh);
+        ScheduleDay res = await parser.parseScheduleMonths(current.subtract(Duration(days: 15)), current.add(Duration(days: 15)), forceRefresh: forceRefresh);
         List<ScheduleSession> sessions = res.sessions;
         sessions.removeWhere((event) {
             bool keyFr = prefs.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR),
@@ -122,6 +121,7 @@ class _SchedulePageState extends State<SchedulePage> {
             return;
 
         SchedulerBinding.instance.addPostFrameCallback((callback) {
+            this.selectedDate = selectedDatetime;
             this.dateHeaderWidget.state.changeSelectedDate(selectedDatetime);
         });
 
@@ -134,6 +134,7 @@ class _SchedulePageState extends State<SchedulePage> {
         if (this.sessions == null)
             return LoadingComponent(title: "Planning");
 
+        this.dateHeaderWidget = DateHeader();
         return DefaultLayout(
             //notifications: (this.prefs == null) ? 0 : this.prefs.getInt(ConfigurationKeys.CONFIG_KEY_NOTIFICATIONS_AMOUNT),
             title: "Planning",
@@ -149,15 +150,13 @@ class _SchedulePageState extends State<SchedulePage> {
                                 return Container(
                                     margin: const EdgeInsets.only(top: 30),
                                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                                    child: ScheduleSettings(),
+                                    child: ScheduleFilter(),
                                 );
                             }
-                        ).then((value) {
-                            this.setState(() {
-                                this.sessions = null;
-                                this.getAllSessionsFromSelectedDate(this.selectedDate, forceRefresh: true)
-                                    .then((sessionsList) => this.sessions = sessionsList);
-                            });
+                        ).whenComplete(() {
+                            //this.setState(() => this.sessions = null);
+                            this.getAllSessionsFromSelectedDate(this.selectedDate, forceRefresh: true)
+                                .then((sessionsList) => this.setState(() => this.sessions = sessionsList));
                         });
                     },
                     child: Container(
@@ -269,7 +268,13 @@ class DateHeader extends StatefulWidget {
 
 class DateHeaderState extends State<DateHeader> {
 
-    DateTime selectedDate = DateTime.now();
+    DateTime selectedDate;
+
+    @override
+    void initState() {
+        super.initState();
+        this.selectedDate = DateTime.now();
+    }
 
     void changeSelectedDate(DateTime newDate) {
         this.setState(() {

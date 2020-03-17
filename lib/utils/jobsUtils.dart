@@ -6,7 +6,7 @@ import 'package:mobile_intranet/parser/components/schedule/ScheduleDay.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'dart:core';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ConfigurationKeys.dart' as ConfigurationKeys;
+import 'configKey.dart' as ConfigurationKeys;
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:isolate';

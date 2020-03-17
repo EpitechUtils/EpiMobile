@@ -4,7 +4,7 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlots.dart';
 import 'package:mobile_intranet/parser/components/subcomponents/registrationSlot/RegistrationSlot.dart';
-import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+import 'package:mobile_intranet/utils/network/intranetAPIUtils.dart';
 
 
 class ScheduleSessionRdv extends StatefulWidget {

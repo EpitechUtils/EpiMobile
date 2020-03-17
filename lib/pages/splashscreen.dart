@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
+import 'package:mobile_intranet/utils/configKey.dart' as ConfigurationKeys;
 import 'dart:io';
 import 'package:mobile_intranet/utils/jobsUtils.dart' as Jobs;
 import 'package:flutter_svg/flutter_svg.dart';

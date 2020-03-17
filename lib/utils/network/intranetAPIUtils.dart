@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
+import 'package:mobile_intranet/utils/network/networkUtils.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class IntranetAPIUtils {

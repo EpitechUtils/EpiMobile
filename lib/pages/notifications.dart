@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_intranet/layouts/default.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
-import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
+import 'package:mobile_intranet/utils/configKey.dart' as ConfigurationKeys;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsPage extends StatefulWidget {

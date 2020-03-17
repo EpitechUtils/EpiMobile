@@ -1,4 +1,4 @@
-import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
+import 'package:mobile_intranet/utils/network/networkUtils.dart';
 
 class Netsoul {
     List time = new List<double>();

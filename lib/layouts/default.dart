@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mobile_intranet/pages/login/select.dart';
-import 'package:mobile_intranet/utils/network/NetworkUtils.dart';
+import 'package:mobile_intranet/utils/network/networkUtils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Header component

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/components/LoaderComponent.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile_intranet/pages/profile/MarksProfile.dart';
 import 'package:mobile_intranet/pages/profile/userSummaryProfile.dart';
 import 'package:mobile_intranet/pages/profile/AbsenceProfile.dart';
@@ -10,7 +10,7 @@ import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/profile/Profile.dart';
 import 'package:mobile_intranet/parser/components/profile/Netsoul/Netsoul.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
+import 'package:mobile_intranet/utils/configKey.dart' as ConfigurationKeys;
 import 'package:mobile_intranet/layouts/default.dart';
 
 /// ProfilePage extended by StatefulWidget
@@ -148,11 +148,30 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
             ),
             child: TabBarView(
                 controller: this._controller,
-                children: (_profile == null || _netsoul == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
-                    UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
-                    MarksProfile(profile: this._profile),
-                    AbsenceProfile(profile: this._profile)
-                ]
+                children: () {
+                    if (this._profile == null
+                        || this._netsoul == null) {
+                        return List(3).map((_) {
+                            return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                    SpinKitThreeBounce(
+                                        color: Theme.of(context).primaryColor,
+                                        size: 30,
+                                    )
+                                ],
+                            );
+                        }).toList();
+                    }
+
+                    return <Widget>[
+                        UserProfile(profile: this._profile, prefs: this._prefs, netsoul: this._netsoul),
+                        MarksProfile(profile: this._profile),
+                        AbsenceProfile(profile: this._profile)
+                    ];
+                }()
+
             ),
             title: "Mon Profil"
         );

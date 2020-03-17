@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
-import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+import 'package:mobile_intranet/utils/network/intranetAPIUtils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScheduleSessionNormal extends StatefulWidget {

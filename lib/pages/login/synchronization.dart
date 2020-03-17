@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+import 'package:mobile_intranet/utils/network/intranetAPIUtils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Synchronization extends StatelessWidget {

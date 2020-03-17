@@ -9,7 +9,7 @@ import 'package:mobile_intranet/pages/settings.dart';
 import 'package:mobile_intranet/pages/login/error.dart';
 import 'package:mobile_intranet/pages/login/synchronization.dart';
 import 'package:mobile_intranet/pages/testsResults.dart';
-import 'package:mobile_intranet/utils/BackgroundNotification.dart';
+import 'package:mobile_intranet/utils/backgroundNotifications.dart';
 
 /// Main application class
 /// Extended from [StatelessWidget]

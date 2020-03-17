@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mobile_intranet/layouts/default.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Dashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/Notifications.dart';
-import 'package:mobile_intranet/components/LoaderComponent.dart';
 import 'package:mobile_intranet/pages/dashboard/projectsDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/remindersDashboard.dart';
 import 'package:mobile_intranet/pages/dashboard/modulesDashboard.dart';
 import 'package:mobile_intranet/parser/components/dashboard/ModuleBoard/ModuleBoard.dart';
-import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigurationKeys;
+import 'package:mobile_intranet/utils/configKey.dart' as ConfigurationKeys;
 
 /// Dashboard Stateful [Widget]
 /// Implements the feed of viral images
@@ -128,12 +128,29 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             ),
             child: TabBarView(
                 controller: this._controller,
-                children: (_dashboard == null || _notifications == null || _moduleBoard == null) ? [0, 1, 2].map((index) => LoaderComponent()).toList() : <Widget>[
-                    ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
-                    ProjectsDashboard(dashboard: this._dashboard),
-                    ModulesDashboard(dashboard: this._dashboard),
-                    //RecentDashboard(notifications: this._notifications, prefs: this._prefs),
-                ]
+                children: () {
+                    if (this._dashboard == null
+                        || this._moduleBoard == null) {
+                        return List(3).map((_) {
+                            return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                    SpinKitThreeBounce(
+                                        color: Theme.of(context).primaryColor,
+                                        size: 30,
+                                    )
+                                ],
+                            );
+                        }).toList();
+                    }
+
+                    return <Widget>[
+                        ReminderDashboard(dashboard: this._dashboard, moduleBoard: this._moduleBoard),
+                        ProjectsDashboard(dashboard: this._dashboard),
+                        ModulesDashboard(dashboard: this._dashboard),
+                    ];
+                }()
             ),
         );
     }

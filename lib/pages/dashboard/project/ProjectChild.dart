@@ -7,7 +7,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/pages/dashboard/project/ProjectRegister.dart';
-import 'package:mobile_intranet/utils/network/IntranetAPIUtils.dart';
+import 'package:mobile_intranet/utils/network/intranetAPIUtils.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class ProjectChildPage extends StatefulWidget {

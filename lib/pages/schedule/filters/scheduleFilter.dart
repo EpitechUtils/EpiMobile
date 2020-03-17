@@ -1,25 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_intranet/layouts/default.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_intranet/utils/ConfigurationKeys.dart' as ConfigKeys;
+import 'package:mobile_intranet/utils/configKey.dart' as ConfigKeys;
 
-class ScheduleSettings extends StatefulWidget {
+class ScheduleFilter extends StatefulWidget {
     /// Constructor
-    ScheduleSettings({Key key}) : super(key: key);
+    ScheduleFilter({Key key}) : super(key: key);
 
     /// Build and display state
     @override
-    _ScheduleSettingsState createState() => _ScheduleSettingsState();
+    _ScheduleFilterState createState() => _ScheduleFilterState();
 }
 
-class _ScheduleSettingsState extends State<ScheduleSettings> {
+class _ScheduleFilterState extends State<ScheduleFilter> {
     SharedPreferences preferences;
     Map<String, bool> scheduleSettingsValues = new Map<String, bool>();
 
     @override
     void initState() {
+        super.initState();
         SharedPreferences.getInstance().then((SharedPreferences prefs) {
             this.setState(() {
                 this.preferences = prefs;
@@ -36,7 +36,6 @@ class _ScheduleSettingsState extends State<ScheduleSettings> {
                         ConfigKeys.CONFIG_KEY_SCHEDULE_ONLY_REGISTERED_SESSIONS);
             });
         });
-        super.initState();
     }
 
     @override
@@ -63,9 +62,8 @@ class _ScheduleSettingsState extends State<ScheduleSettings> {
                         ),
                     ),
                     SwitchListTile(
-                        title: Text("Afficher les activités FR"),
-                        value:
-                        this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_FR],
+                        title: Text("Afficher les activités \"France\""),
+                        value: this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_FR],
                         onChanged: (bool value) {
                             setState(() {
                                 this.scheduleSettingsValues[ConfigKeys.CONFIG_KEY_SCHEDULE_FR] =
