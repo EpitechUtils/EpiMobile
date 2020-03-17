@@ -188,7 +188,7 @@ class _SchedulePageState extends State<SchedulePage> {
             ),
             child: Container(
                 child: SfCalendar(
-                    //initialSelectedDate: this.selectedDate,
+                    initialSelectedDate: this.selectedDate,
                     onViewChanged: this.onViewChanged,
                     view: CalendarView.day,
                     dataSource: MeetingDataSource(getEpitechEventsDatasource()),
