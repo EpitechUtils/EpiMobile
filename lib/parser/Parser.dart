@@ -131,6 +131,8 @@ class Parser {
         url += formatter.format(start);
         url += ("&end=" + formatter.format(end));
 
+        print(url);
+
         dynamic json = await this._network.get(url, cacheDuration: Duration(minutes: 30), forceRefresh: forceRefresh);
         if (json is Map<String, dynamic>)
             return ScheduleDay([]);

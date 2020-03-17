@@ -23,6 +23,35 @@ class SchedulePage extends StatefulWidget {
     /// Constructor
     SchedulePage({Key key, this.title}) : super(key: key);
 
+    /// Get color of the session by the typecode
+    /// Return [Color]
+    static Color getSessionColor(ScheduleSession event) {
+        Color color;
+
+        switch (event.typeCode) {
+            case "rdv":
+                color =  Color(0xFFFF9800);
+                break;
+            case "tp":
+                color =  Color(0xFF9C27B0);
+                break;
+            case "exam":
+                color =  Color(0xFFf44336);
+                break;
+            default:
+                color = Color(0xFF3F51B5);
+                break;
+        }
+
+        // Apply oppacity
+        color = color.withOpacity(.6);
+
+        // Check user registration
+        if (!(event.eventRegistered is bool))
+            color = color.withOpacity(1);
+        return color;
+    }
+
     /// Build and display state
     @override
     _SchedulePageState createState() => _SchedulePageState();
@@ -70,21 +99,6 @@ class _SchedulePageState extends State<SchedulePage> {
         return sessions;
     }
 
-    /// Get color of the session by the typecode
-    /// Return [Color]
-    Color getSessionColor(ScheduleSession event) {
-        switch (event.typeCode) {
-            case "rdv":
-                return Color(0xFFFF9800);
-            case "tp":
-                return Color(0xFF9C27B0);
-            case "exam":
-                return Color(0xFFf44336);
-            default:
-                return Color(0xFF3F51B5);
-        }
-    }
-
     List<Meeting> getEpitechEventsDatasource() {
         List<Meeting> meetings = List<Meeting>();
         if (this.sessions == null)
@@ -105,7 +119,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
             // Create metting
             Meeting eventMeeting = Meeting(event.moduleTitle + " - " + event.activityTitle,
-                room, startTime, endTime, this.getSessionColor(event), false, event);
+                room, startTime, endTime, SchedulePage.getSessionColor(event), false, event);
 
             meetings.add(eventMeeting);
         });

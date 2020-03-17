@@ -47,8 +47,8 @@ class ScheduleSession {
     final String typeCode;
 
     ScheduleSession(this.title, this.codeModule, this.scolarYear, this.codeInstance, this.start,
-	this.room, this.end, this.semester, this.activityTitle, this.allowRegister, this.codeActivity,
-	this.codeEvent, this.eventRegistered, this.hoursAmount, this.moduleAvailable, this.moduleRegistered,
+	    this.room, this.end, this.semester, this.activityTitle, this.allowRegister, this.codeActivity,
+	    this.codeEvent, this.eventRegistered, this.hoursAmount, this.moduleAvailable, this.moduleRegistered,
         this.moduleTitle, this.numberStudentsRegistered, this.professors, this.hasRdv, this.typeCode, this.typeTitle);
 
     factory ScheduleSession.fromJson(Map<String, dynamic> json) => _$ScheduleSessionFromJson(json);

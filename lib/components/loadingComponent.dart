@@ -8,20 +8,24 @@ class LoadingComponent extends StatelessWidget {
 
     LoadingComponent({@required this.title});
 
+    static Widget getBody(BuildContext context) {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+                SpinKitThreeBounce(
+                    color: Theme.of(context).primaryColor,
+                    size: 30,
+                )
+            ],
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return DefaultLayout(
             title: this.title,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                    SpinKitThreeBounce(
-                        color: Theme.of(context).primaryColor,
-                        size: 30,
-                    )
-                ],
-            ),
+            child: getBody(context),
         );
     }
 }
