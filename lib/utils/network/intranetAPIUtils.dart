@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'package:mobile_intranet/utils/network/networkUtils.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -60,10 +61,12 @@ class IntranetAPIUtils {
         });
     }
 
-    Future<dynamic> registerToActivity(String autolog, String year, String codeModule, String codeInstance, String codeActi, bool register) async {
-        String url = autolog + "/module/" + year + "/" + codeModule + "/" + codeInstance + "/" + codeActi;
+    Future<dynamic> registerToActivity(String autolog, ScheduleSession event) async {
+        String year = (event.scolarYear == null) ? DateTime.now().year.toString() : event.scolarYear;
+        String url = autolog + "/module/" + year + "/" + event.codeModule
+            + "/" + event.codeInstance + "/" + event.codeActivity + "/" + event.codeEvent;
 
-        if (register)
+        if (event.eventRegistered is bool)
             url += "/register?format=json";
         else
             url += "/unregister?format=json";

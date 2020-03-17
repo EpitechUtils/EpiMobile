@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_intranet/components/customCircleAvatar.dart';
 import 'package:mobile_intranet/components/loadingComponent.dart';
 import 'package:mobile_intranet/pages/schedule.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleProfessor.dart';
@@ -16,12 +17,16 @@ class ScheduleSessionNormal extends StatefulWidget {
     ScheduleSessionNormal({@required this.scheduleSession});
 
     @override
-    State<StatefulWidget> createState() => _ScheduleSessionNormalState();
+    State<StatefulWidget> createState() => _ScheduleSessionNormalState(this.scheduleSession);
 }
 
 class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
 
+    ScheduleSession _scheduleSession;
     String _autolog;
+
+    /// Constructor
+    _ScheduleSessionNormalState(this._scheduleSession);
 
     @override
     void initState() {
@@ -64,7 +69,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                         Icon(
                                             Icons.hourglass_full,
                                         ),
-                                        Text(this.widget.scheduleSession.hoursAmount)
+                                        Text(this._scheduleSession.hoursAmount)
                                     ],
                                 )),
                             Container(
@@ -73,10 +78,10 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                         Icon(
                                             Icons.location_on,
                                         ),
-                                        Text(this.widget.scheduleSession.room.code.substring(
-                                            this.widget.scheduleSession.room.code.lastIndexOf('/') +
+                                        Text(this._scheduleSession.room.code.substring(
+                                            this._scheduleSession.room.code.lastIndexOf('/') +
                                                 1,
-                                            this.widget.scheduleSession.room.code.length))
+                                            this._scheduleSession.room.code.length))
                                     ],
                                 ))
                         ],
@@ -101,7 +106,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                     Flexible(
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: this.widget.scheduleSession.professors.length,
+                            itemCount: this._scheduleSession.professors.length,
                             itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                     padding: EdgeInsets.only(left: 5),
@@ -134,7 +139,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
     }*/
 
     Widget registeredOrNot() {
-        //if (this.widget.scheduleSession is bool)
+        //if (this._scheduleSession is bool)
         return Container(
             child: Row(
                 children: <Widget>[
@@ -165,7 +170,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
         return Column(
             children: <Widget>[
                 Container(
-                    margin: const EdgeInsets.only(bottom: 15, top: 15),
+                    margin: const EdgeInsets.only(bottom: 15, top: 25),
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Container(
                         decoration: BoxDecoration(
@@ -180,7 +185,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                             borderRadius: BorderRadius.circular(6),
                             child: Container(
                                 width: MediaQuery.of(context).size.width,
-                                color: SchedulePage.getSessionColor(this.widget.scheduleSession),
+                                color: SchedulePage.getSessionColor(this._scheduleSession),
                                 child: Container(
                                     padding: const EdgeInsets.all(10),
                                     child: Column(
@@ -190,7 +195,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                                 children: <Widget>[
                                                     // Icon status of the activity
                                                     () {
-                                                        ScheduleSession event = this.widget.scheduleSession;
+                                                        ScheduleSession event = this._scheduleSession;
                                                         if (event.eventRegistered is bool)
                                                             return Container();
 
@@ -222,8 +227,8 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                                         return Container();
                                                     }(),
 
-                                                    Text(this.widget.scheduleSession.moduleTitle + "\n"
-                                                        + this.widget.scheduleSession.activityTitle,
+                                                    Text(this._scheduleSession.moduleTitle + "\n"
+                                                        + this._scheduleSession.activityTitle,
                                                         overflow: TextOverflow.ellipsis,
                                                         style: TextStyle(
                                                             color: Colors.white,
@@ -244,7 +249,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                                         children: <Widget>[
                                                             Text(() {
                                                                 DateTime startDate = DateFormat("yyyy-MM-dd HH:mm:ss")
-                                                                    .parse(this.widget.scheduleSession.start);
+                                                                    .parse(this._scheduleSession.start);
                                                                 String minutes = (startDate.minute > 9) ? startDate.minute.toString() : "0" + startDate.minute.toString();
 
                                                                 return startDate.hour.toString() + ":" + minutes;
@@ -264,7 +269,7 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
 
                                                             Text(() {
                                                                 DateTime endDate = DateFormat("yyyy-MM-dd HH:mm:ss")
-                                                                    .parse(this.widget.scheduleSession.end);
+                                                                    .parse(this._scheduleSession.end);
                                                                 String minutes = (endDate.minute > 9) ? endDate.minute.toString() : "0" + endDate.minute.toString();
 
                                                                 return endDate.hour.toString() + ":" + minutes;
@@ -285,11 +290,11 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                                 child: Text(() {
                                                     String room = "Non définie";
                                                     try {
-                                                        room = this.widget.scheduleSession.room.code.substring(
-                                                            this.widget.scheduleSession.room.code.lastIndexOf('/') + 1,
-                                                            this.widget.scheduleSession.room.code.length) + " - "  +
-                                                            this.widget.scheduleSession.numberStudentsRegistered.toString()
-                                                                + "/" + this.widget.scheduleSession.room.seats.toString();
+                                                        room = this._scheduleSession.room.code.substring(
+                                                            this._scheduleSession.room.code.lastIndexOf('/') + 1,
+                                                            this._scheduleSession.room.code.length) + " - "  +
+                                                            this._scheduleSession.numberStudentsRegistered.toString()
+                                                                + "/" + this._scheduleSession.room.seats.toString();
                                                     } catch(ignored) {}
 
                                                     return room;
@@ -308,8 +313,14 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                     ),
                 ),
 
+                Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.only(bottom: 5),
+                    child: Divider(),
+                 ),
+
                 () {
-                    if (this.widget.scheduleSession.eventRegistered is bool)
+                    if (this._scheduleSession.eventRegistered is bool)
                         return Container();
 
                     return Container(
@@ -348,24 +359,16 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                     children: () {
                                         List<Widget> professors = List<Widget>();
 
-                                        this.widget.scheduleSession.professors.forEach((ScheduleProfessor prof) {
+                                        this._scheduleSession.professors.forEach((ScheduleProfessor prof) {
                                             professors.add(Container(
                                                 padding: EdgeInsets.only(right: 15),
                                                 child: Tooltip(
                                                     message: prof.title == null ? "Inconnu !" : prof.title,
-                                                    child: CircleAvatar(
-                                                        child: Container(
-                                                            height: 40,
-                                                            width: 40,
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape.circle,
-                                                                image: DecorationImage(
-                                                                    fit: BoxFit.cover,
-                                                                    image: CachedNetworkImageProvider(this._autolog + "/file/userprofil/" + prof.login.split('@')[0] + ".bmp")
-                                                                )
-                                                            ),
-                                                        ),
-                                                    ),
+                                                    child: CustomCircleAvatar(
+                                                        noPicture: Image.asset("assets/images/icons/nopicture-icon.png", width: 60),
+                                                        imagePath: this._autolog + "/file/userprofil/" + prof.login.split('@')[0] + ".bmp",
+                                                        radius: 60,
+                                                    )
                                                 )
                                             ));
                                         });
@@ -379,10 +382,42 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                 ),
 
                 // Details of registered users
-                Expanded(
-                    child: SingleChildScrollView(
-                        child: Container(),
-                    ),
+                Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.all(10),
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        onPressed: () {
+                            SharedPreferences.getInstance().then((SharedPreferences prefs) {
+                                IntranetAPIUtils().registerToActivity(this._autolog,
+                                    this._scheduleSession)
+                                    .then((dynamic res) {
+                                        this.setState(() {
+                                            this._scheduleSession.eventRegistered = (this._scheduleSession.eventRegistered is bool)
+                                                ? "registered" : false;
+                                        });
+                                    });
+                            });
+                        },
+                        color: (this._scheduleSession.eventRegistered is bool)
+                            ? Color(0xFF4CAF50) : Color(0xFFf44336),
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 3),
+                            child: Text((this._scheduleSession.eventRegistered is bool)
+                                    ? "S'inscrire" : "Se désinscrire",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Sabrun",
+                                    fontWeight: FontWeight.bold
+                                    //letterSpacing: 1.0,
+                                )
+                            ),
+                        )
+                    )
                 )
 
                 /*Container(
@@ -402,23 +437,23 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
                                 IntranetAPIUtils()
                                     .registerToActivity(
                                     prefs.getString("autolog_url"),
-                                    ((this.widget.scheduleSession.scolarYear == null)
+                                    ((this._scheduleSession.scolarYear == null)
                                         ? DateTime.now().year.toString()
-                                        : this.widget.scheduleSession.scolarYear),
-                                    this.widget.scheduleSession.codeModule,
-                                    this.widget.scheduleSession.codeInstance,
-                                    this.widget.scheduleSession.codeActivity,
-                                    this.widget.scheduleSession.eventRegistered is bool)
+                                        : this._scheduleSession.scolarYear),
+                                    this._scheduleSession.codeModule,
+                                    this._scheduleSession.codeInstance,
+                                    this._scheduleSession.codeActivity,
+                                    this._scheduleSession.eventRegistered is bool)
                                     .then((dynamic res) {
                                     this.setState(() {});
                                 });
                             });
                         },
-                        color: (this.widget.scheduleSession.eventRegistered is bool
+                        color: (this._scheduleSession.eventRegistered is bool
                             ? Colors.green
                             : Colors.red),
                         child: Text(
-                            (this.widget.scheduleSession.eventRegistered is bool
+                            (this._scheduleSession.eventRegistered is bool
                                 ? "S'inscrire"
                                 : "X"),
                             style: TextStyle(color: Colors.white),

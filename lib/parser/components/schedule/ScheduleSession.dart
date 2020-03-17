@@ -35,7 +35,7 @@ class ScheduleSession {
     @JsonKey(name: "allow_register")
     final bool allowRegister; // user can register to this activity
     @JsonKey(name: "event_registered")
-    final dynamic eventRegistered; // state of registration (false if not registered, String if registered depending on the state)
+    dynamic eventRegistered; // state of registration (false if not registered, String if registered depending on the state)
     @JsonKey(name: "prof_inst")
     final List<ScheduleProfessor> professors;
     final ScheduleRoom room;

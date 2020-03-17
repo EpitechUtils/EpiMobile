@@ -61,7 +61,6 @@ class NetworkUtils {
             if (body == null || response.statusCode >= 500)
                 return null;
 
-            print(body.toString());
             return body;
         } catch (error) {
             print(error);
@@ -70,21 +69,25 @@ class NetworkUtils {
     }
 
     dynamic post(String url, Map jsonMap) async {
-        String response = await this.dio.post(url,
-            data: jsonMap,
-            options: Options(
-                contentType: 'application/json',
-                responseType: ResponseType.json,
-                followRedirects: true,
-            )).then((Response value) {
-                String body = value.data;
-                if (body == null || body.isEmpty || value.statusCode >= 500)
-                    return null;
+        try {
+            Response response = await this.dio.post(url,
+                data: jsonMap,
+                options: Options(
+                    contentType: 'application/json',
+                    responseType: ResponseType.json,
+                    followRedirects: true,
+                )
+            );
 
-                return body;
-            });
+            dynamic body = response.data;
+            if (body == null || response.statusCode >= 500)
+                return null;
 
-        return response;
+            return body;
+        } catch(err) {
+            print(err);
+            return null;
+        }
     }
 
 }

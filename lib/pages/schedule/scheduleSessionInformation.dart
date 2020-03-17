@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_intranet/layouts/default.dart';
-import 'package:mobile_intranet/pages/schedule/sessions/ScheduleSessionNormal.dart';
+import 'package:mobile_intranet/pages/schedule/sessions/scheduleNormalSession.dart';
 import 'package:mobile_intranet/parser/components/schedule/ScheduleSession.dart';
 import 'package:mobile_intranet/pages/schedule/sessions/ScheduleSessionRdv.dart';
 
