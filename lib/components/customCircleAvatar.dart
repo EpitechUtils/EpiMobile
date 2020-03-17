@@ -30,6 +30,8 @@ class CustomCircleAvatar extends StatelessWidget {
                     },
                     fit: BoxFit.cover,
                     imageUrl: this.imagePath,
+                    width: radius,
+                    height: radius,
                 ),
             ),
         );

@@ -79,7 +79,7 @@ class _SchedulePageState extends State<SchedulePage> {
         Parser parser = Parser(prefs.get("autolog_url"));
 
         // Get sessions by date
-        ScheduleDay res = await parser.parseScheduleMonths(current.subtract(Duration(days: 15)), current.add(Duration(days: 15)), forceRefresh: forceRefresh);
+        ScheduleDay res = await parser.parseScheduleMonths(current.subtract(Duration(days: 15)), current.add(Duration(days: 45)), forceRefresh: forceRefresh);
         List<ScheduleSession> sessions = res.sessions;
         sessions.removeWhere((event) {
             bool keyFr = prefs.getBool(ConfigKeys.CONFIG_KEY_SCHEDULE_FR),
@@ -301,7 +301,7 @@ class DateHeaderState extends State<DateHeader> {
         return Container(
             margin: const EdgeInsets.only(left: 18, bottom: 10),
             alignment: Alignment.centerLeft,
-            child: Text(DateFormat("d MMMM y").format(this.selectedDate).toString(),
+            child: Text(DateFormat("E. d MMMM y").format(this.selectedDate).toString(),
                 style: TextStyle(
                     fontFamily: "Sarabun",
                     fontWeight: FontWeight.bold,

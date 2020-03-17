@@ -35,30 +35,6 @@ class _ScheduleSessionNormalState extends State<ScheduleSessionNormal> {
             .then((prefs) => this.setState(() => this._autolog = prefs.getString("autolog_url")));
     }
 
-    Widget registeredOrNot() {
-        //if (this._scheduleSession is bool)
-        return Container(
-            child: Row(
-                children: <Widget>[
-                    Icon(Icons.check_circle_outline,
-                        color: Colors.green,
-                        size: 20,
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 5),
-                        child: Text("Vous êtes inscrit(e) à cette activité.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17
-                            ),
-                        ),
-                    )
-                ],
-            ),
-        );
-    }
-
     @override
     Widget build(BuildContext context) {
         if (_autolog == null)
