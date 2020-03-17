@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_intranet/pages/dashboard.dart';
 import 'package:mobile_intranet/pages/profile.dart';
 import 'package:mobile_intranet/pages/splashscreen.dart';
@@ -80,6 +81,9 @@ class EpitechMobile extends StatelessWidget {
 
 /// Main application start
 void main() {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarBrightness: Brightness.dark)
+    );
     BackgroundNotificationManager.initialize((payload) async {
         var route = "/home";
         switch (payload) {
