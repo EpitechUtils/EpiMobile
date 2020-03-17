@@ -97,18 +97,14 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
                     prefs.setString("myepitech_token", params['id_token']);
                     prefs.setInt("myepitech_expire_at", tokenPayload['exp']);
 
-                    print(params['id_token']);
-                    tokenPayload.forEach((key, value) => print(key + " => " + value.toString()));
-                    _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
-                        print(value);
-                    });
-
                     // Close webview and parse results from API
-                    this._webview.close();
-                    this.parseResults(prefs.getString("autolog_url"), this.date).then((results) {
-                        this.setState(() {
-                            this._token = params['id_token'];
-                            this.results = results;
+                    Timer(Duration(seconds: 3), () {
+                        this._webview.close();
+                        this.parseResults(prefs.getString("autolog_url"), this.date).then((results) {
+                            this.setState(() {
+                                this._token = params['id_token'];
+                                this.results = results;
+                            });
                         });
                     });
                 });
