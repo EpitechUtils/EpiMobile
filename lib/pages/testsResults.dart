@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_intranet/components/loadingComponent.dart';
 import 'package:mobile_intranet/layouts/default.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:mobile_intranet/parser/Parser.dart';
 import 'package:mobile_intranet/parser/components/epitest/result.dart';
 import 'package:mobile_intranet/parser/components/epitest/results.dart';
+import 'package:mobile_intranet/utils/jwtParser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_intranet/pages/argos/resultInformation.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -21,57 +22,100 @@ class TestsResultsPage extends StatefulWidget {
 
 class _TestsResultsPageState extends State<TestsResultsPage> {
 
-    final _webview = new FlutterWebviewPlugin();
+    // Title of the page
+    final String title = "Résultats des tests (bêta)";
+
+    // Class controllers
+    final FlutterWebviewPlugin _webview = new FlutterWebviewPlugin();
     StreamSubscription<WebViewStateChanged> _onStateChanged;
-    String token;
+
+    // Class fields
+    bool _loaded = false;
+    String _token;
     Results results;
-    SharedPreferences prefs;
+
+
+
     bool resetLocalStorage = false;
-    String date;
+    String date = (DateTime.now().year - 1).toString();
 
-    _TestsResultsPageState() {
-	this.date = (DateTime.now().year - 1).toString();
-        SharedPreferences.getInstance().then((SharedPreferences prefs) => this.setState(() => this.prefs = prefs));
-    }
-
+    /// When activity closing
     @override
     void dispose() {
-        _onStateChanged.cancel();
-        _webview.dispose();
+        this._onStateChanged.cancel();
+        this._webview.dispose();
         super.dispose();
     }
 
+    /// Init state and webview controller
     @override
     void initState() {
         super.initState();
-        _onStateChanged = _webview.onStateChanged.listen(this.onStateChanged);
+
+        // Check if token exists and not expired
+        SharedPreferences.getInstance().then((prefs) {
+            if (prefs.getString("myepitech_token") != null) {
+                int currentTimestamp = DateTime.now()
+                    .subtract(Duration(minutes: 10)).millisecondsSinceEpoch;
+
+                // Check for valid token
+                if (prefs.getString("myepitech_token") != null
+                    && prefs.getInt("myepitech_expire_at") < currentTimestamp) {
+                    this.setState(() {
+                        this._loaded = true;
+                        this._token = prefs.getString("myepitech_token");
+                    });
+                    return;
+                }
+
+                // Token invalid
+                prefs.remove("myepitech_token");
+                prefs.remove("myepitech_expire_at");
+            }
+
+            this.setState(() => this._loaded = true);
+        });
+
+        this._webview.close();
+        this._onStateChanged = _webview.onStateChanged.listen(this.onStateChanged);
     }
 
+    /// When webview state is changed
     void onStateChanged(WebViewStateChanged state) async {
         if (state.url.startsWith("https://my.epitech.eu/index.html")) {
-            if (state.type == WebViewState.shouldStart)
+            if (state.type == WebViewState.shouldStart) {
                 this._webview.hide();
 
-            if (mounted && state.type == WebViewState.finishLoad) {
-                _webview.evalJavascript('localStorage.getItem("argos-elm-openidtoken")').then((value) {
-                    print(value);
-                    if (value != null && value != "null") {
-                        this._webview.close();
-                        this.setState(() => this.token = value.replaceAll('"', ''));
-                        this.parseResults(this.date);
-                    }
+                // Get shared preferences
+                SharedPreferences.getInstance().then((prefs) {
+                    // Parse query string and token to get expiration
+                    String query = state.url.substring(state.url.indexOf('#') + 1);
+                    Map<String, String> params = Uri.splitQueryString(query);
+                    Map<String, dynamic> tokenPayload = JwtParser.parse(params['id_token']);
+                    
+                    // Store token and expiration token
+                    prefs.setString("myepitech_token", params['id_token']);
+                    prefs.setInt("myepitech_expire_at", tokenPayload['exp']);
+
+                    // Close webview and parse results from API
+                    this._webview.close();
+                    this.parseResults(prefs.getString("autolog_url"), this.date).then((results) {
+                        this.setState(() {
+                            this._token = params['id_token'];
+                            this.results = results;
+                        });
+                    });
                 });
             }
+
         }
     }
 
-    void parseResults(String year) {
-        Parser(this.prefs.getString("autolog_url")).parseEpitest(year, this.token).then((Results res) {
-           this.setState(() => this.results = res);
-        });
+    Future<Results> parseResults(String autolog, String year) {
+        return Parser(autolog).parseEpitest(year, this._token);
     }
 
-    Color getRadiusColor(double percent) {
+    /*Color getRadiusColor(double percent) {
         if (percent >= 75)
             return Colors.green;
         if (percent >= 50)
@@ -271,32 +315,47 @@ class _TestsResultsPageState extends State<TestsResultsPage> {
 	    crossAxisAlignment: CrossAxisAlignment.start,
 	    children: <Widget>[
 	        buildYearSelector(context),
-		Divider(),
-		buildTestsResults(context)
+            Divider(),
+            buildTestsResults(context)
 	    ],
 	);
-    }
+    }*/
 
+    /// Build results
     @override
     Widget build(BuildContext context) {
+        if (!this._loaded)
+            return LoadingComponent(title: this.title);
 
-        if (this.token == null)
+        // No token, display webview with connection
+        if (this._token == null) {
             return DefaultLayout(
-                title: "Résultat des tests",
+                title: "Résultat des tests (bêta)",
                 child: WebviewScaffold(
-                    url: "https://login.microsoftonline.com/common/oauth2/authorize?client_id=c3728513-e7f6-497b-b319-619aa86f5b50&nonce=396527b8-f50b-49ea-a812-990cd07128bb&redirect_uri=https%3A%2F%2Fmy.epitech.eu%2Findex.html&response_type=id_token&state=",
+                    withJavascript: true,
+                    withZoom: false,
+                    clearCache: true,
+                    clearCookies: true,
+                    debuggingEnabled: true,
+                    url: "https://login.microsoftonline.com/common/oauth2/authorize"
+                        "?client_id=c3728513-e7f6-497b-b319-619aa86f5b50"
+                        "&nonce=8f4fc0ff-1886-4a50-a9da-b25e115aa94d"
+                        "&redirect_uri=https%3A%2F%2Fmy.epitech.eu%2Findex.html"
+                        "&response_type=id_token"
+                    //"&state==",
                 ),
             );
+        }
 
-        if (this.results == null || this.prefs == null)
-            return DefaultLayout(
-                title: "Résultat des tests",
-                child: Center(child: CircularProgressIndicator(),)
-            );
+        // Results loading
+        if (this.results == null)
+            return LoadingComponent(title: this.title);
 
+        // Token found, great,
         return DefaultLayout(
-            title: "Résultat des tests",
-            child: buildResults(context)
+            title: this.title,
+            child: Container()
+            //child: buildResults(context)
         );
     }
 }

@@ -61,6 +61,7 @@ class NetworkUtils {
             if (body == null || response.statusCode >= 500)
                 return null;
 
+            print(body.toString());
             return body;
         } catch (error) {
             print(error);

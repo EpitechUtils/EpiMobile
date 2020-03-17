@@ -81,9 +81,12 @@ class EpitechMobile extends StatelessWidget {
 
 /// Main application start
 void main() {
+    // Apply white statusbar color by force to all devices
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarBrightness: Brightness.dark)
     );
+
+    // Start background notification manager
     BackgroundNotificationManager.initialize((payload) async {
         var route = "/home";
         switch (payload) {
@@ -102,5 +105,7 @@ void main() {
 
         return;
     });
+
+    // Run application
     runApp(EpitechMobile());
 }

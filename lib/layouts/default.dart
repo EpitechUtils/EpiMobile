@@ -32,7 +32,9 @@ class DefaultLayout extends StatelessWidget {
                                 return Container(
                                     margin: const EdgeInsets.only(right: 15),
                                     child: InkWell(
-                                        onTap: () => Navigator.maybePop(context),
+                                        onTap: () {
+                                            Navigator.maybePop(context);
+                                        },
                                         child: Icon(Icons.arrow_back_ios,
                                             size: 25,
                                         ),
@@ -288,19 +290,18 @@ class DefaultLayout extends StatelessWidget {
                                                         },
                                                     ),
                                                     ListTile(
-                                                        leading: Icon(Icons.power_settings_new),
-                                                        title: Text('Se déconnecter'),
+                                                        leading: Icon(Icons.power_settings_new, color: Colors.red),
+                                                        title: Text('Se déconnecter', style: TextStyle(color: Colors.red)),
                                                         onTap: () {
                                                             SharedPreferences.getInstance().then((prefs) {
-                                                                DefaultCacheManager manager = new DefaultCacheManager();
-                                                                manager.emptyCache();
+                                                                DefaultCacheManager().emptyCache();
                                                                 NetworkUtils.internal().cacheManager.clearAll();
 
                                                                 // Clear shared preferences
                                                                 prefs.clear().then((res) {
-                                                                    Navigator.of(context).push(MaterialPageRoute(
+                                                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                                                                         builder: (BuildContext context) => SelectLogin(loginEmail: null)
-                                                                    ));
+                                                                    ), (Route<dynamic> route) => false);
                                                                 });
                                                             });
                                                         },

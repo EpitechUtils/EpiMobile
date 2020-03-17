@@ -18,7 +18,7 @@ class LoginWebview extends StatefulWidget {
 
 class _LoginWebview extends State<LoginWebview> {
 
-    final _webview = new FlutterWebviewPlugin();
+    final FlutterWebviewPlugin _webview = new FlutterWebviewPlugin();
 
     StreamSubscription<WebViewStateChanged> _onStateChanged;
 
@@ -100,50 +100,48 @@ class _LoginWebview extends State<LoginWebview> {
     /// Build widget and display content
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
-            body: WebviewScaffold(
-                appBar: AppBar(
-                    flexibleSpace: Container(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: <Color>[
-                                    Color(0xFF0072ff),
-                                    Color(0xFF2F80ED),
-                                ]
-                            )
-                        ),
+        return WebviewScaffold(
+            appBar: AppBar(
+                flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: <Color>[
+                                Color(0xFF0072ff),
+                                Color(0xFF2F80ED),
+                            ]
+                        )
                     ),
-                    automaticallyImplyLeading: false,
-                    title: Row(
-                        children: <Widget>[
-                            Container(
-                                margin: const EdgeInsets.only(right: 15),
-                                child: InkWell(
-                                    onTap: () => Navigator.of(context).maybePop(),
-                                    child: Icon(Icons.arrow_back_ios,
-                                        size: 25,
-                                    ),
+                ),
+                automaticallyImplyLeading: false,
+                title: Row(
+                    children: <Widget>[
+                        Container(
+                            margin: const EdgeInsets.only(right: 15),
+                            child: InkWell(
+                                onTap: () => Navigator.of(context).maybePop(),
+                                child: Icon(Icons.arrow_back_ios,
+                                    size: 25,
                                 ),
                             ),
-                            Text("Connexion à l'intranet",
-                                style: TextStyle(
-                                    fontFamily: "Sarabun",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25
-                                )
+                        ),
+                        Text("Connexion à l'intranet",
+                            style: TextStyle(
+                                fontFamily: "Sarabun",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25
                             )
-                        ],
-                    ),
-                    centerTitle: false,
+                        )
+                    ],
                 ),
-                url: widget.authUrl,
-                withJavascript: true,
-                withZoom: false,
-                clearCache: false,
-                clearCookies: true,
+                centerTitle: false,
             ),
+            url: widget.authUrl,
+            withJavascript: true,
+            withZoom: false,
+            clearCache: true,
+            clearCookies: true,
         );
     }
 

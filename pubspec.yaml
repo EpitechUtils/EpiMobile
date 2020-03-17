@@ -17,19 +17,19 @@ dependencies:
   #http: 0.12.0+2
   dio: 3.0.9
   dio_http_cache: ^0.2.6
-  flutter_webview_plugin:
+  flutter_webview_plugin: 0.3.10+1
   #flutter_cache_manager: ^1.1.2
-  shared_preferences:
+  shared_preferences: 0.5.6+3
   font_awesome_flutter: 8.4.0
   percent_indicator: ^2.1.0
   #outline_material_icons: ^0.1.0
   flutter_sparkline: ^0.1.0
   #html: ^0.14.0+3
   #calendar_views: ^0.5.2
-  intl: ^0.15.8
-  android_alarm_manager: ^0.4.5+3
-  background_fetch: ^0.5.0
-  flutter_local_notifications:
+  intl: ^0.16.1
+  android_alarm_manager: ^0.4.5+5
+  background_fetch: ^0.5.4
+  flutter_local_notifications: 1.2.2
   cached_network_image: ^2.0.0
   timezone: 0.5.6
   flutter_svg: 0.15.0
