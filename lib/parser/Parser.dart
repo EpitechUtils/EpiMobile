@@ -169,23 +169,26 @@ class Parser {
     Future<Results> parseEpitest(String year, String bearer) async {
         String url = "https://api.epitest.eu/me/" + year;
         dynamic json = await this._network.get(url, bearer: bearer);
-        Map<String, dynamic> jsonToParse = {
-            "results": json
-        };
+        Map<String, dynamic> jsonToParse = {"results": json};
 
-        Results results = Results.fromJson(jsonToParse);
+        Results results;
+        try {
+            results = Results.fromJson(jsonToParse);
+        } catch (err) {
+            return null;
+        }
         double skillsAmount = 0;
         double skillTotal = 0;
 
         for (var res in results.results) {
             for (var skill in res.results.skills.values) {
-		skillTotal += skill.count;
+                skillTotal += skill.count;
                 skillsAmount += skill.passed;
-	    }
+            }
             res.results.percentage = (skillsAmount / skillTotal) * 100;
             skillTotal = 0;
             skillsAmount = 0;
-	}
+        }
 
         return results;
     }
